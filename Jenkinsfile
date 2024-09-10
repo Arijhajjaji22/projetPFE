@@ -19,6 +19,28 @@ pipeline {
                 sh '/snap/bin/dotnet test App_plateforme_de_recurtement.sln --configuration Release'
             }
         }
+        stage('Verify Dockerfile') {
+            steps {
+                script {
+                    // Vérifiez la présence du Dockerfile
+                    if (fileExists('Dockerfile')) {
+                        echo 'Dockerfile is present.'
+                    } else {
+                        error 'Dockerfile not found!'
+                    }
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t arij978/plateformederecrutement:latest .'
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                sh 'docker push arij978/plateformederecrutement:latest'
+            }
+        }
     }
     post {
         success {

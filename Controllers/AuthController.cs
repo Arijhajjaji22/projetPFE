@@ -22,7 +22,7 @@ namespace App_plateforme_de_recurtement.Controllers
         private readonly UserService _userService;
         private readonly UserRepository _userRepository;
         private readonly EmailService _emailService;
-
+        private string _token;
         private readonly ApplicationDbContext _context;
 
         public AuthController(ApplicationDbContext applicationDbContext, UserService userService, EmailService emailService, ApplicationDbContext context)

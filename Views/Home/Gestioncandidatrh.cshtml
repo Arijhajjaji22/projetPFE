@@ -1,0 +1,1719 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+@model App_plateforme_de_recurtement.Models.StageOffer
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Innov-Alliance-Tech </title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Ajoutez la référence à la bibliothèque DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
+</head>
+<style>
+
+    .star-rating {
+        display: flex;
+        direction: rtl;
+        font-size: 2rem;
+    }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .star-rating input[type="radio"]:checked ~ label {
+            color: #f5b301;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #f5b301;
+        }
+    .hidden-cell {
+        display: none;
+    }
+
+        .hidden-cell::after {
+            content: "non applicable";
+            display: block;
+            color: red; /* Optionnel : pour changer la couleur du texte */
+        }
+
+
+    .modal {
+        display: none; /* Caché par défaut */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 20% auto; /* Réduit la marge pour mieux centrer */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%; /* Réduit la largeur pour rendre le dialogue plus petit */
+        max-width: 400px; /* Largeur maximale pour éviter les dialogues trop larges sur grands écrans */
+        border-radius: 8px; /* Bordure arrondie pour un look plus moderne */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre pour donner de la profondeur */
+        position: relative; /* Position relative pour centrer correctement */
+        top: 20%; /* Déplacement vers le bas pour centrer */
+        transform: translateY(-50%); /* Déplacement vers le haut pour ajuster le centrage vertical */
+    }
+
+    .btn {
+        padding: 8px 16px; /* Ajuste le padding pour les boutons */
+        margin: 5px;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px; /* Bordure arrondie pour les boutons */
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+
+    #searchBox {
+        width: 100%;
+       
+    }
+
+    #searchForm {
+        margin-left: auto;
+    }
+
+
+    .candidat-rejete {
+        color: #dc3545 !important; /* Couleur rouge */
+        font-weight: bold !important; /* Texte en gras */
+        text-align: center !important; /* Centrer le texte */
+    }
+
+    .candidat-accepte {
+        color: #28a745!important; /* Couleur verte */
+        font-weight: bold; /* Texte en gras */
+        text-align: center; /* Centrer le texte */
+    }
+
+
+
+    /* Style pour les cellules avec la réponse "Oui" */
+    .date-choisie.oui {
+        background-color: #d4edda; /* Vert clair pour Oui */
+        color: #155724; /* Texte vert foncé */
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #c3e6cb; /* Bordure verte pâle */
+        font-weight: bold;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    }
+
+    /* Style pour les cellules avec la réponse "Non" */
+    .date-choisie.non {
+        background-color: #f8d7da; /* Rouge clair pour Non */
+        color: #721c24; /* Texte rouge foncé */
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #f5c6cb; /* Bordure rouge pâle */
+        font-weight: bold;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    }
+
+
+    /* Styles pour le graphique circulaire */
+    .rating-chart-container {
+        width: 60px; /* Ajustez selon vos besoins */
+        height: 60px; /* Ajustez selon vos besoins */
+        position: relative;
+    }
+
+    .rating-chart {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Style pour le message lorsqu'il n'y a pas de candidats */
+    .no-candidats-message {
+        text-align: center;
+        font-size: 1.2em;
+        color: #ff0000; /* Couleur pour le message d'erreur */
+        margin: 20px 0;
+    }
+
+    /* Masquer les boutons de recherche et de navigation lorsque le message est affiché */
+    #searchBox, #navigationButtons {
+        display: none;
+    }
+
+    /* Afficher les boutons de recherche et de navigation lorsque des candidats sont présents */
+    .has-candidats #searchBox, .has-candidats #navigationButtons {
+        display: flex;
+    }
+
+    .accept-btn,
+    .reject-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        color: #28a745; /* Couleur verte pour "Accepter" */
+        margin-right: 10px; /* Espacement entre les boutons */
+    }
+
+    .reject-btn {
+        color: #dc3545; /* Couleur rouge pour "Refuser" */
+    }
+
+    .rating-stars .fa-star.filled {
+        color: #007bff; /* Couleur bleue pour les étoiles remplies */
+    }
+
+    .green-button {
+        color: green; /* Optionnel: pour changer la couleur du texte à blanc */
+    }
+
+    .texttext {
+        font-size: 18px;
+        color: #333;
+        vertical-align: middle;
+    }
+
+    .custom-icon img {
+        width: 30px; /* ajustez la taille selon vos besoins */
+        height: auto; /* permet de conserver les proportions de l'image */
+        display: inline-block; /* assure que l'image est alignée avec le texte */
+        margin-right: 10px; /* ajustez la marge pour séparer l'image du texte */
+    }
+
+    .custom-icone img {
+        width: 50px; /* ajustez la taille selon vos besoins */
+        height: auto; /* permet de conserver les proportions de l'image */
+        display: inline-block; /* assure que l'image est alignée avec le texte */
+        margin-right: 10px; /* ajustez la marge pour séparer l'image du texte */
+    }
+
+    .role-admin {
+        color: red; /* Couleur rouge pour le rôle d'administrateur */
+    }
+
+    .role-manager {
+        color: blue; /* Couleur bleue pour le rôle de manager */
+    }
+
+    .role-rh {
+        color: green; /* Couleur verte pour le rôle de R&H */
+    }
+
+
+    .error-input {
+        border-color: red !important; /* Couleur de la bordure en rouge */
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+        .styled-table th, .styled-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            padding: 12px; /* Ajustement du rembourrage */
+            text-align: left;
+            max-width: 300px;
+        }
+
+    .table tbody th,
+    .table tbody td {
+        font-size: 14px ; /* Taille de la police */
+        color: #333 ; /* Couleur du texte */
+    }
+
+    /* Style pour les cellules de l'en-tête */
+    .table thead th {
+        font-weight: bold !important; /* Gras */
+    }
+
+    .table-color-heading {
+        background-color: #021438 !important;
+        color: white !important; /* Couleur du texte */
+    }
+
+    .styled-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+    }
+
+    .styled-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .styled-table tr:hover {
+        background-color: #f2f2f2;
+    }
+    /* Style pour la couleur de fond de l'en-tête */
+    .table-color-heading {
+        background-color: white !important;
+        color: white !important; /* Couleur du texte */
+    }
+
+
+    /* Style pour les cellules du corps de tableau */
+    .table tbody th,
+    .table tbody td {
+        font-size: 14px ; /* Taille de la police */
+        color: #333 ; /* Couleur du texte */
+    }
+
+    /* Style pour les cellules de l'en-tête */
+    .table thead th {
+        font-weight: bold !important; /* Gras */
+    }
+
+
+    /* Style pour les actions */
+    .actions-header {
+        text-align: center !important; /* Alignement centré */
+    }
+
+    .modal-dialog {
+        max-width: 500px;
+        margin: 30px auto;
+    }
+
+    .card-title {
+        color: #021438; /* Couleur du texte */
+        font-size: 29px; /* Taille de la police */
+        font-weight: bold; /* Gras */
+        margin-bottom: 20px; /* Espacement en bas */
+        text-transform: uppercase; /* Convertit le texte en majuscules */
+        /* Ombre du texte */
+        letter-spacing: 1px; /* Espacement des lettres */
+        /* Bordure inférieure */
+        padding-bottom: 10px; /* Espacement en bas */
+    }
+
+    .icon-color {
+        color: #1a69bf !important; /* Couleur spécifiée */
+    }
+
+    .card-title {
+        margin-right: 10px; /* Espacement entre l'icône et le texte */
+        color: #021438; /* Couleur de l'icône */
+    }
+
+    .modal-header i {
+        color: #007bff; /* Couleur de l'icône */
+        margin-right: 5px; /* Espacement entre l'icône et le texte */
+    }
+
+    .modal-title {
+        color: #007bff;
+    }
+
+
+
+
+
+
+    .modal-content {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        color: #ffffff;
+        border-radius: 10px 10px 0 0;
+    }
+
+        .modal-header h5 {
+            margin: 0;
+        }
+
+    .modal-body {
+        padding: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            font-weight: bold;
+            color: #021438;
+        }
+
+    .form-control {
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+        .form-control:focus {
+            border-color: #021438;
+            box-shadow: none;
+        }
+
+    .modal-footer {
+        border-top: none;
+        padding: 20px 30px;
+        justify-content: flex-end;
+    }
+
+    .btn-primary {
+        background-color: #021438;
+        border-color: #021438;
+        padding: 10px 20px;
+    }
+
+        .btn-primary:hover {
+            background-color: #023b6e;
+            border-color: #023b6e;
+        }
+
+    .btn-secondary {
+        background-color: #ffffff;
+        color: #021438;
+        border-color: #021438;
+        padding: 10px 20px;
+    }
+
+        .btn-secondary:hover {
+            background-color: #f0f0f0;
+        }
+
+    .close {
+        color: #ffffff;
+        opacity: 0.7;
+    }
+
+        .close:hover {
+            opacity: 1;
+        }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .search-box {
+        width: fit-content;
+        height: fit-content;
+        position: relative;
+    }
+
+    .input-search {
+        height: 50px;
+        width: 50px;
+        border-style: none;
+        padding: 10px;
+        font-size: 18px;
+        letter-spacing: 2px;
+        outline: none;
+        border-radius: 25px;
+        transition: all .5s ease-in-out;
+        background-color: #22a6b3;
+        padding-right: 40px;
+        color: #ffffff;
+    }
+
+        .input-search::placeholder {
+            color: rgba(255,255,255,.5);
+            font-size: 18px;
+            letter-spacing: 2px;
+            font-weight: 100;
+        }
+
+    .btn-search {
+        width: 50px;
+        height: 50px;
+        border-style: none;
+        font-size: 20px;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+        border-radius: 50%;
+        position: absolute;
+        right: 0px;
+        color: #ffffff;
+        background-color: transparent;
+        pointer-events: painted;
+    }
+
+        .btn-search:focus ~ .input-search {
+            width: 300px;
+            border-radius: 0px;
+            background-color: #021438;
+            border-bottom: 1px solid rgba(255,255,255,.5);
+            transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+        }
+
+    .input-search:focus {
+        width: 300px;
+        border-radius: 0px;
+        background-color: #021438;
+        border-bottom: 1px solid rgba(255,255,255,.5);
+        transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+    }
+
+    .edit-btn,
+    .delete-btn {
+        background-color: #021438; /* Dark blue background */
+        color: #fff; /* White text color */
+        border: none; /* No border */
+        padding: 8px 15px; /* Padding */
+        border-radius: 25px; /* Rounded corners */
+        cursor: pointer; /* Cursor style */
+        font-family: 'Arial', sans-serif; /* Font family */
+        font-weight: bold; /* Bold text */
+        text-transform: uppercase; /* Uppercase text */
+        transition: all 0.3s ease; /* Smooth transition */
+    }
+
+        .edit-btn:hover,
+        .delete-btn:hover {
+            background-color: #22a6b3; /* Orange background on hover */
+            transform: scale(1.05); /* Scale up on hover */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+        }
+
+        .edit-btn .fas,
+        .delete-btn .fas {
+            margin-right: 5px; /* Spacing between icon and text */
+        }
+
+</style>
+<style>
+    .progress-container {
+        position: relative;
+        height: 30px;
+        width: 100%;
+        background-color: #f3f3f3;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .progress-bar {
+        height: 100%;
+        border-radius: 5px;
+        text-align: center;
+        line-height: 30px; /* Centrer le texte verticalement */
+        color: white;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: width 0.3s ease; /* Transition pour un effet fluide */
+    }
+
+    .progress-value {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-weight: bold;
+    }
+
+    /* Couleurs pour les différents états */
+    .state-passable {
+        background-color: #ff9800; /* Orange pour Passable */
+    }
+
+    .state-bien {
+        background-color: #4caf50; /* Vert pour Bien */
+    }
+
+    .state-excellent {
+        background-color: #2196f3; /* Bleu pour Excellent */
+    }
+
+</style>
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 100px; /* Largeur du commutateur */
+        height: 34px; /* Hauteur du commutateur */
+        vertical-align: middle; /* Alignement vertical */
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px; /* Coins arrondis */
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+        input:checked + .slider:before {
+            transform: translateX(60px); /* Ajuster pour la largeur du slider */
+        }
+
+    .switch-label-container {
+        display: flex;
+        justify-content: space-between; /* Espacement égal des labels */
+        margin-top: 5px; /* Marge au-dessus des labels */
+        font-size: 14px;
+        color: #333;
+    }
+
+    .switch-label {
+        white-space: nowrap; /* Éviter le retour à la ligne des labels */
+    }
+</style>
+
+
+
+
+
+
+<body class="  ">
+
+
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <!-- Wrapper Start -->
+    <div class="wrapper">
+        <div class="iq-sidebar  sidebar-default with-background ">
+            <div class="iq-sidebar-logo d-flex align-items-end justify-content-between">
+                <a href="@Url.Action("ManagerDashboard", "Home")" class="header-logo">
+                    <img src="~/images/iat.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                    <img src="~/images/iat.png" class="img-fluid rounded-normal d-none sidebar-light-img" alt="logo">
+                    <span></span>
+                </a>
+                <div class="side-menu-bt-sidebar-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-light wrapper-menu" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="data-scrollbar" data-scroll="1">
+                <nav class="iq-sidebar-menu">
+                    <ul id="iq-sidebar-toggle" class="side-menu">
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("DashboardRh", "Home")">
+                                <img src="~/images/menu.gif" alt="Dashboard Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="px-3 pt-3 pb-2">
+                            <span class="text-uppercase small font-weight-bold" style="color: #6c757d;"></span>
+                        </li>
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("Gestionentretiens", "Home")">
+                                <img src="~/images/task.gif" alt="Gestion Sujets Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">Gestion des Entretiens </span>
+                            </a>
+                        </li>
+                  
+                        <li class="px-3 pt-3 pb-2">
+                            <span class="text-uppercase small font-weight-bold" style="color: #6c757d;"></span>
+                        </li>
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("tablesujets", "Home")">
+                                <img src="~/images/test.gif" alt="Dashboard Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">SUJETS APPROUVÉS</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="pt-5 pb-5"></div>
+            </div>
+
+
+        </div>
+        <div class="iq-top-navbar">
+            <div class="iq-navbar-custom">
+                <nav class="navbar navbar-expand-lg navbar-light p-0">
+                    <div class="side-menu-bt-sidebar">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary wrapper-menu" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                            </svg>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto navbar-list align-items-center">
+                                <li class="nav-item nav-icon dropdown">
+                                    <a href="#" class="search-toggle dropdown-toggle" id="notification-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="custom-icon" width: 30px;>
+                                            <img src="/images/notification.png" alt="Image icône">
+                                        </span>
+                                        <span class="bg-primary"></span>
+                                    </a>
+                                    <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="notification-dropdown">
+                                        <div class="card shadow-none m-0 border-0">
+                                            <div class="p-3 card-header-border">
+                                                <h6 class="text-center">
+                                                    Notifications
+                                                </h6>
+                                            </div>
+                                            <div class="card-body overflow-auto card-header-border p-0 card-body-list" style="max-height: 500px;">
+                                                <ul class="dropdown-menu-1 overflow-auto list-style-1 mb-0" id="notificationList">
+                                                </ul>
+                                            </div>
+                                            <div class="card-footer text-muted p-3">
+                                                <p class="mb-0 text-primary text-center font-weight-bold">Show all notifications</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="nav-item nav-icon search-content">
+                                    <a href="#" class="search-toggle rounded" id="dropdownSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <svg class="svg-icon text-secondary" id="h-suns" height="25" width="25" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                        </svg>
+                                    </a>
+                                    <div class="iq-search-bar iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownSearch">
+                                        <form action="#" class="searchbox p-2">
+                                            <div class="form-group mb-0 position-relative">
+                                                <input type="text" class="text search-input font-size-12" placeholder="type here to search...">
+                                                <a href="#" class="search-link">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </li>
+                                <li class="nav-item nav-icon dropdown">
+                                    <a href="#" class="nav-item nav-icon dropdown-toggle pr-0 search-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="~/images/user (4).png" class="img-fluid avatar-rounded" alt="user" height="10">
+                                        <span class="mb-0 ml-2 user-name">Arij Hajjaji</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-01-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <a href="@Url.Action("GestionSujets", "Home")">My Profile</a>
+
+                                        </li>
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-02-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                            <a href="../app/user-profile-edit.html">Edit Profile</a>
+                                        </li>
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-03-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            <a href="../app/user-account-setting.html">Account Settings</a>
+                                        </li>
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-04-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                            </svg>
+                                            <a href="../app/user-privacy-setting.html">Privacy Settings</a>
+                                        </li>
+                                        <li class="dropdown-item  d-flex svg-icon border-top">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-05-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                            </svg>
+                                            <a href="@Url.Action("Logout", "Auth", new { returnUrl = "/Home/SeConnecter" })">Logout</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+   
+
+        <div class="content-page">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">
+                                        <span class="icon-color">
+                                            <span class="custom-icone">
+                                                <img src="/images/task.gif" alt="Image icône">
+                                            </span> Liste des candidats
+                                    </h4>
+                                </div>
+                           
+                            </div>
+                            <!-- Filtres sous le tableau -->
+                            <!-- Filtres alignés à gauche -->
+                            <div class="filter-box mt-3">
+                              
+                            </div>
+                            <div class="search-box d-flex justify-content-end" id="searchBox">
+                                <form id="filterForm" class="form-inline">
+                                    <!-- Filtre par date choisie -->
+                                    <div class="form-group mx-2">
+                                        <label for="dateFilter" class="mr-2"> Date Choisie:</label>
+                                        <select id="dateFilter" class="form-control">
+                                            <option value="">Tous</option>
+                                            <option value="oui">Oui</option>
+                                            <option value="non">Non</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Filtre par action -->
+                                    <div class="form-group mx-2">
+                                        <label for="actionFilter" class="mr-2"> Statut du Candidat:</label>
+                                        <select id="actionFilter" class="form-control">
+                                            <option value="">Tous</option>
+                                            <option value="accepté">Candidat accepté</option>
+                                            <option value="rejeté">Candidat rejeté</option>
+                                        </select>
+                                    </div>
+                                    <!-- Filtre par nombre de lignes -->
+                                    <div class="form-group mx-2">
+                                        <label for="rowsPerPage" class="mr-2">Lignes par page:</label>
+                                        <select id="rowsPerPage" class="form-control">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
+                                </form>
+                                <form id="searchForm" class="form-inline">
+                                    <div class="input-group" style="display: flex; align-items: center;">
+                                        <input type="text" id="searchInput" class="form-control" placeholder="Rechercher..."
+                                               style="flex: 1; border-radius: 0; margin-right: -1px;" />
+                                        <div class="input-group-append">
+                                            <button type="button" id="searchButton" class="btn btn-primary"
+                                                    style="border-radius: 0; margin-left: -1px;">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                               
+                            </div>
+
+
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-fluid" id="formsTable">
+                                        <thead>
+                                            <tr>
+                                                <th><i class="fas fa-user icon-color"></i> Prénom</th>
+                                                <th><i class="fas fa-user icon-color"></i> Nom</th>
+                                          
+                                                <th><i class="fas fa-university icon-color"></i> Faculté</th>
+                                                <th><i class="fas fa-graduation-cap icon-color"></i> Niveau d'études</th>
+                                                <th><i class="fas fa-file-pdf icon-color"></i> CV (PDF)</th>
+                                                <th><i class="fas fa-file-pdf icon-color"></i> Lettre de motivation (PDF)</th>
+                                                <th><i class="fas fa-file-pdf icon-color"></i> Rapport de Test (PDF)</th>
+                                                <th><i class="fas fa-star icon-color"></i> Note du Manager</th>
+                                                <th>
+                                                    <i class="fas fa-calendar-day icon-color"></i> Date Choisie
+                                                </th>
+                                                <th><i class="fas fa-calendar icon-color"></i> Entretien Passé</th>
+
+                                                <th>
+                                                    <i class="fas fa-tasks icon-color"></i> Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <!-- Les lignes de données de la table iraient ici -->
+                                        </tbody>
+                                    </table>
+                                    <div class="d-flex justify-content-end" id="navigationButtons">
+                                        <button id="nextBtn" class="btn btn-sm">
+                                            <span class="custom-icon">
+                                                <!-- Ajouter une icône personnalisée ici -->
+                                            </span>
+                                        </button>
+                                        <button id="prevBtn" class="btn btn-sm" style="display: none;">
+                                            <span class="custom-icon">
+                                                <!-- Ajouter une icône personnalisée ici -->
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+
+                            <div id="noCandidatsMessage" class="no-candidats-message" style="display: none;">
+                                <i class="fas fa-exclamation-circle"></i> Aucun candidat n'a postulé à cette offre !
+                            </div>
+
+                            <div id="testFormContainer" style="display:none;">
+                                <form id="testForm">
+                                    <h2>Modifier le Test</h2>
+                                    <input type="hidden" id="testId" name="testId">
+                                    <label for="testName">Nom du Test:</label>
+                                    <input type="text" id="testName" name="testName"><br><br>
+                                    <label for="testQuestion">Question:</label>
+                                    <textarea id="testQuestion" name="testQuestion" rows="4" cols="50"></textarea><br><br>
+                                    <button type="button" onclick="saveChanges()">Enregistrer</button>
+                                    <button type="button" onclick="downloadPDF()">Télécharger en PDF</button>
+                                    <button type="button" onclick="hideForm()">Annuler</button>
+                                </form>
+                            </div>
+                            <div class="card-body">
+                                <div class="collapse" id="form-element-1">
+                                    <div class="card">
+                                        <kbd class="bg-dark">
+                                        </kbd>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modals -->
+                    <!-- Détails de l'offre -->
+                    <div class="modal fade" id="offerDetailsDialog" tabindex="-1" aria-labelledby="offerDetailsDialogLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="offerDetailsDialogLabel">Détails de l'Offre</h5>
+                                    <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </button>
+                                </div>
+                                <div class="modal-body" id="offerDetailsBody">
+                                    <!-- Les détails de l'offre seront affichés ici -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modifier l'offre -->
+                    <div class="modal fade" id="editOfferDialog" tabindex="-1" aria-labelledby="editOfferDialogLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editOfferDialogLabel"><i class="fas fa-pencil-alt icon-color"></i> Modifier l'offre</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="closeEditOfferBtn">
+                                        <i class="fas fa-times"></i> <!-- Changer l'icône du bouton close -->
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" id="editOfferId" name="editOfferId">
+                                    <div class="mb-3">
+                                        <label for="editOfferTitle" class="form-label"><i class="fas fa-heading icon-color"></i> Titre</label>
+                                        <input type="text" class="form-control" id="editOfferTitle" placeholder="Titre de l'offre">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOfferDescription" class="form-label"><i class="fas fa-align-left icon-color"></i> Description</label>
+                                        <textarea class="form-control" id="editOfferDescription" rows="3" placeholder="Description de l'offre"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOfferDomaine" class="form-label"><i class="fas fa-industry icon-color"></i> Domaine d'Activité</label>
+                                        <input type="text" class="form-control" id="editOfferDomaine" placeholder="Domaine d'activité">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOfferCompetences" class="form-label"><i class="fas fa-tasks icon-color"></i> Compétences Requises</label>
+                                        <input type="text" class="form-control" id="editOfferCompetences" placeholder="Compétences requises">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="editOfferDateDebut" class="form-label"><i class="fas fa-calendar-day icon-color"></i> Date de Début</label>
+                                            <input type="date" class="form-control" id="editOfferDateDebut">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="editOfferDateFin" class="form-label"><i class="fas fa-calendar-day icon-color"></i> Date de Fin</label>
+                                            <input type="date" class="form-control" id="editOfferDateFin">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOfferSite" class="form-label"><i class="fas fa-map-marker-alt icon-color"></i> Site</label>
+                                        <input type="text" class="form-control" id="editOfferSite" placeholder="Site de l'offre">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOfferStatus" class="form-label"><i class="fas fa-flag icon-color"></i> Statut de l'offre</label>
+                                        <select class="form-control" id="editOfferStatus">
+                                            <option value="1">Publiée</option>
+                                            <option value="0">En attente</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    <button type="button" class="btn btn-primary" id="saveOfferBtn">Enregistrer les modifications</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Validation -->
+                    <div class="modal fade" id="validationDialog" tabindex="-1" aria-labelledby="validationDialogLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="validationDialogLabel">Confirmer la suppression</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </button>
+                                </div>
+                                <div class="modal-body">
+                                    Êtes-vous sûr de vouloir supprimer cet élément ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    <button type="button" class="btn btn-primary" id="confirmDeleteBtn">Supprimer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de confirmation pour accepter -->
+        <div id="acceptConfirmationModal" class="modal">
+            <div class="modal-content">
+                <h4>Confirmer l'acceptation</h4>
+                <p>Êtes-vous sûr de vouloir accepter ce candidat ?</p>
+                <button id="confirmAccept" class="btn btn-primary">Accepter</button>
+                <button id="cancelAccept" class="btn btn-secondary">Annuler</button>
+            </div>
+        </div>
+
+        <!-- Modal de confirmation pour rejeter -->
+        <div id="rejectConfirmationModal" class="modal">
+            <div class="modal-content">
+                <h4>Confirmer le rejet</h4>
+                <p>Êtes-vous sûr de vouloir rejeter ce candidat ?</p>
+                <button id="confirmReject" class="btn btn-primary">Rejeter</button>
+                <button id="cancelReject" class="btn btn-secondary">Annuler</button>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="editOfferDialog" tabindex="-1" aria-labelledby="editOfferDialogLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editOfferDialogLabel"><i class="fas fa-pencil-alt icon-color"></i> Modifier l'offre</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="closeEditOfferBtn">
+                            <i class="fas fa-times"></i> <!-- Changer l'icône du bouton close -->
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Ajout de l'élément input caché pour stocker l'identifiant de l'offre -->
+                        <input type="hidden" id="editOfferId" name="editOfferId">
+                        <div class="mb-3">
+                            <label for="editOfferTitle" class="form-label"><i class="fas fa-heading icon-color"></i> Titre</label>
+                            <input type="text" class="form-control" id="editOfferTitle" placeholder="Titre de l'offre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editOfferDescription" class="form-label"><i class="fas fa-align-left icon-color"></i> Description</label>
+                            <textarea class="form-control" id="editOfferDescription" rows="3" placeholder="Description de l'offre"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editOfferDomaine" class="form-label"><i class="fas fa-industry icon-color"></i> Domaine d'Activité</label>
+                            <input type="text" class="form-control" id="editOfferDomaine" placeholder="Domaine d'activité">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editOfferCompetences" class="form-label"><i class="fas fa-tasks icon-color"></i> Compétences Requises</label>
+                            <input type="text" class="form-control" id="editOfferCompetences" placeholder="Compétences requises">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="editOfferDateDebut" class="form-label"><i class="fas fa-calendar-day icon-color"></i> Date de Début</label>
+                                <input type="date" class="form-control" id="editOfferDateDebut">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="editOfferDateFin" class="form-label"><i class="fas fa-calendar-day icon-color"></i> Date de Fin</label>
+                                <input type="date" class="form-control" id="editOfferDateFin">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editOfferSite" class="form-label"><i class="fas fa-map-marker-alt icon-color"></i> Site</label>
+                            <input type="text" class="form-control" id="editOfferSite" placeholder="Site de l'offre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editOfferStatus" class="form-label"><i class="fas fa-flag icon-color"></i> Statut de l'offre</label>
+                            <select class="form-control" id="editOfferStatus">
+                                <option value="1">Publiée</option>
+                                <option value="0">En attente</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-primary" id="saveEditOfferBtn">Enregistrer les modifications</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Wrapper End-->
+        <footer class="iq-footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item"><a href="../backend/privacy-policy.html">Privacy Policy</a></li>
+                            <li class="list-inline-item"><a href="../backend/terms-of-service.html">Terms of Use</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <span class="mr-1">
+                            Copyright
+                            <script>document.write(new Date().getFullYear())</script>© <a href="#" class="">Innov-Alliance-Tech</a>
+                            All Rights Reserved.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Ajoutez la référence à la bibliothèque DataTables -->
+
+        </footer>    <!-- Backend Bundle JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var selectedId; // Pour stocker l'ID du candidat sélectionné
+                var currentPage = 1;
+                var rowsPerPage = 5; // Nombre de lignes par page
+                function searchTable() {
+                    var input = $("#searchInput").val().toLowerCase();
+                    $("#formsTable tbody tr").filter(function () {
+                        var rowText = $(this).text().toLowerCase();
+                        $(this).toggle(rowText.indexOf(input) > -1);
+                    });
+                 
+                }
+
+                // Fonction pour afficher les modaux
+                function showModal(modalId) {
+                    $(modalId).show();
+                }
+
+                // Fonction pour masquer les modaux
+                function hideModal(modalId) {
+                    $(modalId).hide();
+                }
+                // Événement de recherche au clic sur le bouton
+                $("#searchButton").on("click", function () {
+                    searchTable();
+                });
+
+                // Événement de recherche lors de la saisie dans le champ de recherche
+                $("#searchInput").on("keyup", function () {
+                    searchTable();
+                });
+                function filterTable() {
+                    var dateFilter = $("#dateFilter").val();
+                    var actionFilter = $("#actionFilter").val();
+
+                    $("#formsTable tbody tr").each(function () {
+                        var $row = $(this);
+                        var dateChoisie = $row.find('td.date-choisie').text().toLowerCase().trim();
+                        var action = $row.find('td').last().text().toLowerCase().trim();
+
+                        var dateMatch = dateFilter === "" || dateChoisie.includes(dateFilter);
+                        var actionMatch = actionFilter === "" || action.includes(actionFilter);
+
+                        $row.toggle(dateMatch && actionMatch);
+                    });
+
+                    updateColumnVisibility();
+
+                }
+                // Événement de recherche lors de la saisie dans le champ de recherche
+                $("#searchInput").on("keyup", function () {
+                    searchTable();
+                });
+
+                $("#dateFilter, #actionFilter, #rowsPerPage").on("change", function () {
+        filterTable();
+
+                });
+
+                function applyPagination() {
+                    var tableBody = $('#formsTable tbody');
+                    var rows = tableBody.find('tr');
+                    var totalRows = rows.length;
+                    rowsPerPage = parseInt($("#rowsPerPage").val()) || rowsPerPage;
+
+                    rows.hide();
+
+                    var start = (currentPage - 1) * rowsPerPage;
+                    var end = start + rowsPerPage;
+
+                    rows.slice(start, end).show();
+
+                    updateButtons();
+                }
+                function updateButtons(totalRows) {
+                    var totalPages = Math.ceil(totalRows / rowsPerPage);
+                    $("#prevBtn").prop('disabled', currentPage === 1);
+                    $("#nextBtn").prop('disabled', currentPage === totalPages);
+                }
+
+                $("#prevBtn").on("click", function () {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        applyPagination();
+                    }
+                });
+
+                $("#nextBtn").on("click", function () {
+                    var tableBody = $('#formsTable tbody');
+                    var rows = tableBody.find('tr');
+                    var totalRows = rows.length;
+                    var totalPages = Math.ceil(totalRows / rowsPerPage);
+
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        applyPagination();
+                    }
+                });
+                $("#rowsPerPage").on("change", function () {
+                    applyPagination();
+                });
+                // Fonction pour obtenir les paramètres de l'URL
+                function getUrlParameter(name) {
+                    var regex = new RegExp('[?&]' + name + '=([^&]*)');
+                    var results = regex.exec(window.location.search);
+                    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+                }
+
+                // Fonction pour afficher ou masquer les éléments en fonction des données
+                function updateUIBasedOnCandidats(candidats) {
+                    const noCandidatsMessage = document.getElementById('noCandidatsMessage');
+                    const navigationButtons = document.getElementById('navigationButtons');
+                    const searchBox = document.getElementById('searchBox');
+
+                    if (candidats.length === 0) {
+                        console.log('Aucun candidat, affichage du message et masquage des éléments.');
+                        noCandidatsMessage.style.display = 'block';
+                        navigationButtons.style.display = 'none';
+                        searchBox.style.display = 'none'; // Masquer la boîte de recherche également si aucun candidat
+                    } else {
+                        console.log('Candidats présents, affichage des éléments.');
+                        noCandidatsMessage.style.display = 'none';
+                        navigationButtons.style.display = 'flex'; // Assurer l'affichage des boutons de navigation
+                        searchBox.style.display = 'block'; // Assurer l'affichage de la boîte de recherche
+                    }
+                }
+
+                // Exemple d'appel de la fonction avec un tableau de candidats
+                const candidats = []; // Remplacez par vos données réelles
+                updateUIBasedOnCandidats(candidats);
+                // Fonction pour vérifier si l'utilisateur a choisi une date
+                // Fonction pour vérifier si l'utilisateur a choisi une date
+                function checkDateChoisie(userId, row) {
+                    $.ajax({
+                        url: '/api/Availability/CheckUserId/' + userId,
+                        type: 'GET',
+                        success: function (response) {
+                            var dateChoisieCell = row.find('td.date-choisie');
+
+                            if (response === 'Oui') {
+                                dateChoisieCell.text('Oui').addClass('oui').removeClass('non');
+                            } else {
+                                dateChoisieCell.text('Non').addClass('non').removeClass('oui');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Erreur lors de la vérification de la date choisie: ' + error);
+                            row.find('td.date-choisie').text('Erreur').removeClass('oui non');
+                        }
+                    });
+                }
+                // Gestionnaire pour le bouton de confirmation d'acceptation
+                $('#confirmAccept').on('click', function () {
+                    if (selectedId) {
+                        $.ajax({
+                            url: '/api/Form/accept/' + selectedId,
+                            type: 'POST',
+                            success: function (response) {
+                                console.log(response.message); // Afficher le message de succès dans la console
+
+                                // Envoyer un email au candidat
+                                $.ajax({
+                                    url: '/api/Form/sendEmail/' + selectedId,
+                                    type: 'POST',
+                                    success: function (response) {
+                                        console.log('Email envoyé avec succès');
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Erreur lors de l\'envoi de l\'email: ' + error);
+                                    }
+                                });
+
+                                // Mettre à jour l'affichage
+                                var $row = $('tr[data-id="' + selectedId + '"]');
+                                $row.find('.accept-btn').replaceWith('<td class="candidat-accepte">Candidat accepté</td>');
+                                $row.find('.reject-btn').remove();
+                                $row.addClass('candidat-accepte');
+                                hideModal('#acceptConfirmationModal');
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Erreur lors de l\'acceptation du candidat: ' + error);
+                                hideModal('#acceptConfirmationModal');
+                            }
+                        });
+                    } else {
+                        console.error('ID du candidat non défini');
+                        hideModal('#acceptConfirmationModal');
+                    }
+                });
+
+                // Gestionnaire pour le bouton de confirmation de rejet
+                $('#confirmReject').on('click', function () {
+                    if (selectedId) {
+                        $.ajax({
+                            url: '/api/Form/reject/' + selectedId,
+                            type: 'POST',
+                            success: function (response) {
+                                console.log(response.message); // Afficher le message de succès dans la console
+
+                                // Mettre à jour l'affichage
+                                var $row = $('tr[data-id="' + selectedId + '"]');
+                                $row.find('.reject-btn').replaceWith('<td class="candidat-rejete">Candidat rejeté</td>');
+                                $row.find('.accept-btn').remove();
+                                $row.addClass('candidat-rejete');
+                                hideModal('#rejectConfirmationModal');
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Erreur lors du rejet du candidat: ' + error);
+                                hideModal('#rejectConfirmationModal');
+                            }
+                        });
+                    } else {
+                        console.error('ID du candidat non défini');
+                        hideModal('#rejectConfirmationModal');
+                    }
+                });
+                // Gestionnaire pour le bouton d'annulation d'acceptation
+                $('#cancelAccept').on('click', function () {
+                    hideModal('#acceptConfirmationModal');
+                });
+
+                // Gestionnaire pour le bouton d'annulation de rejet
+                $('#cancelReject').on('click', function () {
+                    hideModal('#rejectConfirmationModal');
+                });
+
+                // Fonction pour fermer les modaux lorsqu'on clique en dehors d'eux
+                $(window).on('click', function (event) {
+                    if ($(event.target).hasClass('modal')) {
+                        $('.modal').hide();
+                    }
+                });
+                // Ajouter les gestionnaires d'événements pour les boutons d'acceptation avec confirmation
+                $('#formsTable').on('click', '.accept-btn', function () {
+                    selectedId = $(this).data('id');
+                    showModal('#acceptConfirmationModal');
+                });
+
+                // Ajouter les gestionnaires d'événements pour les boutons de rejet avec confirmation
+                $('#formsTable').on('click', '.reject-btn', function () {
+                    selectedId = $(this).data('id');
+                    showModal('#rejectConfirmationModal');
+                });
+                function loadForms(stageOfferId) {
+                    $.ajax({
+                        url: '/api/Form/stageoffer/' + stageOfferId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            var tableBody = $('#formsTable tbody');
+                            tableBody.empty(); // Vider les lignes existantes
+
+                            if (data.length === 0) {
+                                $('#formsTable').hide(); // Masquer le tableau
+                                $('#noCandidatsMessage').show(); // Afficher le message
+                                $('#navigationButtons').hide(); // Masquer les boutons de navigation
+                                $('#searchBox').hide(); // Masquer la boîte de recherche
+                            } else {
+                                $('#formsTable').show(); // Afficher le tableau
+                                $('#noCandidatsMessage').hide(); // Masquer le message
+                                $('#navigationButtons').show(); // Afficher les boutons de navigation
+                                $('#searchBox').show(); // Afficher la boîte de recherche
+
+                                data.forEach(function (form) {
+                                    var actionHtml = '';
+                                    if (form.status === "Accepté") {
+                                        actionHtml = '<td class="candidat-accepte">Candidat accepté</td>'; // Appliquer la classe CSS
+                                    } else if (form.status === "Rejeté") {
+                                        actionHtml = '<td class="candidat-rejete">Candidat rejeté</td>'; // Appliquer la classe CSS pour rejet
+                                    } else {
+                                        actionHtml = '<td>' +
+                                            '<button class="accept-btn" data-id="' + form.id + '"><i class="fas fa-check" style="color: #28a745;"></i> Accepter</button>' +
+                                            '<button class="reject-btn" data-id="' + form.id + '"><i class="fas fa-times" style="color: #dc3545;"></i> Rejeter</button>' +
+                                            '</td>'; // Garder les boutons si non accepté
+                                    }
+
+                                    var row = '<tr data-id="' + form.id + '">' +
+                                        '<td>' + form.prenom + '</td>' +
+                                        '<td>' + form.nom + '</td>' +
+                                        '<td>' + form.faculte + '</td>' +
+                                        '<td>' + form.niveauEtudes + '</td>' +
+                                        '<td>' + (form.cvData ? '<a href="data:application/pdf;base64,' + form.cvData + '" download="cv.pdf">Télécharger CV</a>' : 'Non fourni') + '</td>' +
+                                        '<td>' + (form.lettreMotivationData ? '<a href="data:application/pdf;base64,' + form.lettreMotivationData + '" download="lettre_motivation.pdf">Télécharger LM</a>' : 'Non fourni') + '</td>' +
+                                        '<td class="rapport-test">' +
+                                        (form.testReportUrl ? '<a href="' + form.testReportUrl + '" download="rapport_test.pdf">Télécharger Rapport de Test</a>' : 'Non fourni') +
+                                        '</td>' +
+                                        '<td class="evaluation">' +
+                                        '<div class="star-rating">' +
+                                        '<input type="radio" name="rating-' + form.id + '" id="rating-5-' + form.id + '" value="5" disabled><label for="rating-5-' + form.id + '">★</label>' +
+                                        '<input type="radio" name="rating-' + form.id + '" id="rating-4-' + form.id + '" value="4" disabled><label for="rating-4-' + form.id + '">★</label>' +
+                                        '<input type="radio" name="rating-' + form.id + '" id="rating-3-' + form.id + '" value="3" disabled><label for="rating-3-' + form.id + '">★</label>' +
+                                        '<input type="radio" name="rating-' + form.id + '" id="rating-2-' + form.id + '" value="2" disabled><label for="rating-2-' + form.id + '">★</label>' +
+                                        '<input type="radio" name="rating-' + form.id + '" id="rating-1-' + form.id + '" value="1" disabled><label for="rating-1-' + form.id + '">★</label>' +
+                                        '</div>' +
+                                        '</td>' +
+                                        '<td class="date-choisie"></td>' +
+                                        '<td>' +
+                                        '<label class="switch">' +
+                                        '<input type="checkbox" class="interview-switch" data-id="' + form.id + '"' + (form.interviewPassed ? ' checked' : '') + '>' +
+                                        '<span class="slider round"></span>' +
+                                        '</label>' +
+                                        '<div class="switch-label-container">' +
+                                        '<span class="switch-label">Non</span>' +
+                                        '<span class="switch-label">Oui</span>' +
+                                        '</div>' +
+                                        '</td>' +
+                                        actionHtml +
+                                        '</tr>';
+
+                                    tableBody.append(row); // Ajouter la ligne au tableau
+                                    loadRating(form.id);
+                                    // Vérifier si la date est choisie pour chaque utilisateur
+                                    checkDateChoisie(form.id, tableBody.find('tr[data-id="' + form.id + '"]'));
+                                });
+                                applyPagination();
+                                loadRapportsDeTest(data); // Charger les rapports de test après avoir rempli le tableau
+                            }
+
+                            updateColumnVisibility(); // Mettre à jour la visibilité des colonnes après chargement
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Erreur lors du chargement des formulaires:', error);
+                        }
+                    });
+                }
+                function loadRating(formId) {
+                    $.ajax({
+                        url: '/api/Form/' + formId + '/rating',
+                        type: 'GET',
+                        success: function (rating) {
+                            var row = $('tr[data-id="' + formId + '"]');
+                            if (rating) {
+                                row.find('input[type="radio"][value="' + rating + '"]').prop('checked', true);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Erreur lors de la récupération de la note: ' + error);
+                        }
+                    });
+                }
+                function updateColumnVisibility() {
+                    $("#formsTable tbody tr").each(function () {
+                        var $row = $(this);
+                        var dateChoisie = $row.find('td.date-choisie').text().toLowerCase().trim();
+
+                        // Les dernières colonnes pour actions et switcher
+                        var actionsAndSwitcher = $row.find('td').slice(-2);
+
+                        if (dateChoisie === "oui") {
+                            // Si la date choisie est "oui", ne pas toucher les colonnes
+                            actionsAndSwitcher.show(); // Assurez-vous que les colonnes sont visibles
+                            actionsAndSwitcher.find('.action-cell').text(''); // Réinitialiser le texte
+                            // Supprimer la cellule "Non applicable" si elle existe
+                            $row.find('td.non-applicable-cell').remove();
+                        } else {
+                            // Sinon, masquer les colonnes "Actions" et "Entretien passé"
+                            actionsAndSwitcher.hide(); // Masquer les colonnes des actions et du switcher
+
+                            // Ajouter une cellule "Non applicable" si elle n'existe pas
+                            if ($row.find('td.non-applicable-cell').length === 0) {
+                                var colspanValue = actionsAndSwitcher.length; // Nombre de colonnes à masquer
+                                var nonApplicableCell = $('<td class="non-applicable-cell" colspan="' + colspanValue + '">Non applicable</td>');
+                                // Ajouter du style pour centrer le texte et le mettre en rouge
+                                nonApplicableCell.css({
+                                    'color': 'red',
+                                    'text-align': 'center'
+                                });
+                                // Insérer la cellule "Non applicable" avant les colonnes "Actions" et "Switcher"
+                                nonApplicableCell.insertBefore(actionsAndSwitcher.first());
+                            }
+                        }
+                    });
+                }
+
+             
+
+                $("#dateFilter").on("change", function () {
+                    filterTable(); // Appliquer les filtres de la table
+                });
+
+                // Fonction pour mettre à jour l'état de l'entretien
+                function updateInterviewStatus(candidateId, isChecked) {
+                    $.ajax({
+                        url: '/api/Form/updateInterviewStatus/' + candidateId,
+                        type: 'POST',
+                        data: JSON.stringify(isChecked), // Envoyer directement le booléen
+                        contentType: 'application/json',
+                        success: function (response) {
+                            console.log('État de l\'entretien mis à jour avec succès');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Erreur lors de la mise à jour de l\'état de l\'entretien: ' + error);
+                        }
+                    });
+                }
+
+                // Écouter les changements d'état des commutateurs
+                $(document).on('change', '.interview-switch', function () {
+                    var switchElement = $(this);
+                    var candidateId = switchElement.data('id');
+                    var isChecked = switchElement.is(':checked');
+
+                    // Afficher un dialogue de confirmation
+                    Swal.fire({
+                        title: 'Êtes-vous sûr ?',
+                        text: "Vous allez modifier l'état de l'entretien pour ce candidat.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Oui',
+                        cancelButtonText: 'Non'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Mettre à jour l'état de l'entretien si l'utilisateur confirme
+                            updateInterviewStatus(candidateId, isChecked);
+                        } else {
+                            // Réinitialiser le commutateur à son état précédent si l'utilisateur annule
+                            switchElement.prop('checked', !isChecked);
+                        }
+                    });
+                });
+
+                // Gestion des événements de changement pour les boutons radio (si nécessaire)
+                $(document).on('change', '.interview-radio', function () {
+                    var candidateId = $(this).data('id');
+                    var isChecked = $(this).val() === 'oui';
+                    updateInterviewStatus(candidateId, isChecked);
+                });
+
+
+                // Fonction pour mettre à jour la barre de progression sur le glissement de la souris
+                $(document).on('mousemove', '.progress-container', function (event) {
+                    var $container = $(this);
+                    var $bar = $container.find('.progress-bar');
+                    var $value = $bar.find('.progress-value');
+                    var containerOffset = $container.offset();
+                    var containerWidth = $container.width();
+                    var mouseX = event.pageX - containerOffset.left;
+                    var progressPercentage = Math.max(0, Math.min(100, (mouseX / containerWidth) * 100));
+                    var newValue = Math.round(progressPercentage / 20);
+                    var ratingState;
+                    var colorClass;
+
+                    // Déterminer l'état et la couleur en fonction de la nouvelle valeur
+                    switch (newValue) {
+                        case 0:
+                        case 1:
+                        case 2:
+                            ratingState = 'Passable';
+                            colorClass = 'state-passable';
+                            break;
+                        case 3:
+                        case 4:
+                            ratingState = 'Bien';
+                            colorClass = 'state-bien';
+                            break;
+                        case 5:
+                            ratingState = 'Excellent';
+                            colorClass = 'state-excellent';
+                            break;
+                        default:
+                            ratingState = 'Inconnu'; // Par sécurité, au cas où la valeur ne correspondrait pas
+                            colorClass = '';
+                            break;
+                    }
+
+                    // Mettre à jour la barre de progression et la valeur affichée
+                    $bar.css('width', progressPercentage + '%').text(ratingState).removeClass('state-passable state-bien state-excellent').addClass(colorClass);
+                    $value.text(newValue);
+
+                    // Mettre à jour l'état de la ligne
+                    var rowId = $bar.data('id');
+                    $('tr[data-id="' + rowId + '"]').attr('data-rating', ratingState);
+                });
+                // Fonction pour gérer la mise à jour de l'état de l'entretien
+    
+                // Gestionnaire pour la case à cocher
+                $('#formsTable').on('change', '.interview-checkbox', function () {
+                    var candidateId = $(this).data('id');
+                    var isChecked = $(this).is(':checked');
+                    updateInterviewStatus(candidateId, isChecked);
+                });
+
+                // Charger les formulaires pour une offre spécifique
+                var stageOfferId = getUrlParameter('stageOfferId');
+                if (stageOfferId) {
+                    loadForms(stageOfferId);
+                }
+
+                // Fonction pour charger les rapports de test
+                function loadRapportsDeTest(data) {
+                    data.forEach(function (form) {
+                        if (form.id) {
+                            var testReportUrl = '/api/Form/report/' + form.id;
+                            var rapportTestElement = $('tr[data-id="' + form.id + '"] .rapport-test');
+
+                            $.ajax({
+                                url: testReportUrl,
+                                type: 'GET',
+                                success: function () {
+                                    rapportTestElement.html('<a href="' + testReportUrl + '" download="rapport_test.pdf">Télécharger Rapport de Test</a>');
+                                },
+                                error: function () {
+                                    rapportTestElement.html('Non fourni');
+                                }
+                            });
+                        }
+                    });
+                }
+
+                // Fonction pour convertir un ArrayBuffer en Base64
+                function arrayBufferToBase64(buffer) {
+                    var binary = '';
+                    var bytes = new Uint8Array(buffer);
+                    var len = bytes.byteLength;
+                    for (var i = 0; i < len; i++) {
+                        binary += String.fromCharCode(bytes[i]);
+                    }
+                    return window.btoa(binary);
+                }
+
+                // Récupérer l'ID de l'offre depuis l'URL et charger les formulaires
+                var stageOfferId = getUrlParameter('id');
+                if (stageOfferId) {
+                    loadForms(stageOfferId);
+                } else {
+                    console.error('ID de l\'offre non trouvé dans l\'URL.');
+                }
+                applyPagination();
+            });
+
+        </script>
+
+
+
+        <script src="~/assets/js/backend-bundle.min.js"></script>
+        <!-- Chart Custom JavaScript -->
+        <script src="~/assets/js/customizer.js"></script>
+
+        <script src="~/assets/js/sidebar.js"></script>
+
+        <!-- Flextree Javascript-->
+        <script src="~/assets/js/flex-tree.min.js"></script>
+        <script src="~/assets/js/tree.js"></script>
+
+        <!-- Table Treeview JavaScript -->
+        <script src="~/assets/js/table-treeview.js"></script>
+
+        <!-- SweetAlert JavaScript -->
+        <script src="~/assets/js/sweetalert.js"></script>
+
+        <!-- Vectoe Map JavaScript -->
+        <script src="~/assets/js/vector-map-custom.js"></script>
+
+        <!-- Chart Custom JavaScript -->
+        <script src="~/assets/js/chart-custom.js"></script>
+        <script src="~/assets/js/charts/01.js"></script>
+        <script src="~/assets/js/charts/02.js"></script>
+
+        <!-- slider JavaScript -->
+        <script src="~/assets/js/slider.js"></script>
+
+        <!-- Emoji picker -->
+        <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+        <!-- app JavaScript -->
+        <script src="~/assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+# .NET
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.log
+*.dmg
+*.pkg
+*.swp
+
+# Fichiers de configuration de build
+*.csproj.user
+*.csproj.dotnet.userprefs
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Fichiers de configuration des IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Packages
+*.nupkg
+*.snupkg
+# NuGet
+*.nupkg
+*.snupkg
+# NuGet
+#  NuGet v2
+*.nupkg
+#  NuGet v3
+.nuget/
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Configurations de build personnalisées
+*.userprefs

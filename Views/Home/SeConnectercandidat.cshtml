@@ -1,0 +1,239 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Innov-Alliance-Tech</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+</head>
+
+<body class=" ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+
+    <div class="wrapper">
+        <section class="login-content">
+            <div class="container h-100">
+                <div class="row align-items-center justify-content-center h-100">
+                    <div class="col-md-5">
+                        <div class="card p-3">
+                            <div class="card-body">
+                                <div class="auth-logo">
+                                    <img src="~/images/iat.png " class="img-fluid  rounded-normal  darkmode-logo" alt="logo">
+                                    <img src="~/images/iat.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                                </div>
+                                <h3 class="mb-3 font-weight-bold text-center">Connexion</h3>
+                                <p class="text-center text-secondary mb-4">Connectez-vous à votre compte pour continuer</p>
+                                <div class="social-btn d-flex justify-content-around align-items-center mb-4">
+                                    <a href="/Account/GoogleAuth" class="btn btn-block" style="display: flex; justify-content: center; align-items: center; background-color: white; border: 1px solid #ddd; color: #555;">
+                                        <img src="~/images/google.png" alt="Google Logo" style="height: 20px; margin-right: 8px;">
+                                        Se connecter avec Google
+                                    </a>
+                                </div>
+       
+                                <hr>
+                                <form id="loginForm" method="post">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="text-secondary" for="email">Email</label>
+                                                <input class="form-control" type="email" name="email" id="email" placeholder="Entrez votre email" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <label class="text-secondary" for="password">Mot de passe</label>
+                                                    <label><a href="auth-recover-pwd.html">Mot de passe oublié?</a></label>
+                                                </div>
+                                                <input class="form-control" type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary btn-block mt-2" onclick="validateAndLogin()">Se connecter</button>
+                                    <div class="col-lg-12 mt-3">
+                                        <p class="mb-0 text-center">Vous n'avez pas de compte? <a href="@Url.Action("SignUpcandidat", "Home")">S'inscrire</a></p>
+                                    </div>
+                                </form>
+
+
+                   
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function validateAndLogin() {
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            // Validation côté client
+            if (!email || !password) {
+                alert("Veuillez remplir tous les champs.");
+                return;
+            }
+
+            // Récupérer offerId depuis l'URL
+            var urlParams = new URLSearchParams(window.location.search);
+            var offerId = urlParams.get('id');
+
+            // Appeler la fonction de login si la validation est réussie
+            login(offerId);
+        }
+        function login(offerId) {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            // Créer un objet FormData pour envoyer les données
+            var formData = new FormData();
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("offerId", offerId);
+
+            // Effectuer une requête POST AJAX vers le backend pour l'authentification
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Auth/Login", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    // Vérifier la réponse du serveur
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response && response.success) {
+                            // Stocker les détails de l'utilisateur dans localStorage
+                            var userDetails = {
+                                userId: response.userId,
+                                role: response.role,
+                                firstName: response.firstName,
+                                lastName: response.lastName
+                            };
+                            localStorage.setItem('userDetails', JSON.stringify(userDetails));
+
+                            // Rediriger en fonction de la réponse du serveur
+                            window.location.href = '/Home/formcandidat?id=' + offerId;
+                        } else {
+                            // Afficher un message d'erreur si l'authentification échoue
+                            alert(response.message || "Une erreur s'est produite lors de la tentative de connexion.");
+                        }
+                    } else {
+                        // Afficher un message d'erreur si la requête échoue
+                        alert("Une erreur s'est produite lors de la tentative de connexion.");
+                    }
+                }
+            };
+            xhr.send(formData);
+        }
+
+
+        // Fonction appelée lors de la connexion avec Google
+        // Fonction appelée lors de la connexion avec Google
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            var idToken = googleUser.getAuthResponse().id_token;
+
+            // Envoyer le jeton ID à votre backend pour authentification
+            $.ajax({
+                type: 'POST',
+                url: '/Account/GoogleResponse', // Endpoint modifié pour rediriger vers SignUpcandidat
+                contentType: 'application/json',
+                data: JSON.stringify({ tokenId: idToken }),
+                success: function (response) {
+                    // Rediriger ou effectuer d'autres actions après une connexion réussie
+                    alert('Connexion avec Google réussie !');
+
+                    // Stocker les détails de l'utilisateur dans localStorage après connexion Google
+                    var userDetails = {
+                        username: response.username,
+                        firstName: response.firstName,
+                        lastName: response.lastName
+                    };
+                    localStorage.setItem('userDetails', JSON.stringify(userDetails));
+
+                    window.location.href = '/Home/formcandidat'; // Redirection vers le formulaire candidat après connexion
+                },
+                error: function (error) {
+                    // Gérer les erreurs en cas d'échec de la connexion
+                    alert('Erreur de connexion avec Google : ' + error.responseText);
+                }
+            });
+        }
+
+
+        // Configuration du bouton de connexion Google
+        gapi.signin2.render('google-signin-button', {
+            'scope': 'email profile',
+            'width': 260,
+            'height': 50,
+            'longtitle': true,
+            'theme': 'dark',
+            'onsuccess': onSignIn,
+            'onfailure': function (error) { console.error(error); }
+        });
+    </script>
+
+
+
+
+
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="~/assets/js/backend-bundle.min.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/customizer.js"></script>
+
+    <script src="~/assets/js/sidebar.js"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="~/assets/js/flex-tree.min.js"></script>
+    <script src="~/assets/js/tree.js"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="~/assets/js/table-treeview.js"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="~/assets/js/sweetalert.js"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="~/assets/js/vector-map-custom.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/chart-custom.js"></script>
+    <script src="~/assets/js/charts/01.js"></script>
+    <script src="~/assets/js/charts/02.js"></script>
+
+    <!-- slider JavaScript -->
+    <script src="~/assets/js/slider.js"></script>
+
+    <!-- Emoji picker -->
+    <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+</html>

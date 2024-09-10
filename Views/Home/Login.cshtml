@@ -1,0 +1,139 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="contact_form mt-45">
+                <!-- Utilisation de l'icône Font Awesome avant le titre -->
+                <h4 class="contact_title"><i class="fas fa-user"></i> Identifiez-vous</h4>
+                <form id="loginForm" onsubmit="login(); return false;" method="post">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="single_form">
+                                <!-- Utilisation de l'icône Font Awesome pour l'email -->
+                                <input type="email" id="email" name="email" placeholder="&#xf0e0; Email" style="font-family: Arial, FontAwesome">
+                            </div> <!-- single form -->
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single_form">
+                                <div style="position: relative;">
+                                    <!-- Utilisation de l'icône Font Awesome pour le mot de passe -->
+                                    <input type="password" id="password" name="password" placeholder="&#xf084; Mot de passe" style="font-family: Arial, FontAwesome; padding-right: 35px;">
+                                    <!-- Bouton "œil" pour afficher le mot de passe -->
+                                    <span id="togglePassword" class="eye-icon" style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px; cursor: pointer;"><i class="fas fa-eye"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="single_form">
+                                <!-- Bouton "Login" avec la classe personnalisée -->
+                                <button type="submit" class="main-btn"><i class="fas fa-sign-in-alt"></i> Se connecter</button>
+                            </div> <!-- single form -->
+                        </div>
+                    </div> <!-- row -->
+                </form>
+            </div> <!-- contact form -->
+        </div>
+    </div> <!-- row -->
+</div> <!-- container -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Fonction pour soumettre le formulaire et gérer l'authentification
+    function login() {
+        // Récupérer les valeurs des champs email et password
+        var email = $("#email").val();
+        var password = $("#password").val();
+
+        // Effectuer une requête POST AJAX vers le backend pour l'authentification
+        $.ajax({
+            type: "POST",
+            url: "/Auth/Login",
+            data: { email: email, password: password },
+            success: function (response) {
+                // Vérifier si l'authentification a réussi
+                if (response.success) {
+                    // Rediriger l'utilisateur en fonction de son rôle
+                    switch (response.role) {
+                        case "Admin":
+                            window.location.href = '/Home/AdminDashboard';
+                            break;
+                        case "Manager":
+                            window.location.href = '/Home/ManagerDashboard';
+                            break;
+                        case "Rh":
+                            window.location.href = '/Home/RhDashboard';
+                            break;
+                        default:
+                            alert("Rôle d'utilisateur non reconnu.");
+                            break;
+                    }
+                } else {
+                    // Afficher un message d'erreur si l'authentification a échoué
+                    alert("Email ou mot de passe incorrect.");
+                }
+            },
+            error: function () {
+                alert("Une erreur s'est produite lors de la connexion.");
+            }
+        });
+    }
+
+    // Ajouter un gestionnaire d'événements pour soumettre le formulaire lorsqu'il est envoyé
+    $("#loginForm").submit(function (event) {
+        event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
+        login(); // Appeler la fonction de connexion
+    });
+
+    // Fonction pour basculer entre le type de champ de mot de passe et le type de texte
+    function togglePasswordVisibility() {
+        var passwordInput = $("#password");
+        var toggleButton = $("#togglePassword");
+
+        if (passwordInput.attr("type") === "password") {
+            passwordInput.attr("type", "text");
+            toggleButton.html("<i class='fas fa-eye-slash'></i>");
+        } else {
+            passwordInput.attr("type", "password");
+            toggleButton.html("<i class='fas fa-eye'></i>");
+        }
+    }
+
+    // Ajouter un gestionnaire d'événements clic au bouton "œil"
+    $("#togglePassword").click(togglePasswordVisibility);
+
+</script>
+
+
+
+
+
+
+<!-- Le reste de votre contenu ici -->
+<!--====== CONTACT PART ENDS ======-->
+<!--====== FOOTER PART START ======-->
+<script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="~/js/vendor/modernizr-3.7.1.min.js"></script>
+
+<!--====== Bootstrap js ======-->
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+
+<!--====== Nice Select js ======-->
+<script src="~/js/jquery.nice-select.min.js"></script>
+
+<!--====== Counter Up js ======-->
+<script src="~/js/waypoints.min.js"></script>
+<script src="~/js/jquery.counterup.js"></script>
+
+<!--====== Main js ======-->
+<script src="~/js/main.js"></script>

@@ -1,0 +1,314 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Innov-Alliance-Tech</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+    <href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+</head>
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<style>
+    body {
+        text-align: center;
+        padding: 40px 0;
+        background: #EBF0F5;
+    }
+
+    h1 {
+        color: #88B04B;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-weight: 900;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #404F5E;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-size: 20px;
+        margin: 0;
+    }
+
+    i {
+        color: #9ABC66;
+        font-size: 100px;
+        line-height: 200px;
+        margin-left: -15px;
+    }
+
+    .card {
+        background: white;
+        padding: 60px;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px #C8D0D8;
+        display: inline-block;
+        margin: 0 auto;
+    }
+    /* Styles pour la boîte de dialogue */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1050;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 300px;
+        text-align: center;
+        z-index: 1060;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-buttons {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .modal-buttons button {
+            flex: 0 0 45%;
+        }
+
+    .question {
+        margin-bottom: 20px;
+    }
+
+    .options {
+        margin-bottom: 15px;
+    }
+
+        .options label {
+            display: block;
+        }
+
+    .question {
+        margin-bottom: 20px;
+    }
+
+        .question h4 {
+            margin-bottom: 10px;
+        }
+
+    .options label {
+        display: block;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+        .options label:hover {
+            background-color: #f8f9fa;
+        }
+    /* Style pour les boutons de téléchargement de fichier */
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        margin-top: 10px; /* Ajout d'un espace entre le champ et le bouton */
+    }
+
+        .file-input-wrapper input[type="file"] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    .file-input-label {
+        background-color: #f0f0f0; /* Couleur gris clair */
+        color: #333; /* Couleur de texte */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+        transition: background-color 0.3s;
+    }
+
+        .file-input-label:hover {
+            background-color: #ddd; /* Couleur gris plus foncé au survol */
+        }
+
+    /* Style pour les icônes à côté des boutons */
+    .file-icon {
+        margin-right: 10px;
+    }
+
+    /* Style pour le nom du fichier */
+    .file-name {
+        display: inline-block;
+        margin-left: 10px;
+        color: #007bff; /* Couleur du lien du nom de fichier */
+        font-weight: bold;
+    }
+
+    .custom-btn {
+        background-color: #4CAF50; /* Couleur de fond verte */
+        border: none; /* Supprimer la bordure */
+        color: white; /* Couleur du texte */
+        padding: 15px 32px; /* Espacement du contenu à l'intérieur du bouton */
+        text-align: center; /* Centrer le texte */
+        text-decoration: none; /* Supprimer la décoration du texte */
+        display: inline-block; /* Afficher en ligne */
+        font-size: 16px; /* Taille de la police */
+        margin: 4px 2px; /* Marge autour du bouton */
+        cursor: pointer; /* Curseur pointeur au survol */
+        border-radius: 12px; /* Bord arrondi */
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Ombre portée */
+    }
+
+        /* Effet au survol */
+        .custom-btn:hover {
+            background-color: #45a049;
+        }
+
+    .congrats-icon  {
+        font-size: 40px; /* Ajustez la taille de l'icône selon vos préférences */
+        color: #FFD700; /* Couleur dorée */
+    }
+
+</style>
+
+
+
+<body class=" ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <div id="dialog-confirm" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Êtes-vous sûr de vouloir soumettre le test?</p>
+            <button id="confirm-btn" class="btn btn-primary">Confirmer</button>
+            <br />
+            <button id="cancel-btn" class="btn btn-secondary">Annuler</button>
+        </div>
+    </div>
+
+    <!-- loader END -->
+
+    <div class="wrapper">
+        <section class="login-content">
+            <div class="container h-100">
+                <div class="row align-items-center justify-content-center h-100">
+                    <div class="col-md-12">
+                        <div class="">
+                            <div class="">
+                                <div class="card">
+                                    <div class="congrats-icon">
+                                        <i class="fas fa-award"></i>
+                                    </div>
+                                    <div class="checkmark-icon">
+                                        <i class="checkmark">✓</i>
+                                    </div>
+                                    <h1>Success</h1>
+                                    <p>Félicitations ! Votre test a été soumis avec succès.</p>
+                                    <p>Merci d'avoir complété le test avec succès !</p>
+                                    <div class="test-duration">
+                                        <p>Temps écoulé : 30 minutes</p>
+                                    </div>
+                                    <br>
+                                    <button class="btn btn-success custom-btn" onclick="window.location.href='@Url.Action("Detailssujet", "Home")'">Voir le score</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+ 
+
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="~/assets/js/backend-bundle.min.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/customizer.js"></script>
+
+    <script src="~/assets/js/sidebar.js"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="~/assets/js/flex-tree.min.js"></script>
+    <script src="~/assets/js/tree.js"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="~/assets/js/table-treeview.js"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="~/assets/js/sweetalert.js"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="~/assets/js/vector-map-custom.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/chart-custom.js"></script>
+    <script src="~/assets/js/charts/01.js"></script>
+    <script src="~/assets/js/charts/02.js"></script>
+
+    <!-- slider JavaScript -->
+    <script src="~/assets/js/slider.js"></script>
+
+    <!-- Emoji picker -->
+    <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+</html>

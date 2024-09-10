@@ -1,0 +1,45 @@
+﻿/* Styles pour la page de connexion */
+.form-container {
+    margin-top: 50px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f9f9f9; /* Couleur de fond */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Ombre douce */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    color: #333; /* Couleur du texte */
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group-prepend .input-group-text {
+    background-color: #f0f0f0; /* Couleur de fond de l'addon */
+    border-color: #f0f0f0; /* Couleur de la bordure de l'addon */
+}
+
+.input-group-append .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff; /* Couleur du texte du bouton */
+}
+
+    .input-group-append .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5); /* Ajout d'un halo de mise au point */
+}

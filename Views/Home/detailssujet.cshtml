@@ -1,0 +1,238 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Innov-Alliance-Tech</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<style>
+    #back-to-home-btn {
+        position: absolute;
+        top: -140px;
+        right: -50px;
+        z-index: 1000; /* Assurez-vous que le bouton est au-dessus de tout autre contenu */
+        background-color: #3dbeee; /* Bleu */
+        color: white;
+        padding:5px 10px;
+    }
+
+    #offer-details-container {
+        position: relative; /* Assurez-vous que le conteneur est positionné pour que le bouton "Retour à la page d'accueil" reste relatif à celui-ci */
+    }
+
+    .main-btn {
+        border: none;
+        padding: 8px 16px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #apply-now-btn {
+        width: 100%;
+        background-color: #3dbeee; /* Bleu */
+        color: white;
+    }
+
+    i.fas {
+        margin-right: 5px; /* Espace entre l'icône et le texte du bouton */
+    }
+</style>
+
+<body class=" ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <div class="wrapper">
+        <section class="login-content">
+            <div class="container h-100">
+                <div class="row align-items-center justify-content-center h-100">
+                    <div class="col-md-8">
+                        <div class="card p-3">
+                            <div class="card-body">
+                                <div class="auth-logo">
+                                    <img src="~/images/iat.png" class="img-fluid rounded-normal darkmode-logo" alt="logo">
+                                    <img src="~/images/iat.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                                </div>
+                                <div class="container mt-5">
+                                    <div id="offer-details-container">
+                                        <!-- Les détails de l'offre seront insérés ici -->
+                                        <div class="text-end mb-3">
+                                            <button id="back-to-home-btn" class="main-btn main-btn-2"><i class="fas fa-arrow-left"></i> Retour à la page d'accueil</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+    <!-- jQuery (Nécessaire pour Bootstrap) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            var offerId = urlParams.get('id');
+
+            if (offerId) {
+                loadOfferDetails(offerId);
+            } else {
+                console.error('No offer ID found in URL');
+            }
+
+            function loadOfferDetails(offerId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/StageOffer/' + offerId,
+                    success: function (offer) {
+                        displayOfferDetails(offer);
+                    },
+                    error: function (error) {
+                        console.error('Erreur lors de la récupération des détails de l\'offre :', error);
+                    }
+                });
+            }
+
+            function displayOfferDetails(offer) {
+                var offerDetailsContainer = $('#offer-details-container');
+                offerDetailsContainer.empty();
+
+                var competencesRequises = Array.isArray(offer.competencesRequises) ? offer.competencesRequises.join(', ') : 'Non spécifié';
+
+                var offerDetailsHTML =
+                    '<div class="text-end mb-3">' +
+                    '<button id="back-to-home-btn" class="main-btn main-btn-2"><i class="fas fa-arrow-left"></i> Retour à la page d\'accueil</button>' +
+                    '</div>' +
+                    '<h3 class="mb-3 font-weight-bold text-center"></h3>' +
+                    '<p class="text-center mb-2">Découvrez ci-dessous les détails de l\'offre :</p>' +
+                    '<p class="text-center mb-4">Nous serions ravis de vous compter parmi nos candidats potentiels !</p>' +
+
+                    '<div class="row">' +
+                    '<div class="col-md-6">' +
+                    '<div class="mb-4">' +
+                    '<i class="fas fa-file-alt" style="color: #3dbeee;"></i> <strong>Titre:</strong>' +
+                    '<p>' + offer.titre + '</p>' +
+                    '</div>' +
+                    '<div class="mb-4">' +
+                    '<i class="fas fa-briefcase" style="color: #3dbeee;"></i> <strong>Domaine d\'activité:</strong>' +
+                    '<p>' + offer.domaineActivite + '</p>' +
+                    '</div>' +
+                    '<div class="mb-4">' +
+                    '<i class="fas fa-calendar-alt" style="color: #3dbeee;"></i> <strong>Date de début:</strong>' +
+                    '<p>' + new Date(offer.dateDebut).toLocaleDateString() + '</p>' +
+                    '</div>' +
+                    '<div class="mb-4">' +
+                    '<i class="fas fa-hourglass-start" style="color: #3dbeee;"></i> <strong>Type de stage:</strong>' +
+                    '<p>' + offer.typedeStage + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-6">' +
+                    '<div class="mb-4">' +
+                    '<i class="fas fa-align-left" style="color: #3dbeee;"></i> <strong>Description:</strong>' +
+                    '<p>' + offer.description + '</p>' +
+                    '</div>' +
+                    '<div class="mb-4">' +
+                    '<i class="fas fa-check-square" style="color: #3dbeee;"></i> <strong>Compétences requises:</strong>' +
+                    '<p>' + competencesRequises + '</p>' +
+                    '</div>' +
+                    '<div class="mb-4">' +
+                    '<i class="fas fa-calendar-times" style="color: #3dbeee;"></i> <strong>Date de fin:</strong>' +
+                    '<p>' + new Date(offer.dateFin).toLocaleDateString() + '</p>' +
+                    '</div>' +
+                    '<div class="mb-4">' +
+                    '<i class="fas fa-graduation-cap" style="color: #3dbeee;"></i> <strong>Niveau d\'études requis:</strong>' +
+                    '<p>' + offer.niveauEtudesRequis + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+
+                    '<div class="text-center mt-4">' +
+                    '<button id="apply-now-btn" class="main-btn main-btn-2"><i class="fas fa-check-circle"></i> Postuler</button>' +
+                    '</div>';
+
+                offerDetailsContainer.append(offerDetailsHTML);
+
+                // Ajout d'un gestionnaire d'événements pour le bouton de retour
+                $('#back-to-home-btn').on('click', function () {
+                    // Rediriger l'utilisateur vers la page d'accueil
+                    window.location.href = '/'; // Remplacez '/' par l'URL de votre page d'accueil
+                });
+
+                // Ajout d'un gestionnaire d'événements pour le bouton "Postuler"
+                $('#apply-now-btn').on('click', function () {
+                    // Rediriger l'utilisateur vers la page de postulation avec l'ID de l'offre comme paramètre d'URL
+                    window.location.href = '@Url.Action("SignUpcandidat", "Home")' + '?id=' + offerId;
+                });
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="~/assets/js/backend-bundle.min.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/customizer.js"></script>
+
+    <script src="~/assets/js/sidebar.js"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="~/assets/js/flex-tree.min.js"></script>
+    <script src="~/assets/js/tree.js"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="~/assets/js/table-treeview.js"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="~/assets/js/sweetalert.js"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="~/assets/js/vector-map-custom.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/chart-custom.js"></script>
+    <script src="~/assets/js/charts/01.js"></script>
+    <script src="~/assets/js/charts/02.js"></script>
+
+    <!-- slider JavaScript -->
+    <script src="~/assets/js/slider.js"></script>
+
+    <!-- Emoji picker -->
+    <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+</html>

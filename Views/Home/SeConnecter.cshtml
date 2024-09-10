@@ -1,0 +1,218 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Innov-Alliance-Tech</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+</head>
+
+<body class=" ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+
+    <div class="wrapper">
+        <section class="login-content">
+            <div class="container h-100">
+                <div class="row align-items-center justify-content-center h-100">
+                    <div class="col-md-5">
+                        <div class="card p-3">
+                            <div class="card-body">
+                                <div class="auth-logo">
+                                    <img src="~/images/iat.png " class="img-fluid  rounded-normal  darkmode-logo" alt="logo">
+                                    <img src="~/images/iat.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                                </div>
+                                <h3 class="mb-3 font-weight-bold text-center">Connexion</h3>
+                                <p class="text-center text-secondary mb-4">Connectez-vous à votre compte pour continuer</p>
+                                
+                             
+                                <form id="loginForm" onsubmit="login(); return false;" method="post">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="text-secondary" for="email">Email</label>
+                                                <input class="form-control" type="email" name="email" id="email" placeholder="Entrez votre email">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <label class="text-secondary" for="password">Mot de passe</label>
+                                                    <label><a href="auth-recover-pwd.html">Mot de passe oublié?</a></label>
+                                                </div>
+                                                <input class="form-control" type="password" id="password" name="password" placeholder="Entrez votre mot de passe">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block mt-2" onclick="logFormData()">Se connecter</button>
+                                    <div class="col-lg-12 mt-3">
+                                        <p class="mb-0 text-center">Vous n'avez pas de compte? <a href="@Url.Action("SignUp", "Home")">S'inscrire</a></p>
+                                    </div>
+                                </form>
+
+                                <script>
+                                    function logFormData() {
+                                        var email = document.getElementById('email').value;
+                                        var password = document.getElementById('password').value;
+                                        console.log("Email: " + email);
+                                        console.log("Mot de passe: " + password);
+                                    }
+                                </script>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Fonction pour soumettre le formulaire et gérer l'authentification
+        function login(offerId) {
+            // Récupérer les valeurs des champs email et password
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            // Créer un objet FormData pour envoyer les données
+            var formData = new FormData();
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("offerId", offerId);
+
+            // Effectuer une requête POST AJAX vers le backend pour l'authentification
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Auth/Login", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    // Vérifier si la requête a réussi (status 200)
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            // Rediriger en fonction du rôle de l'utilisateur
+                            switch (response.role) {
+                                case "Admin":
+                                    window.location.href = '/Home/AdminDashboard';
+                                    break;
+                                case "Manager":
+                                    window.location.href = '/Home/ManagerDashboard';
+                                    break;
+                                case "Rh":
+                                    window.location.href = '/Home/RhDashboard';
+                                    break;
+                                default:
+                                    alert("Rôle d'utilisateur non reconnu.");
+                            }
+                        } else {
+                            // Afficher un message d'erreur si l'authentification échoue
+                            alert(response.message);
+                        }
+                    } else {
+                        // Afficher un message d'erreur si la requête échoue
+                        alert("Une erreur s'est produite lors de la tentative de connexion.");
+                    }
+                }
+            };
+            xhr.send(formData);
+        }
+
+        // Ajouter un gestionnaire d'événements pour soumettre le formulaire lorsqu'il est envoyé
+        document.addEventListener("DOMContentLoaded", function () {
+            var loginForm = document.getElementById("loginForm");
+            if (loginForm) {
+                loginForm.addEventListener("submit", function (event) {
+                    event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
+                    var urlParams = new URLSearchParams(window.location.search);
+                    var offerId = urlParams.get('id');
+                    login(offerId); // Appeler la fonction de connexion
+                });
+            }
+        });
+
+        // Fonction pour basculer entre le type de champ de mot de passe et le type de texte
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("password");
+            var toggleButton = document.getElementById("togglePassword");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.innerHTML = "<i class='fas fa-eye-slash'></i>";
+            } else {
+                passwordInput.type = "password";
+                toggleButton.innerHTML = "<i class='fas fa-eye'></i>";
+            }
+        }
+
+        // Ajouter un gestionnaire d'événements clic au bouton "œil"
+        document.addEventListener("DOMContentLoaded", function () {
+            var togglePasswordButton = document.getElementById("togglePassword");
+            if (togglePasswordButton) {
+                togglePasswordButton.addEventListener("click", togglePasswordVisibility);
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="~/assets/js/backend-bundle.min.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/customizer.js"></script>
+
+    <script src="~/assets/js/sidebar.js"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="~/assets/js/flex-tree.min.js"></script>
+    <script src="~/assets/js/tree.js"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="~/assets/js/table-treeview.js"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="~/assets/js/sweetalert.js"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="~/assets/js/vector-map-custom.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/chart-custom.js"></script>
+    <script src="~/assets/js/charts/01.js"></script>
+    <script src="~/assets/js/charts/02.js"></script>
+
+    <!-- slider JavaScript -->
+    <script src="~/assets/js/slider.js"></script>
+
+    <!-- Emoji picker -->
+    <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+</html>

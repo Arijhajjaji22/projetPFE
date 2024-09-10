@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         DOTNET_CLI_HOME = '/tmp' // Directory to avoid permission issues
-        DOCKER_CLI_HOME = '/tmp' // Directory to avoid permission issues for Docker CLI
     }
     stages {
         stage('Checkout') {
@@ -20,23 +19,26 @@ pipeline {
                 sh '/snap/bin/dotnet test App_plateforme_de_recurtement.sln --configuration Release'
             }
         }
-        stage('Build Docker Image') {
+        stage('Verify Dockerfile') {
             steps {
                 script {
-                    // Build the Docker image
-                    sh 'docker build -t arij978/plateformederecrutement:latest .'
+                    // Vérifiez la présence du Dockerfile
+                    if (fileExists('Dockerfile')) {
+                        echo 'Dockerfile is present.'
+                    } else {
+                        error 'Dockerfile not found!'
+                    }
                 }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t arij978/plateformederecrutement:latest .'
             }
         }
         stage('Push Docker Image') {
             steps {
-                script {
-                    // Push the Docker image to Docker Hub
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
-                        sh 'docker push arij978/plateformederecrutement:latest'
-                    }
-                }
+                sh 'docker push arij978/plateformederecrutement:latest'
             }
         }
     }

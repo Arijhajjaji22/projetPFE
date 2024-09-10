@@ -1,25 +1,20 @@
 pipeline {
     agent any
     environment {
-        DOTNET_CLI_HOME = '/tmp' // Répertoire pour éviter les problèmes de permissions
+        DOTNET_CLI_HOME = '/tmp' // Directory to avoid permission issues
     }
     stages {
-        stage('Cloner le dépôt Git') {
+        stage('Checkout') {
             steps {
                 git branch: 'master', url: 'https://github.com/Arijhajjaji22/projetPFE.git'
             }
         }
-        stage('Restaurer les packages NuGet') {
-            steps {
-                sh '/snap/bin/dotnet restore App_plateforme_de_recurtement.sln'
-            }
-        }
-        stage('Construire la solution .NET') {
+        stage('Build') {
             steps {
                 sh '/snap/bin/dotnet build App_plateforme_de_recurtement.sln --configuration Release'
             }
         }
-        stage('Tester la solution .NET') {
+        stage('Test') {
             steps {
                 sh '/snap/bin/dotnet test App_plateforme_de_recurtement.sln --configuration Release'
             }
@@ -27,14 +22,14 @@ pipeline {
     }
     post {
         success {
-            echo 'Le pipeline s\'est terminé avec succès.'
+            echo 'Pipeline completed successfully.'
         }
         failure {
-            echo 'Le pipeline a échoué.'
+            echo 'Pipeline failed.'
         }
         always {
-            cleanWs() // Nettoyer les fichiers de travail
-            echo 'Pipeline terminé.'
+            cleanWs() // Clean workspace
+            echo 'Pipeline finished.'
         }
     }
 }

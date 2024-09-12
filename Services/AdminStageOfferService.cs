@@ -14,24 +14,32 @@ namespace App_plateforme_de_recurtement.Services
             _adminStageOfferRepository = adminStageOfferRepository;
             _mappingService = mappingService;
         }
+        public AdminStageOfferService()
+        {
+            // Constructeur sans paramètre
+        }
 
         public void MoveOfferToAdminStageOffers(StageOffer offer, string validatedByUserId)
         {
+            // Vérifiez si CompetencesRequises est null avant d'utiliser String.Join
+            var competencesRequises = offer.CompetencesRequises ?? new List<string>();
+
             var adminStageOffer = new AdminStageOffer
             {
                 Titre = offer.Titre,
                 Description = offer.Description,
                 DomaineActivite = offer.DomaineActivite,
-                CompetencesRequises = string.Join(", ", offer.CompetencesRequises),
+                CompetencesRequises = string.Join(", ", competencesRequises),
                 DateDebut = offer.DateDebut,
                 DateFin = offer.DateFin,
                 NiveauEtudesRequis = offer.NiveauEtudesRequis,
                 TypedeStage = offer.TypedeStage,
-                //ValidatedByUserId = validatedByUserId // Assigner l'ID de l'utilisateur validant
+               // ValidatedByUserId = validatedByUserId // Assigner l'ID de l'utilisateur validant
             };
 
             _adminStageOfferRepository.AddOffer(adminStageOffer);
         }
+
 
         // Ajoutez une méthode AddOffer ici si nécessaire
         public void AddOffer(AdminStageOffer offer)

@@ -15,11 +15,11 @@ namespace App_plateforme_de_recurtement.Repositories
         {
             _context = context;
         }
-        public StageOffer GetOfferById(int id)
+        public virtual StageOffer GetOfferById(int id)
         {
             return _context.StageOffres.FirstOrDefault(o => o.Id == id);
         }
-        public IEnumerable<StageOffer> GetOffers()
+        public virtual IEnumerable<StageOffer> GetOffers()
         {
             return _context.StageOffres.ToList();
         }
@@ -30,7 +30,7 @@ namespace App_plateforme_de_recurtement.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateOffer(StageOffer offer)
+        public virtual void UpdateOffer(StageOffer offer)
         {
             _context.StageOffres.Update(offer);
             _context.SaveChanges();

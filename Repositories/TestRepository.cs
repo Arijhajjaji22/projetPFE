@@ -14,6 +14,10 @@ namespace App_plateforme_de_recurtement.Data.Repositories
         {
             _context = context;
         }
+        public TestRepository()
+        {
+          
+        }
 
         public async Task<Test> AddTestAsync(Test test)
         {
@@ -29,7 +33,7 @@ namespace App_plateforme_de_recurtement.Data.Repositories
                 .ToListAsync();
         }
 
-        public List<Test> GetAllTests()
+        public virtual List<Test> GetAllTests()
         {
             return _context.Tests.ToList();
         }

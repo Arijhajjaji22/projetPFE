@@ -8,6 +8,9 @@ namespace App_plateforme_de_recurtement.Data
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
+        public ApplicationDbContext() 
+        {
+        }
 
         public DbSet<User> Users { get; set; }
 

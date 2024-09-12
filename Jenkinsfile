@@ -38,7 +38,14 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                sh 'docker push arij978/plateformederecrutement:latest'
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        // Connexion à Docker Hub
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                        // Pousser l'image Docker
+                        sh 'docker push arij978/plateformederecrutement:latest'
+                    }
+                }
             }
         }
     }

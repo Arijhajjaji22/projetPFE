@@ -1,0 +1,266 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Innov-Alliance-Tech</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+</head>
+
+<body class=" ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+
+   <div class="wrapper">
+    <section class="login-content">
+        <div class="container h-100">
+            <div class="row align-items-center justify-content-center h-100">
+                <div class="col-md-5">
+                    <div class="card p-3">
+                        <div class="card-body">
+                            <div class="auth-logo">
+                                <img src="~/images/iat.png " class="img-fluid  rounded-normal  darkmode-logo" alt="logo">
+                                <img src="~/images/iat.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                            </div>
+                            <h3 class="mb-3 font-weight-bold text-center">Commencer</h3>
+                            <p class="text-center text-secondary mb-4">Choisissez votre réseau social pour créer un compte</p>
+                            <div class="social-btn d-flex justify-content-around align-items-center mb-4">
+                                <button class="btn btn-outline-light">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="88.428 12.828 107.543 207.085">
+                                        <path d="M158.232 219.912v-94.461h31.707l4.747-36.813h-36.454V65.134c0-10.658 2.96-17.922 18.245-17.922l19.494-.009V14.278c-3.373-.447-14.944-1.449-28.406-1.449-28.106 0-47.348 17.155-47.348 48.661v27.149H88.428v36.813h31.788v94.461l38.016-.001z" fill="#3c5a9a" />
+                                    </svg>
+                                </button>
+                                <button class="btn btn-outline-light">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 262" preserveAspectRatio="xMidYMid">
+                                        <path d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" fill="#4285F4" />
+                                        <path d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" fill="#34A853" />
+                                        <path d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782" fill="#FBBC05" />
+                                        <path d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251" fill="#EB4335" />
+                                    </svg>
+                                </button>
+                                <button class="btn btn-outline-light">
+                                    <svg width="20" height="20" viewBox="328 355 335 276" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M 630, 425 A 195, 195 0 0 1 331, 600 A 142, 142 0 0 0 428, 570A  70,  70 0 0 1 370, 523A  70,  70 0 0 0 401, 521A  70,  70 0 0 1 344, 455A  70,  70 0 0 0 372, 460A  70,  70 0 0 1 354, 370A 195, 195 0 0 0 495, 442A  67,  67 0 0 1 611, 380A 117, 117 0 0 0 654, 363A  65,  65 0 0 1 623, 401A 117, 117 0 0 0 662, 390A  65,  65 0 0 1 630, 425Z" style="fill:#3BA9EE;" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="mb-5">
+                                <p class="line-around text-secondary mb-0"><span class="line-around-1">ou enregistrez-vous avec votre email</span></p>
+                            </div>
+                                <form id="signup-form">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Prénom</label>
+                                                <input id="first-name" class="form-control" type="text" placeholder="Entrez votre prénom">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Nom de famille</label>
+                                                <input id="last-name" class="form-control" type="text" placeholder="Entrez votre nom de famille">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Date de naissance</label>
+                                                <input id="date-of-birth" class="form-control" type="date">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Email</label>
+                                                <input id="email" class="form-control" type="email" placeholder="Entrez votre email">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Mot de passe</label>
+                                                <input id="password" class="form-control" type="password" placeholder="Entrez votre mot de passe">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Confirmer le mot de passe</label>
+                                                <input id="confirm-password" class="form-control" type="password" placeholder="Confirmez votre mot de passe">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-check form-check-inline">
+                                                <div class="custom-control custom-checkbox custom-control-inline mb-3">
+                                                    <input type="checkbox" class="custom-control-input m-0" id="inlineCheckbox1">
+                                                    <label class="custom-control-label pl-2" for="inlineCheckbox1">Je suis d'accord avec les <a href="terms-of-service.html">Conditions d'utilisation </a> et la <a href="privacy-policy.html">Politique de confidentialité</a></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block mt-2">Créer un compte</button>
+                                    <div class="col-lg-12 mt-3">
+                                        <p class="mb-0 text-center">Vous avez déjà un compte? <a id="loginLink" href="#">Se connecter</a></p>
+                                    </div>
+
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="signup-success-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="signup-success-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signup-success-modal-label"><i class="fas fa-check-circle text-success mr-2"></i>Succès !</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Votre compte a été créé avec succès !</p>
+                    <p>Un email de confirmation a été envoyé à votre adresse email.  </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const signupForm = document.getElementById('signup-form');
+        const urlParams = new URLSearchParams(window.location.search);
+        const offerId = urlParams.get('id');
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const dateOfBirth = document.getElementById('date-of-birth').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            // Vérification si les deux champs de mot de passe correspondent
+            if (password !== confirmPassword) {
+                alert('Les mots de passe ne correspondent pas.');
+                return; // Arrête l'exécution du script si les mots de passe ne correspondent pas
+            }
+
+            const formData = {
+                offerId: offerId,
+                firstName: firstName,
+                lastName: lastName,
+                dateOfBirth: dateOfBirth,
+                email: email,
+                password: password,
+                confirmPassword: confirmPassword
+            };
+
+            try {
+                const response = await fetch('/SignUp', { // Utilisation de l'URL "/SignUp"
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const responseData = await response.json();
+
+                if (response.ok) {
+                    // Afficher le message de succès
+                    $('#signup-success-modal').modal('show');
+                    // Rediriger vers une autre page ou effectuer d'autres actions après l'inscription réussie
+                } else {
+                    // Afficher le message d'erreur
+                    alert(responseData.message);
+                }
+            } catch (error) {
+                console.error('Une erreur s\'est produite : ', error);
+                // Afficher un message d'erreur générique
+                alert('Une erreur s\'est produite lors de la création du compte.');
+            }
+        });
+
+        // Modifier le lien "Se connecter" pour inclure offerId dans l'URL
+        const loginLink = document.querySelector('#signup-form a');
+        loginLink.href = '@Url.Action("SeConnecter", "Home")' + '?id=' + offerId;
+
+        // Modifier le bouton "Créer un compte" pour inclure offerId dans l'URL
+        const createAccountBtn = document.querySelector('#signup-form button[type="submit"]');
+        createAccountBtn.addEventListener('click', function () {
+            this.form.action = '@Url.Action("SignUp", "Home")' + '?id=' + offerId;
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            var loginLink = document.getElementById("loginLink");
+            if (loginLink) {
+                loginLink.addEventListener('click', function () {
+                    // Récupérer l'ID de l'offre depuis l'URL
+                    var urlParams = new URLSearchParams(window.location.search);
+                    var offerId = urlParams.get('id');
+                    // Rediriger l'utilisateur vers la page de connexion avec l'ID de l'offre comme paramètre d'URL
+                    window.location.href = '@Url.Action("SeConnecter", "Home")' + '?id=' + offerId;
+                });
+            }
+        });
+
+    </script>
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="~/assets/js/backend-bundle.min.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/customizer.js"></script>
+
+    <script src="~/assets/js/sidebar.js"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="~/assets/js/flex-tree.min.js"></script>
+    <script src="~/assets/js/tree.js"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="~/assets/js/table-treeview.js"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="~/assets/js/sweetalert.js"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="~/assets/js/vector-map-custom.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/chart-custom.js"></script>
+    <script src="~/assets/js/charts/01.js"></script>
+    <script src="~/assets/js/charts/02.js"></script>
+
+    <!-- slider JavaScript -->
+    <script src="~/assets/js/slider.js"></script>
+
+    <!-- Emoji picker -->
+    <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+</html>

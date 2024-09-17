@@ -1,0 +1,1032 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+@model App_plateforme_de_recurtement.Models.Availability
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <script src="~/assets/js/backend-bundle.min.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/customizer.js"></script>
+
+    <script src="~/assets/js/sidebar.js"></script>
+
+  
+
+    <!-- Table Treeview JavaScript -->
+    <script src="~/assets/js/table-treeview.js"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="~/assets/js/sweetalert.js"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="~/assets/js/vector-map-custom.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/chart-custom.js"></script>
+    <script src="~/assets/js/charts/01.js"></script>
+    <script src="~/assets/js/charts/02.js"></script>
+
+    <!-- slider JavaScript -->
+    <script src="~/assets/js/slider.js"></script>
+
+    <!-- Emoji picker -->
+    <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="~/assets/js/app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Innov-Alliance-Tech </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.0.0/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.0.0/main.min.js'></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Exemple hypothétique avec un CDN (ceci peut ne pas être réel, veuillez vérifier sur le site officiel) -->
+    <script src="https://cdn.jsdelivr.net/npm/flexTree@1.0.0/dist/flexTree.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<style>
+    /* Modals de confirmation */
+    #confirmEditModal, #confirmDeleteModal {
+        z-index: 1050; /* Doit être supérieur à celui de #eventModal (par défaut 1040) */
+    }
+
+    .texttext {
+        font-size: 18px;
+        color: #333;
+        vertical-align: middle;
+    }
+
+    .custom-icon img {
+        width: 30px; /* ajustez la taille selon vos besoins */
+        height: auto; /* permet de conserver les proportions de l'image */
+        display: inline-block; /* assure que l'image est alignée avec le texte */
+        margin-right: 10px; /* ajustez la marge pour séparer l'image du texte */
+    }
+
+    .custom-icone img {
+        width: 50px; /* ajustez la taille selon vos besoins */
+        height: auto; /* permet de conserver les proportions de l'image */
+        display: inline-block; /* assure que l'image est alignée avec le texte */
+        margin-right: 10px; /* ajustez la marge pour séparer l'image du texte */
+    }
+
+    .role-admin {
+        color: red; /* Couleur rouge pour le rôle d'administrateur */
+    }
+
+    .role-manager {
+        color: blue; /* Couleur bleue pour le rôle de manager */
+    }
+
+    .role-rh {
+        color: green; /* Couleur verte pour le rôle de R&H */
+    }
+
+
+    .error-input {
+        border-color: red !important; /* Couleur de la bordure en rouge */
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+        .styled-table th, .styled-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            padding: 12px; /* Ajustement du rembourrage */
+            text-align: left;
+            max-width: 300px;
+        }
+
+    .table tbody th,
+    .table tbody td {
+        font-size: 14px !important; /* Taille de la police */
+        color: #333 !important; /* Couleur du texte */
+    }
+
+    /* Style pour les cellules de l'en-tête */
+    .table thead th {
+        font-weight: bold !important; /* Gras */
+    }
+
+    .table-color-heading {
+        background-color: #021438 !important;
+        color: white !important; /* Couleur du texte */
+    }
+
+    .styled-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+    }
+
+    .styled-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .styled-table tr:hover {
+        background-color: #f2f2f2;
+    }
+    /* Style pour la couleur de fond de l'en-tête */
+    .table-color-heading {
+        background-color: white !important;
+        color: white !important; /* Couleur du texte */
+    }
+
+
+    /* Style pour les cellules du corps de tableau */
+    .table tbody th,
+    .table tbody td {
+        font-size: 14px !important; /* Taille de la police */
+        color: #333 !important; /* Couleur du texte */
+    }
+
+    /* Style pour les cellules de l'en-tête */
+    .table thead th {
+        font-weight: bold !important; /* Gras */
+    }
+
+
+    /* Style pour les actions */
+    .actions-header {
+        text-align: center !important; /* Alignement centré */
+    }
+
+    .modal-dialog {
+        max-width: 500px;
+        margin: 30px auto;
+    }
+
+    .card-title {
+        color: #021438; /* Couleur du texte */
+        font-size: 29px; /* Taille de la police */
+        font-weight: bold; /* Gras */
+        margin-bottom: 20px; /* Espacement en bas */
+        text-transform: uppercase; /* Convertit le texte en majuscules */
+        /* Ombre du texte */
+        letter-spacing: 1px; /* Espacement des lettres */
+        /* Bordure inférieure */
+        padding-bottom: 10px; /* Espacement en bas */
+    }
+
+    .icon-color {
+        color: #22a6b3 !important; /* Couleur spécifiée */
+    }
+
+    .card-title {
+        margin-right: 10px; /* Espacement entre l'icône et le texte */
+        color: #021438; /* Couleur de l'icône */
+    }
+
+    .modal-header i {
+        color: #ffffff; /* Couleur de l'icône */
+        margin-right: 5px; /* Espacement entre l'icône et le texte */
+    }
+
+    .modal-title {
+        color: white;
+    }
+
+
+
+
+
+
+    .modal-content {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background-color: #021438;
+        color: #ffffff;
+        border-radius: 10px 10px 0 0;
+    }
+
+        .modal-header h5 {
+            margin: 0;
+        }
+
+    .modal-body {
+        padding: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            font-weight: bold;
+            color: #021438;
+        }
+
+    .form-control {
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+        .form-control:focus {
+            border-color: #021438;
+            box-shadow: none;
+        }
+
+    .modal-footer {
+        border-top: none;
+        padding: 20px 30px;
+        justify-content: flex-end;
+    }
+
+    .btn-primary {
+        background-color: #021438;
+        border-color: #021438;
+        padding: 10px 20px;
+    }
+
+        .btn-primary:hover {
+            background-color: #023b6e;
+            border-color: #023b6e;
+        }
+
+    .btn-secondary {
+        background-color: #ffffff;
+        color: #021438;
+        border-color: #021438;
+        padding: 10px 20px;
+    }
+
+        .btn-secondary:hover {
+            background-color: #f0f0f0;
+        }
+
+    .close {
+        color: #ffffff;
+        opacity: 0.7;
+    }
+
+        .close:hover {
+            opacity: 1;
+        }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .search-box {
+        width: fit-content;
+        height: fit-content;
+        position: relative;
+    }
+
+    .input-search {
+        height: 50px;
+        width: 50px;
+        border-style: none;
+        padding: 10px;
+        font-size: 18px;
+        letter-spacing: 2px;
+        outline: none;
+        border-radius: 25px;
+        transition: all .5s ease-in-out;
+        background-color: #22a6b3;
+        padding-right: 40px;
+        color: #ffffff;
+    }
+
+        .input-search::placeholder {
+            color: rgba(255,255,255,.5);
+            font-size: 18px;
+            letter-spacing: 2px;
+            font-weight: 100;
+        }
+
+    .btn-search {
+        width: 50px;
+        height: 50px;
+        border-style: none;
+        font-size: 20px;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+        border-radius: 50%;
+        position: absolute;
+        right: 0px;
+        color: #ffffff;
+        background-color: transparent;
+        pointer-events: painted;
+    }
+
+        .btn-search:focus ~ .input-search {
+            width: 300px;
+            border-radius: 0px;
+            background-color: #021438;
+            border-bottom: 1px solid rgba(255,255,255,.5);
+            transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+        }
+
+    .input-search:focus {
+        width: 300px;
+        border-radius: 0px;
+        background-color: #021438;
+        border-bottom: 1px solid rgba(255,255,255,.5);
+        transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+    }
+
+    .edit-btn,
+    .delete-btn {
+        background-color: #021438; /* Dark blue background */
+        color: #fff; /* White text color */
+        border: none; /* No border */
+        padding: 8px 15px; /* Padding */
+        border-radius: 25px; /* Rounded corners */
+        cursor: pointer; /* Cursor style */
+        font-family: 'Arial', sans-serif; /* Font family */
+        font-weight: bold; /* Bold text */
+        text-transform: uppercase; /* Uppercase text */
+        transition: all 0.3s ease; /* Smooth transition */
+    }
+
+        .edit-btn:hover,
+        .delete-btn:hover {
+            background-color: #22a6b3; /* Orange background on hover */
+            transform: scale(1.05); /* Scale up on hover */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+        }
+
+        .edit-btn .fas,
+        .delete-btn .fas {
+            margin-right: 5px; /* Spacing between icon and text */
+        }
+
+</style>
+<style>
+    #calendar {
+        width: 80%; /* Réduit la largeur du calendrier */
+        height: 500px; /* Réduit la hauteur du calendrier */
+        margin: 0 auto; /* Centre le calendrier horizontalement */
+    }
+</style>
+
+<body class="  ">
+
+
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <!-- Wrapper Start -->
+    <div class="wrapper">
+        <div class="iq-sidebar  sidebar-default with-background ">
+            <div class="iq-sidebar-logo d-flex align-items-end justify-content-between">
+                <a href="@Url.Action("Gestionentretiens", "Home")" class="header-logo">
+                    <img src="~/images/iat.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                    <img src="~/images/iat.png" class="img-fluid rounded-normal d-none sidebar-light-img" alt="logo">
+                    <span></span>
+                </a>
+                <div class="side-menu-bt-sidebar-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-light wrapper-menu" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="data-scrollbar" data-scroll="1">
+                <nav class="iq-sidebar-menu">
+                    <ul id="iq-sidebar-toggle" class="side-menu">
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("DashboardRh", "Home")">
+                                <img src="~/images/menu.gif" alt="Dashboard Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="px-3 pt-3 pb-2">
+                            <span class="text-uppercase small font-weight-bold" style="color: #6c757d;"></span>
+                        </li>
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("Gestionentretiens", "Home")">
+                                <img src="~/images/task.gif" alt="Gestion Sujets Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">Gestion des Entretiens </span>
+                            </a>
+                        <li class="px-3 pt-3 pb-2">
+                            <span class="text-uppercase small font-weight-bold" style="color: #6c757d;"></span>
+                        </li>
+
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("tablesujetsrh", "Home")">
+                                <img src="~/images/test.gif" alt="Dashboard Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">Sujets Approuvés</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+
+                <div class="pt-5 pb-5"></div>
+            </div>
+
+
+        </div>
+       
+
+        <div class="content-page">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">
+                                        <span class="icon-color">
+                                            <span class="custom-icone">
+                                                <img src="/images/task.gif" alt="Image icône">
+                                            </span>
+                                        </span> Liste des entretiens
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div id="calendar"></div>
+                            </div>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal pour ajouter/modifier une disponibilité -->
+   
+        </div>
+
+
+        <!-- Dialogue de confirmation de suppression -->
+        <!-- Ajoutez ce code HTML dans votre page pour le dialogue de confirmation -->
+        <!-- Modal de confirmation de suppression -->
+
+
+
+
+
+
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter ou modifier une disponibilité</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="availabilityForm">
+
+                        <div class="form-group">
+                            <label for="start-time" class="col-form-label">Heure de début :</label>
+                            <input type="datetime-local" class="form-control" id="start-time">
+                        </div>
+                        <div class="form-group">
+                            <label for="end-time" class="col-form-label">Heure de fin :</label>
+                            <input type="datetime-local" class="form-control" id="end-time">
+                        </div>
+                        <input type="hidden" id="event-id">
+                        <input type="hidden" id="is-available" value="true">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveAvailability">Enregistrer</button>
+                    <button type="button" class="btn btn-danger" id="deleteAvailability">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create Event</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal pour les dates passées -->
+    <div id="errorPastDateModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="errorPastDateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorPastDateModalLabel">Erreur : Date passée</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Choisissez une date d'aujourd'hui ou une date future.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal pour les week-ends -->
+    <div id="errorWeekendModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="errorWeekendModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorWeekendModalLabel">Erreur : Week-end</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Choisissez une date en semaine.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- Modal de confirmation de sélection de date -->
+
+
+
+    <!-- Wrapper End-->
+    <footer class="iq-footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="../backend/privacy-policy.html"></a></li>
+                        <li class="list-inline-item"><a href="../backend/terms-of-service.html"></a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <span class="mr-1">
+                        Copyright
+                        <script>document.write(new Date().getFullYear())</script>© <a href="#" class="">Innov-Alliance-Tech</a>
+                        All Rights Reserved.
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </footer>    <!-- Backend Bundle JavaScript -->
+    <!-- Votre script JavaScript -->
+    <script>
+        $(document).ready(function () {
+
+            // Fonction pour activer les champs du formulaire dans le modal principal d'événement
+            function enableEventForm() {
+                
+                $('#event-start').prop('readonly', false);
+                $('#event-end').prop('readonly', false);
+                $('#saveEvent').show(); // Afficher le bouton Enregistrer
+            }
+
+            // Fonction pour désactiver les champs du formulaire dans le modal de confirmation
+            function disableEventForm() {
+         
+
+                $('#event-start').prop('readonly', true);
+                $('#event-end').prop('readonly', true);
+                $('#saveEvent').hide(); // Masquer le bouton Enregistrer
+            }
+
+            // Initialisation du calendrier avec les événements récupérés depuis le backend
+            function initializeCalendar(events) {
+                $('#calendar').fullCalendar({
+                    selectable: true,
+                    selectHelper: true,
+                    aspectRatio: 2.5,
+                    editable: true,
+                    eventLimit: true,
+                    events: events, // Charge les événements récupérés
+                    locale: 'fr', // Définir la langue française
+                    dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                    dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                    monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                    monthNamesShort: ['Janv', 'Févr', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Déc'],
+                    select: function (start, end) {
+                        var selectedDate = moment(start);
+                        var today = moment().startOf('day');
+
+                        // Vérifier si la date est aujourd'hui ou future
+                        if (selectedDate.isSameOrAfter(today, 'day')) {
+                            // Vérifier si la date est un week-end (samedi ou dimanche)
+                            if (selectedDate.day() === 0 || selectedDate.day() === 6) {
+                                $('#errorWeekendModal').modal('show');
+                            } else {
+                                // Date valide : afficher le modal pour sélectionner l'heure
+                                $('#start-time').val(selectedDate.format('YYYY-MM-DD') + 'T09:00');
+                                $('#end-time').val(selectedDate.format('YYYY-MM-DD') + 'T17:00');
+                                $('#event-id').val('');
+                                $('#myModal').modal('show');
+                            }
+                        } else {
+                            // Date passée : afficher le modal d'erreur
+                            $('#errorPastDateModal').modal('show');
+                        }
+                    },
+                    eventClick: function (event) {
+                        // Remplir les champs avec les données de l'événement cliqué
+                      
+                        $('#event-start').val(moment(event.start).format('YYYY-MM-DDTHH:mm'));
+                        $('#event-end').val(moment(event.end).format('YYYY-MM-DDTHH:mm'));
+                        $('#event-id').val(event.id);
+                        $('#editEvent').text('Modifier'); // Réinitialiser le texte du bouton Modifier
+                        $('#editEvent').show(); // Afficher le bouton Modifier
+                        $('#deleteEvent').show(); // Afficher le bouton Supprimer
+                        $('#saveEvent').hide(); // Masquer le bouton Enregistrer
+                        $('#eventModalLabel').text('Détails de l\'événement'); // Modifier le titre du modal
+                        $('#eventModal').modal('show');
+                    },
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    buttonText: {
+                        today: 'Aujourd\'hui',
+                        month: 'Mois',
+                        week: 'Semaine',
+                        day: 'Jour'
+                    },
+                    eventRender: function (event, element) {
+                        var tooltipText = moment(event.start).format('HH:mm') + ' - ' + moment(event.end).format('HH:mm');
+
+                        // Vérifier si event.title est défini
+                        if (event.title) {
+                            tooltipText = event.title + '\n' + tooltipText;
+                        }
+
+                        // Définir le texte du tooltip
+                        element.attr('title', tooltipText);
+                    },
+
+                    businessHours: {
+                        dow: [1, 2, 3, 4, 5],
+                        start: '09:00',
+                        end: '17:00'
+                    },
+                    dayRender: function (date, cell) {
+                        var today = new Date();
+                        if (date.isSame(today, 'day')) {
+                            cell.css("background-color", "#ffeb3b");
+                        }
+                        if (date.day() === 0 || date.day() === 6) {
+                            cell.css("background-color", "#f5f5f5");
+                        }
+                    }
+                });
+            }
+
+            // Récupération des événements depuis le backend et initialisation du calendrier
+            $.ajax({
+                url: '/api/Availability',
+                type: 'GET',
+                success: function (data) {
+                    // Initialise le calendrier avec les données récupérées
+                    initializeCalendar(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Erreur lors de la récupération des disponibilités', xhr.status, xhr.statusText);
+                    console.error('Message d\'erreur détaillé:', error);
+                }
+            });
+
+            // Gestion du clic sur le bouton "Confirmer" dans le modal d'événement
+            $('#editEvent').on('click', function () {
+                if ($(this).text() === 'Modifier') {
+                    enableEventForm(); // Activer les champs du formulaire pour l'édition
+                    $(this).text('Confirmer'); // Changer le texte du bouton en "Confirmer"
+                } else if ($(this).text() === 'Confirmer') {
+                    var eventId = $('#event-id').val();
+
+                    var start = $('#event-start').val();
+                    var end = $('#event-end').val();
+
+                    // Valider le titre
+                  
+
+                    // Convertir les dates en format ISO 8601 en conservant le fuseau horaire local
+                    var startIso = start ? moment(start, 'YYYY-MM-DDTHH:mm').format() : null;
+                    var endIso = end ? moment(end, 'YYYY-MM-DDTHH:mm').format() : null;
+
+                    var updatedEvent = {
+                        id: parseInt(eventId),
+                       
+                        start: startIso, // Assurez-vous que le nom de la propriété est en minuscule
+                        end: endIso // Assurez-vous que le nom de la propriété est en minuscule
+                    };
+
+                    // Effectuer la requête PUT pour mettre à jour la disponibilité
+                    $.ajax({
+                        url: '/api/Availability/' + eventId,
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify(updatedEvent),
+                        success: function (response) {
+                            console.log('Réponse de l\'API : ', response);
+
+                            // Si la réponse est correcte, continuez avec la mise à jour du calendrier
+                            if (response && response.id) {
+                                console.log('Disponibilité mise à jour avec succès', response);
+
+                                // Mettre à jour l'événement dans le calendrier avec les données reçues du backend
+                                $('#calendar').fullCalendar('removeEvents', response.id); // Supprimer l'événement existant
+                                $('#calendar').fullCalendar('renderEvent', {
+                                    id: response.id,
+                                   // Assurez-vous que le nom de la propriété est en minuscule
+                                    start: response.start, // Assurez-vous que le nom de la propriété est en minuscule
+                                    end: response.end // Assurez-vous que le nom de la propriété est en minuscule
+                                }, true); // Ajouter l'événement mis à jour
+                            } else {
+                                console.error('La réponse de l\'API ne contient pas les données attendues.');
+                            }
+
+                            // Masquer le modal
+                            $('#eventModal').modal('hide');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Erreur lors de la mise à jour de la disponibilité', xhr.responseText);
+                        }
+                    });
+
+                    // Réinitialiser le texte du bouton à son état initial
+                    $(this).text('Modifier');
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // Gestion du clic sur le bouton "Supprimer" dans le modal d'événement
+            $('#deleteEvent').on('click', function () {
+                $('#confirmDeleteModal').modal('show');
+            });
+
+            // Gestion du clic sur le bouton "Supprimer - Confirmer" dans le modal de confirmation
+            $('#confirmDeleteButton').on('click', function () {
+                var eventId = $('#event-id').val();
+
+                // Supprimer l'événement côté frontend (optionnel)
+                $('#calendar').fullCalendar('removeEvents', eventId);
+                $('#eventModal').modal('hide');
+
+                // Supprimer l'événement côté backend
+                $.ajax({
+                    url: '/api/Availability/' + eventId,
+                    type: 'DELETE',
+                    success: function (response) {
+                        console.log('Disponibilité supprimée avec succès', response);
+                    },
+                    error: function (error) {
+                        console.error('Erreur lors de la suppression de la disponibilité', error);
+                    }
+                });
+
+                $('#confirmDeleteModal').modal('hide');
+            });
+
+            // Gestion du clic sur le bouton "Annuler" dans le modal de confirmation (pour Modifier ou Supprimer)
+
+            // avec la méthode `off` pour retirer les gestionnaires d'événements supplémentaires
+
+            // Gestion du clic sur le bouton "Annuler" dans le modal de confirmation (pour Modifier ou Supprimer)
+            $('.cancelButton').on('click', function () {
+                $('#confirmEditModal').modal('hide');
+                $('#confirmDeleteModal').modal('hide');
+
+                // Réinitialiser le bouton "Modifier" à son état initial
+                $('#editEvent').text('Modifier');
+            });
+
+            // Gestion du clic sur le bouton "Enregistrer" dans le modal d'événement
+            // Gestion du clic sur le bouton "Enregistrer" dans le modal d'événement
+            $('#saveAvailability').on('click', function () {
+                var eventId = $('#event-id').val();
+                var start = moment($('#start-time').val()).toISOString();  // Assurez-vous que la date est au bon format
+                var end = moment($('#end-time').val()).toISOString();      // Assurez-vous que la date est au bon format
+
+                var eventData = {
+                    id: eventId ? parseInt(eventId) : 0, // Utiliser 0 pour les nouveaux événements
+                    start: start,
+                    end: end,
+                    isAvailable: true
+                };
+
+                console.log('Event Data:', eventData);
+
+                var httpMethod = eventId ? 'PUT' : 'POST';
+                var url = eventId ? '/api/Availability/' + eventId : '/api/Availability';
+
+                $.ajax({
+                    url: url,
+                    type: httpMethod,
+                    contentType: 'application/json',
+                    data: JSON.stringify(eventData),
+                    success: function (response) {
+                        console.log('Événement ' + (eventId ? 'mis à jour' : 'ajouté') + ' avec succès', response);
+
+                        // Mettre à jour le calendrier si nécessaire
+                        if (eventId) {
+                            $('#calendar').fullCalendar('updateEvent', eventData);
+                        } else {
+                            $('#calendar').fullCalendar('renderEvent', eventData, true); // Ajouter l'événement au calendrier
+                        }
+
+                        // Masquer le modal et réinitialiser le formulaire
+                        $('#myModal').modal('hide');
+                        resetEventForm();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erreur lors de ' + (eventId ? 'la mise à jour' : 'l\'ajout') + ' de l\'événement', xhr.responseText);
+                    }
+                });
+            });
+
+            // Fonction pour réinitialiser le formulaire de disponibilité
+            function resetEventForm() {
+                $('#event-id').val('');
+                $('#start-time').val('');
+                $('#end-time').val('');
+            }
+
+
+            function resetEventForm() {
+                $('#event-id').val('');
+                $('#start-time').val('');
+                $('#end-time').val('');
+           
+            }
+
+            function generateEventId() {
+                return Math.floor(Math.random() * 1000000);
+            }
+
+            // Fonction pour réinitialiser le formulaire après une opération
+            function resetEventForm() {
+       
+                $('#event-start').prop('readonly', true).val('');
+                $('#event-end').prop('readonly', true).val('');
+                $('#editEvent').text('Modifier').show();
+                $('#deleteEvent').show();
+                $('#saveEvent').hide();
+                $('#eventModalLabel').text('Détails de l\'événement');
+                $('#event-id').val('');
+            }
+
+            // Initialisation du modal pour afficher les erreurs de week-end
+            $('#errorWeekendModal').on('shown.bs.modal', function () {
+                $('#errorWeekendModal').focus();
+            });
+
+            // Initialisation du modal pour afficher les erreurs de date passée
+            $('#errorPastDateModal').on('shown.bs.modal', function () {
+                $('#errorPastDateModal').focus();
+            });
+
+            // Fonction de génération d'ID d'événement (à adapter selon votre logique)
+            function generateEventId() {
+                // Implémentation de la génération d'ID unique, par exemple, basé sur la date/heure
+                return Math.floor(Math.random() * 1000); // Exemple simplifié
+            }
+        });
+    </script>
+
+
+
+
+    <!-- Modal d'affichage des détails d'un événement -->
+    <!-- Modal d'affichage des détails d'un événement -->
+    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Détails de l'événement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="form-group">
+                        <label for="event-start">Début:</label>
+                        <input type="text" class="form-control" id="event-start" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-end">Fin:</label>
+                        <input type="text" class="form-control" id="event-end" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="editEvent">Modifier</button>
+                    <button type="button" class="btn btn-danger" id="deleteEvent">Supprimer</button>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmEditModal" tabindex="-1" role="dialog" aria-labelledby="confirmEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmEditModalLabel">Confirmer la modification</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Êtes-vous sûr de vouloir modifier cet événement ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary cancelButton" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="confirmEditButton">Confirmer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Êtes-vous sûr de vouloir supprimer cet événement ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary cancelButton" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Confirmer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- Flextree Javascript-->
+    <script src="~/assets/js/flex-tree.min.js"></script>
+    <script src="~/assets/js/tree.js"></script>
+</body>
+</html>

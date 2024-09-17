@@ -1,0 +1,445 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Innov-Alliance-Tech</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<style>
+    /* Style pour les boutons de téléchargement de fichier */
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        margin-top: 10px; /* Ajout d'un espace entre le champ et le bouton */
+    }
+
+        .file-input-wrapper input[type="file"] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    .file-input-label {
+        background-color: #f0f0f0; /* Couleur gris clair */
+        color: #333; /* Couleur de texte */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+        transition: background-color 0.3s;
+    }
+
+        .file-input-label:hover {
+            background-color: #ddd; /* Couleur gris plus foncé au survol */
+        }
+
+    /* Style pour les icônes à côté des boutons */
+    .file-icon {
+        margin-right: 10px;
+    }
+
+    /* Style pour le nom du fichier */
+    .file-name {
+        display: inline-block;
+        margin-left: 10px;
+        color: #007bff; /* Couleur du lien du nom de fichier */
+        font-weight: bold;
+    }
+</style>
+
+
+
+<body class=" ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <div class="wrapper">
+        <section class="login-content">
+            <div class="container h-100">
+                <div class="row align-items-center justify-content-center h-100">
+                    <div class="col-md-8">
+                        <div class="card p-3">
+                            <div class="card-body">
+                                <div class="auth-logo">
+                                    <img src="~/images/iat.png" class="img-fluid  rounded-normal  darkmode-logo" alt="logo">
+                                    <img src="~/images/iat.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                                </div>
+                                <h3 class="mb-3 font-weight-bold text-center">Complétez votre profil</h3>
+                                <p class="text-center text-secondary mb-4">Nous apprécions votre intérêt pour notre programme. Veuillez remplir les informations demandées ci-dessous pour finaliser votre inscription.</p>
+                                <form id="application-form" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col-lg-6 mt-2">
+                                            <div class="form-group">
+                                                <label for="prenom">Prénom <span style="color: red;">*</span>:</label>
+                                                <input id="prenom" class="form-control" type="text" placeholder="Entrez votre prénom" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mt-2">
+                                            <div class="form-group">
+                                                <label for="nom">Nom <span style="color: red;">*</span>:</label>
+                                                <input id="nom" class="form-control" type="text" placeholder="Entrez votre nom" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mt-2">
+                                            <div class="form-group">
+                                                <label for="email">Adresse e-mail <span style="color: red;">*</span>:</label>
+                                                <input id="email" class="form-control" type="email" placeholder="Entrez votre adresse e-mail" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mt-2">
+                                            <div class="form-group">
+                                                <label for="telephone">Numéro de téléphone <span style="color: red;">*</span>:</label>
+                                                <input id="telephone" class="form-control" type="tel" placeholder="Entrez votre numéro de téléphone" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label for="faculte">Faculté :</label>
+                                                <input id="faculte" class="form-control" type="text" placeholder="Entrez votre faculté ou département">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label for="niveau">Niveau d'études :</label>
+                                                <select id="niveau" class="form-control" required>
+                                                    <option value="" disabled selected hidden>Sélectionnez votre niveau d'études</option>
+                                                    <option value="Licence">Licence</option>
+                                                    <option value="Cycle d'ingénieur">Cycle d'ingénieur</option>
+                                                    <!-- Ajoutez d'autres options au besoin -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label for="cv">CV (PDF) <span style="color: red;">*</span>:</label>
+                                                <input id="cv" class="form-control" type="file" accept=".pdf,.doc,.docx" required>
+                                                <span id="cv-error" style="color: red;"></span> <!-- Message d'erreur pour le CV -->
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label for="lettre_motivation">Lettre de motivation (PDF) :</label>
+                                                <input id="lettre_motivation" class="form-control" type="file" accept=".pdf">
+                                                <span id="lettre-error" style="color: red;"></span> <!-- Message d'erreur pour la lettre de motivation -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block mt-2">Envoyer</button>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="confirmation-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmation-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmation-modal-label">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4 class="text-center mb-4">Merci pour votre candidature !</h4>
+                    <p>Nous avons bien reçu votre formulaire. Vous devez passer un test pour compléter le processus de postulation. Êtes-vous prêt à passer le test maintenant ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="later-btn">Non, plus tard</button>
+                    <button type="button" class="btn btn-primary" id="pass-test-btn">Oui, je suis prêt</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de Re-planification -->
+    <!-- Modal de Re-planification -->
+    <div id="reschedule-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reschedule-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reschedule-modal-label">Re-planification du Test</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Veuillez choisir une nouvelle date et heure pour passer le test :</p>
+                    <form id="reschedule-form">
+                        <div class="form-group">
+                            <label for="new-date">Nouvelle Date :</label>
+                            <input type="date" class="form-control" id="new-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-time">Nouvelle Heure :</label>
+                            <input type="time" class="form-control" id="new-time" required>
+                        </div>
+                        <input type="hidden" id="reschedule-offer-id" value="">
+                        <button type="submit" class="btn btn-primary">Re-planifier</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmation pour la re-planification -->
+    <div class="modal fade" id="reschedule-confirmation-modal" tabindex="-1" role="dialog" aria-labelledby="rescheduleConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rescheduleConfirmationModalLabel">Test Replanifié</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Le test a été re-planifié avec succès. Un email de rappel sera envoyé pour confirmer les détails.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const subjectId = urlParams.get('id'); // Remplacer OfferId par SubjectId
+
+            // Fonction pour stocker des données dans le localStorage
+            function storeData(key, value) {
+                localStorage.setItem(key, value);
+            }
+
+            // Récupérer l'email depuis le localStorage
+            var userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                $('#email').val(userEmail);
+            } else {
+                console.log('Aucune donnée d\'email trouvée dans localStorage.');
+            }
+
+            // Ajouter des écouteurs d'événements pour les entrées de fichiers
+            var fileInputs = document.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(function (input) {
+                input.addEventListener("change", function () {
+                    var fileName = this.files[0].name;
+                    var fileLabel = this.closest('.form-group').querySelector('.file-name');
+                    fileLabel.textContent = fileName;
+                });
+            });
+
+            // Gérer la soumission du formulaire
+            $('#application-form').submit(function (event) {
+                event.preventDefault();
+
+                var prenom = $('#prenom').val();
+                var nom = $('#nom').val();
+                var email = $('#email').val();
+                var telephone = $('#telephone').val();
+                var faculte = $('#faculte').val();
+                var niveau = $('#niveau').val();
+                var cv = $('#cv')[0].files[0];
+                var lettre_motivation = $('#lettre_motivation')[0].files[0];
+
+                if (!prenom || !nom || !email) {
+                    alert("Veuillez remplir tous les champs obligatoires.");
+                    return;
+                }
+
+                $.ajax({
+                    url: '/api/Form/checkEmailExists',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ Email: email }),
+                    success: function (response) {
+                        submitForm();
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    }
+                });
+
+                function submitForm() {
+                    var formData = new FormData();
+                    formData.append('prenom', prenom);
+                    formData.append('nom', nom);
+                    formData.append('email', email);
+                    formData.append('telephone', telephone);
+                    formData.append('faculte', faculte);
+                    formData.append('niveauEtudes', niveau);
+                    formData.append('cv', cv);
+                    formData.append('lettreMotivation', lettre_motivation);
+                    formData.append('AdminStageOfferId', subjectId); // Remplacer OfferId par SubjectId
+
+                    $('#cv-error').text('');
+                    $('#lettre-error').text('');
+
+                    $.ajax({
+                        url: '/api/Form', // Assurez-vous que l'URL est correcte
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            console.log('Formulaire soumis avec succès:', data);
+
+                            if (data && data.id) {
+                                storeData('userId', data.id);
+                                storeData('userEmail', email);
+                                storeData('userFirstName', prenom);
+                                storeData('userLastName', nom);
+                            } else {
+                                console.error('ID utilisateur non trouvé dans la réponse de l\'API.');
+                            }
+
+                            $('#confirmation-modal').modal('show');
+                        },
+                        error: function (xhr) {
+                            console.error('Erreur lors de la soumission du formulaire:', xhr);
+                            if (xhr.status === 400) {
+                                var response = xhr.responseText;
+                                try {
+                                    response = JSON.parse(xhr.responseText);
+                                } catch (e) {
+                                    console.error("Réponse en texte brut reçue:", response);
+                                }
+
+                                if (response.error && response.error.includes('CV')) {
+                                    $('#cv-error').text('Le fichier CV soumis n\'est pas un CV valide.');
+                                } else if (response.includes('CV')) {
+                                    $('#cv-error').text(response);
+                                }
+
+                                if (response.error && response.error.includes('lettre de motivation')) {
+                                    $('#lettre-error').text('Le fichier de lettre de motivation soumis n\'est pas valide.');
+                                } else if (response.includes('lettre de motivation')) {
+                                    $('#lettre-error').text(response);
+                                }
+                            } else {
+                                $('#general-error').text('Une erreur est survenue lors de la soumission du formulaire. Veuillez réessayer.');
+                            }
+                        }
+                    });
+                }
+            });
+
+            $('#later-btn').click(function () {
+                $('#reschedule-modal').modal('show');
+            });
+
+            $('#reschedule-form').submit(function (event) {
+                event.preventDefault();
+
+                var newDate = $('#new-date').val();
+                var newTime = $('#new-time').val();
+
+                var userId = parseInt(localStorage.getItem('userId'));
+                var subjectId = parseInt(localStorage.getItem('subjectId')); // Remplacez offerId par subjectId
+
+                var newDateTime = new Date(newDate + 'T' + newTime);
+
+                if (!newDate || !newTime || isNaN(userId) || isNaN(subjectId)) {
+                    alert("Veuillez remplir tous les champs de re-planification.");
+                    return;
+                }
+
+                $.ajax({
+                    url: '/api/Form/RescheduleTest',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        userId: userId,
+                        subject: subjectId.toString(), // Convertir subjectId en chaîne
+                        newDateTime: newDateTime.toISOString()
+                    }),
+                    success: function () {
+                        $('#reschedule-confirmation-modal').modal('show');
+                        $('#reschedule-modal').modal('hide');
+                    },
+                    error: function (xhr) {
+                        console.error('Erreur lors de la re-planification du test:', xhr);
+                    }
+                });
+            });
+
+            $('#pass-test-btn').click(function () {
+                window.location.href = '@Url.Action("testdetailsmail", "Home")' + '?id=' + subjectId; // Remplacer OfferId par SubjectId
+            });
+        });
+    </script>
+
+
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="~/assets/js/backend-bundle.min.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/customizer.js"></script>
+
+    <script src="~/assets/js/sidebar.js"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="~/assets/js/flex-tree.min.js"></script>
+    <script src="~/assets/js/tree.js"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="~/assets/js/table-treeview.js"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="~/assets/js/sweetalert.js"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="~/assets/js/vector-map-custom.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/chart-custom.js"></script>
+    <script src="~/assets/js/charts/01.js"></script>
+    <script src="~/assets/js/charts/02.js"></script>
+
+    <!-- slider JavaScript -->
+    <script src="~/assets/js/slider.js"></script>
+
+    <!-- Emoji picker -->
+    <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+</html>

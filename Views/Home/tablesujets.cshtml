@@ -1,0 +1,867 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+@model App_plateforme_de_recurtement.Models.StageOffer
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Innov-Alliance-Tech </title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Ajoutez la référence à la bibliothèque DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
+    <!--====== HEADER PART ENDS ======-->
+    <!--====== COUNTER PART START ======-->
+    <title>JobMate | Home</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--====== Favicon Icon ======-->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <!--====== Flaticon CSS ======-->
+    <link rel="stylesheet" href="~/css/flaticon.css">
+
+    <!--====== Font Awesome CSS ======-->
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+
+    <!--====== Nice Select CSS ======-->
+    <link rel="stylesheet" href="~/css/nice-select.css">
+
+    <!--====== Bootstrap CSS ======-->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+
+    <!--====== Default CSS ======-->
+    <link rel="stylesheet" href="~/css/default.css">
+
+    <!--====== Style CSS ======-->
+    <link rel="stylesheet" href="~/css/style.css">
+</head>
+<style>
+    .accept-btn,
+    .reject-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        color: #28a745; /* Couleur verte pour "Accepter" */
+        margin-right: 10px; /* Espacement entre les boutons */
+    }
+
+    .reject-btn {
+        color: #dc3545; /* Couleur rouge pour "Refuser" */
+    }
+
+    .rating-stars .fa-star.filled {
+        color: #007bff; /* Couleur bleue pour les étoiles remplies */
+    }
+
+    .green-button {
+        color: green; /* Optionnel: pour changer la couleur du texte à blanc */
+    }
+
+    .texttext {
+        font-size: 18px;
+        color: #333;
+        vertical-align: middle;
+    }
+
+    .custom-icon img {
+        width: 30px; /* ajustez la taille selon vos besoins */
+        height: auto; /* permet de conserver les proportions de l'image */
+        display: inline-block; /* assure que l'image est alignée avec le texte */
+        margin-right: 10px; /* ajustez la marge pour séparer l'image du texte */
+    }
+
+    .custom-icone img {
+        width: 50px; /* ajustez la taille selon vos besoins */
+        height: auto; /* permet de conserver les proportions de l'image */
+        display: inline-block; /* assure que l'image est alignée avec le texte */
+        margin-right: 10px; /* ajustez la marge pour séparer l'image du texte */
+    }
+
+    .role-admin {
+        color: red; /* Couleur rouge pour le rôle d'administrateur */
+    }
+
+    .role-manager {
+        color: blue; /* Couleur bleue pour le rôle de manager */
+    }
+
+    .role-rh {
+        color: green; /* Couleur verte pour le rôle de R&H */
+    }
+
+
+    .error-input {
+        border-color: red !important; /* Couleur de la bordure en rouge */
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+        .styled-table th, .styled-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            padding: 12px; /* Ajustement du rembourrage */
+            text-align: left;
+            max-width: 300px;
+        }
+
+    .table tbody th,
+    .table tbody td {
+        font-size: 14px !important; /* Taille de la police */
+        color: #333 !important; /* Couleur du texte */
+    }
+
+    /* Style pour les cellules de l'en-tête */
+    .table thead th {
+        font-weight: bold !important; /* Gras */
+    }
+
+    .table-color-heading {
+        background-color: #021438 !important;
+        color: white !important; /* Couleur du texte */
+    }
+
+    .styled-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+    }
+
+    .styled-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .styled-table tr:hover {
+        background-color: #f2f2f2;
+    }
+    /* Style pour la couleur de fond de l'en-tête */
+    .table-color-heading {
+        background-color: white !important;
+        color: white !important; /* Couleur du texte */
+    }
+
+
+    /* Style pour les cellules du corps de tableau */
+    .table tbody th,
+    .table tbody td {
+        font-size: 14px !important; /* Taille de la police */
+        color: #333 !important; /* Couleur du texte */
+    }
+
+    /* Style pour les cellules de l'en-tête */
+    .table thead th {
+        font-weight: bold !important; /* Gras */
+    }
+
+
+    /* Style pour les actions */
+    .actions-header {
+        text-align: center !important; /* Alignement centré */
+    }
+
+    .modal-dialog {
+        max-width: 500px;
+        margin: 30px auto;
+    }
+
+    .card-title {
+        color: #021438; /* Couleur du texte */
+        font-size: 29px; /* Taille de la police */
+        font-weight: bold; /* Gras */
+        margin-bottom: 20px; /* Espacement en bas */
+        text-transform: uppercase; /* Convertit le texte en majuscules */
+        /* Ombre du texte */
+        letter-spacing: 1px; /* Espacement des lettres */
+        /* Bordure inférieure */
+        padding-bottom: 10px; /* Espacement en bas */
+    }
+
+    .icon-color {
+        color: #22a6b3 !important; /* Couleur spécifiée */
+    }
+
+    .card-title {
+        margin-right: 10px; /* Espacement entre l'icône et le texte */
+        color: #021438; /* Couleur de l'icône */
+    }
+
+    .modal-header i {
+        color: #007bff; /* Couleur de l'icône */
+        margin-right: 5px; /* Espacement entre l'icône et le texte */
+    }
+
+    .modal-title {
+        color: #007bff;
+    }
+
+
+
+
+
+
+    .modal-content {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        color: #ffffff;
+        border-radius: 10px 10px 0 0;
+    }
+
+        .modal-header h5 {
+            margin: 0;
+        }
+
+    .modal-body {
+        padding: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            font-weight: bold;
+            color: #021438;
+        }
+
+    .form-control {
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+        .form-control:focus {
+            border-color: #021438;
+            box-shadow: none;
+        }
+
+    .modal-footer {
+        border-top: none;
+        padding: 20px 30px;
+        justify-content: flex-end;
+    }
+
+    .btn-primary {
+        background-color: #021438;
+        border-color: #021438;
+        padding: 10px 20px;
+    }
+
+        .btn-primary:hover {
+            background-color: #023b6e;
+            border-color: #023b6e;
+        }
+
+    .btn-secondary {
+        background-color: #ffffff;
+        color: #021438;
+        border-color: #021438;
+        padding: 10px 20px;
+    }
+
+        .btn-secondary:hover {
+            background-color: #f0f0f0;
+        }
+
+    .close {
+        color: #ffffff;
+        opacity: 0.7;
+    }
+
+        .close:hover {
+            opacity: 1;
+        }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .search-box {
+        width: fit-content;
+        height: fit-content;
+        position: relative;
+    }
+
+    .input-search {
+        height: 50px;
+        width: 50px;
+        border-style: none;
+        padding: 10px;
+        font-size: 18px;
+        letter-spacing: 2px;
+        outline: none;
+        border-radius: 25px;
+        transition: all .5s ease-in-out;
+        background-color: #0056b3;
+        padding-right: 40px;
+        color: #ffffff;
+    }
+
+        .input-search::placeholder {
+            color: rgba(255,255,255,.5);
+            font-size: 18px;
+            letter-spacing: 2px;
+            font-weight: 100;
+        }
+
+    .btn-search {
+        width: 50px;
+        height: 50px;
+        border-style: none;
+        font-size: 20px;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+        border-radius: 50%;
+        position: absolute;
+        right: 0px;
+        color: #ffffff;
+        background-color: transparent;
+        pointer-events: painted;
+    }
+
+        .btn-search:focus ~ .input-search {
+            width: 300px;
+            border-radius: 0px;
+            background-color: #021438;
+            border-bottom: 1px solid rgba(255,255,255,.5);
+            transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+        }
+
+    .input-search:focus {
+        width: 300px;
+        border-radius: 0px;
+        background-color: #021438;
+        border-bottom: 1px solid rgba(255,255,255,.5);
+        transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+    }
+
+    .edit-btn,
+    .delete-btn {
+        background-color: #021438; /* Dark blue background */
+        color: #fff; /* White text color */
+        border: none; /* No border */
+        padding: 8px 15px; /* Padding */
+        border-radius: 25px; /* Rounded corners */
+        cursor: pointer; /* Cursor style */
+        font-family: 'Arial', sans-serif; /* Font family */
+        font-weight: bold; /* Bold text */
+        text-transform: uppercase; /* Uppercase text */
+        transition: all 0.3s ease; /* Smooth transition */
+    }
+
+        .edit-btn:hover,
+        .delete-btn:hover {
+            background-color: #22a6b3; /* Orange background on hover */
+            transform: scale(1.05); /* Scale up on hover */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+        }
+
+        .edit-btn .fas,
+        .delete-btn .fas {
+            margin-right: 5px; /* Spacing between icon and text */
+        }
+
+</style>
+
+<style>
+
+
+    .card {
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .card-title {
+        font-size: 24px;
+        margin: 0;
+    }
+
+    .icon-color .custom-icon img {
+        width: 30px;
+        height: 30px;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+    .search-box {
+        align-items: center;
+    }
+
+    .btn-search {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 18px;
+    }
+
+    .input-search {
+        border: none;
+        border-radius: 20px;
+        padding: 5px 10px;
+        font-size: 14px;
+        margin-left: 10px;
+    }
+
+    .single_subject {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+        .single_subject:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+    .subject_icon {
+        font-size: 45px;
+        color: #007bff;
+    }
+
+        .subject_icon i {
+            margin: 0 5px;
+        }
+
+    .subject_content .subject_title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 15px;
+        color: #0056b3; /* Couleur bleue plus foncée pour les titres des sujets */
+    }
+
+    .subject_content .text {
+        font-size: 14px;
+        color: #777;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+        padding: 10px 25px;
+        border-radius: 50px;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .blue-text {
+        color: #0056b3; 
+    }
+</style>
+
+<body class="  ">
+
+
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <!-- Wrapper Start -->
+    <div class="wrapper">
+        <div class="iq-sidebar  sidebar-default with-background ">
+            <div class="iq-sidebar-logo d-flex align-items-end justify-content-between">
+                <a href="@Url.Action("ManagerDashboard", "Home")" class="header-logo">
+                    <img src="~/images/iat.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                    <img src="~/images/iat.png" class="img-fluid rounded-normal d-none sidebar-light-img" alt="logo">
+                    <span></span>
+                </a>
+                <div class="side-menu-bt-sidebar-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-light wrapper-menu" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="data-scrollbar" data-scroll="1">
+                <nav class="iq-sidebar-menu">
+                    <ul id="iq-sidebar-toggle" class="side-menu">
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("ManagerDashboard", "Home")">
+                                <img src="~/images/menu.gif" alt="Dashboard Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="px-3 pt-3 pb-2">
+                            <span class="text-uppercase small font-weight-bold" style="color: #6c757d;"></span>
+                        </li>
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("GestionSujets", "Home")">
+                                <img src="~/images/task.gif" alt="Gestion Sujets Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">Gestion des Sujets</span>
+                            </a>
+                        </li>
+                        <li class="px-3 pt-3 pb-2">
+                            <span class="text-uppercase small font-weight-bold" style="color: #6c757d;"></span>
+                        </li>
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("Tests", "Home")">
+                                <img src="~/images/test.gif" alt="Dashboard Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">gestion des tests</span>
+                            </a>
+                        </li>
+                        <li class="px-3 pt-3 pb-2">
+                            <span class="text-uppercase small font-weight-bold" style="color: #6c757d;"></span>
+                        </li>
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("tablesujets", "Home")">
+                                <img src="~/images/test.gif" alt="Dashboard Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">SUJETS APPROUVÉS</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="pt-5 pb-5"></div>
+            </div>
+
+
+        </div>
+        <div class="iq-top-navbar">
+            <div class="iq-navbar-custom">
+                <nav class="navbar navbar-expand-lg navbar-light p-0">
+                    <div class="side-menu-bt-sidebar">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary wrapper-menu" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                            </svg>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto navbar-list align-items-center">
+                                <li class="nav-item nav-icon dropdown">
+                                    <a href="#" class="search-toggle dropdown-toggle" id="notification-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="custom-icon" width: 30px;>
+                                            <img src="/images/notification.png" alt="Image icône">
+                                        </span>
+                                        <span class="bg-primary"></span>
+                                    </a>
+                                    <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="notification-dropdown">
+                                        <div class="card shadow-none m-0 border-0">
+                                            <div class="p-3 card-header-border">
+                                                <h6 class="text-center">
+                                                    Notifications
+                                                </h6>
+                                            </div>
+                                            <div class="card-body overflow-auto card-header-border p-0 card-body-list" style="max-height: 500px;">
+                                                <ul class="dropdown-menu-1 overflow-auto list-style-1 mb-0" id="notificationList">
+                                                </ul>
+                                            </div>
+                                            <div class="card-footer text-muted p-3">
+                                                <p class="mb-0 text-primary text-center font-weight-bold">Show all notifications</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="nav-item nav-icon search-content">
+                                    <a href="#" class="search-toggle rounded" id="dropdownSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <svg class="svg-icon text-secondary" id="h-suns" height="25" width="25" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                        </svg>
+                                    </a>
+                                    <div class="iq-search-bar iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownSearch">
+                                        <form action="#" class="searchbox p-2">
+                                            <div class="form-group mb-0 position-relative">
+                                                <input type="text" class="text search-input font-size-12" placeholder="type here to search...">
+                                                <a href="#" class="search-link">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </li>
+                                <li class="nav-item nav-icon dropdown">
+                                    <a href="#" class="nav-item nav-icon dropdown-toggle pr-0 search-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="~/images/user (4).png" class="img-fluid avatar-rounded" alt="user" height="10">
+                                        <span class="mb-0 ml-2 user-name">Arij Hajjaji</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-01-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <a href="@Url.Action("GestionSujets", "Home")">My Profile</a>
+
+                                        </li>
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-02-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                            <a href="../app/user-profile-edit.html">Edit Profile</a>
+                                        </li>
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-03-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            <a href="../app/user-account-setting.html">Account Settings</a>
+                                        </li>
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-04-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                            </svg>
+                                            <a href="../app/user-privacy-setting.html">Privacy Settings</a>
+                                        </li>
+                                        <li class="dropdown-item  d-flex svg-icon border-top">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-05-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                            </svg>
+                                            <a href="@Url.Action("Logout", "Auth", new { returnUrl = "/Home/SeConnecter" })">Logout</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="content-page">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">
+                                        <span class="custom-icon">
+                                            <img src="/images/task.gif" alt="Image icône" class="icon-image">
+                                        </span>
+                                        <span class="blue-text">Liste des Sujets Approuvés</span>
+                                    </h4>
+                                </div>
+                                <div class="search-box d-flex justify-content-end">
+                                    <form id="searchForm">
+                                        <button type="submit" class="btn-search"><i class="fas fa-search"></i></button>
+                                        <input type="text" class="input-search" placeholder="Type to Search...">
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-8">
+                                        <div class="section_title text-center pb-25">
+                                            <h3 class="main_title"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="validated-jobs-container">
+                                    <!-- Les sujets validés seront insérés ici -->
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 text-center pt-60">
+                                        <a href="job-list.html" class="btn btn-primary">Voir plus de catégories</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wrapper End-->
+        <footer class="iq-footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item"><a href="../backend/privacy-policy.html">Privacy Policy</a></li>
+                            <li class="list-inline-item"><a href="../backend/terms-of-service.html">Terms of Use</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <span class="mr-1">
+                            Copyright
+                            <script>document.write(new Date().getFullYear())</script>© <a href="#" class="">Innov-Alliance-Tech</a>
+                            All Rights Reserved.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Ajoutez la référence à la bibliothèque DataTables -->
+
+        </footer>    <!-- Backend Bundle JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+        <script>
+            var validatedSubjectsData; // Variable globale pour stocker les sujets validés
+
+            // Tableau des icônes disponibles
+            var iconClasses = [
+                'fas fa-file-alt', 'fas fa-info-circle', 'fas fa-book',
+                'fas fa-briefcase', 'fas fa-tasks', 'fas fa-lightbulb'
+            ];
+
+            function loadValidatedSubjects() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/StageOffer/approved',
+                    success: function (validatedSubjects) {
+                        console.log('Sujets approuvés récupérés :', validatedSubjects);
+                        validatedSubjectsData = validatedSubjects; // Stocker les sujets validés dans la variable globale
+                        displayValidatedSubjects(validatedSubjects);
+                    },
+                    error: function (error) {
+                        console.error('Erreur lors de la récupération des sujets approuvés :', error);
+                    }
+                });
+            }
+
+            function loadUsersCountByStageOfferId(stageOfferId, callback) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/Form/count/' + stageOfferId,
+                    success: function (count) {
+                        callback(count);
+                    },
+                    error: function (error) {
+                        console.error('Erreur lors de la récupération du nombre d\'utilisateurs :', error);
+                        callback(0); // En cas d'erreur, retourner 0
+                    }
+                });
+            }
+
+            function displayValidatedSubjects(validatedSubjects) {
+                var validatedContainer = $('#validated-jobs-container');
+                validatedContainer.empty();
+
+                validatedSubjects.forEach(function (subject) {
+                    // Sélectionner une icône aléatoire
+                    var randomIconClass = iconClasses[Math.floor(Math.random() * iconClasses.length)];
+
+                    // Charger le nombre d'utilisateurs pour chaque sujet
+                    loadUsersCountByStageOfferId(subject.id, function (count) {
+                        var subjectHTML = '<div class="col-lg-4 col-sm-6">' +
+                            '<div class="single_subject text-center mt-30" onclick="window.location.href=\'@Url.Action("Gestioncandidat", "Home")?id=' + subject.id + '\'">' +
+                            '<div class="subject_icon">' +
+                            '<i class="' + randomIconClass + '"></i>' +
+                            '</div>' +
+                            '<div class="subject_content">' +
+                            '<h4 class="subject_title">' + subject.titre + '</h4>' +
+
+                            '<p class="text"><i class="fa fa-users"></i> Nombre de postulants : ' + count + '</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+
+                        validatedContainer.append(subjectHTML);
+                    });
+                });
+            }
+
+            function displayUsers(users) {
+                var usersContainer = $('#users-container');
+                usersContainer.empty();
+
+                users.forEach(function (user) {
+                    var userHTML = '<div class="user-item">' +
+                        '<p>Prénom : ' + user.prenom + '</p>' +
+                        '<p>Nom : ' + user.nom + '</p>' +
+                        '<p>Email : ' + user.email + '</p>' +
+                        '<p>Téléphone : ' + user.telephone + '</p>' +
+                        '</div>';
+
+                    usersContainer.append(userHTML);
+                });
+            }
+
+            $(document).ready(function () {
+                loadValidatedSubjects();
+            });
+        </script>
+
+
+
+        <script src="~/assets/js/backend-bundle.min.js"></script>
+        <!-- Chart Custom JavaScript -->
+        <script src="~/assets/js/customizer.js"></script>
+
+        <script src="~/assets/js/sidebar.js"></script>
+
+        <!-- Flextree Javascript-->
+        <script src="~/assets/js/flex-tree.min.js"></script>
+        <script src="~/assets/js/tree.js"></script>
+
+        <!-- Table Treeview JavaScript -->
+        <script src="~/assets/js/table-treeview.js"></script>
+
+        <!-- SweetAlert JavaScript -->
+        <script src="~/assets/js/sweetalert.js"></script>
+
+        <!-- Vectoe Map JavaScript -->
+        <script src="~/assets/js/vector-map-custom.js"></script>
+
+        <!-- Chart Custom JavaScript -->
+        <script src="~/assets/js/chart-custom.js"></script>
+        <script src="~/assets/js/charts/01.js"></script>
+        <script src="~/assets/js/charts/02.js"></script>
+
+        <!-- slider JavaScript -->
+        <script src="~/assets/js/slider.js"></script>
+
+        <!-- Emoji picker -->
+        <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+        <!-- app JavaScript -->
+        <script src="~/assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,430 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Innov-Alliance-Tech</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<style>
+
+    /* Style pour le bouton de retour à la page d'accueil */
+    /* Style pour le bouton de retour à la page d'accueil */
+    /* Style pour le bouton de retour à la page d'accueil */
+    #return-home-btn {
+        background-color: #007bff; /* Bleu */
+        border-color: #007bff;
+        color: white;
+        margin-top: 20px; /* Espacement au-dessus du bouton */
+    }
+
+        /* Style pour l'icône dans le bouton */
+        #return-home-btn i {
+            margin-right: 8px; /* Espacement entre l'icône et le texte */
+        }
+
+    /* Style pour le conteneur du message */
+    #test-submitted-message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh; /* Hauteur de l'écran */
+    }
+
+    /* Assure que la carte utilise Flexbox pour la mise en page */
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Espace entre le contenu et le pied de page */
+    }
+
+    /* Style pour le pied de page de la carte */
+    .card-footer {
+        background: transparent;
+        border: none;
+        padding: 0; /* Enlève le padding par défaut */
+    }
+
+
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+    /* Style pour les boutons de téléchargement de fichier */
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        margin-top: 10px; /* Ajout d'un espace entre le champ et le bouton */
+    }
+
+        .file-input-wrapper input[type="file"] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    .file-input-label {
+        background-color: #f0f0f0; /* Couleur gris clair */
+        color: #333; /* Couleur de texte */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+        transition: background-color 0.3s;
+    }
+
+        .file-input-label:hover {
+            background-color: #ddd; /* Couleur gris plus foncé au survol */
+        }
+
+    /* Style pour les icônes à côté des boutons */
+    .file-icon {
+        margin-right: 10px;
+    }
+
+    /* Style pour le nom du fichier */
+    .file-name {
+        display: inline-block;
+        margin-left: 10px;
+        color: #007bff; /* Couleur du lien du nom de fichier */
+        font-weight: bold;
+    }
+
+    *
+    .custom-btn {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .custom-btn:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    .custom-btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+        .custom-btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .custom-btn-hide {
+        background-color: #ffff;
+        border: none;
+        color: red;
+        padding: 0.375rem 0.75rem;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+    }
+
+        .custom-btn-hide:hover {
+            background-color: #ffff;
+        }
+
+        .custom-btn-hide i {
+            pointer-events: none;
+        }
+</style>
+
+
+
+<body class=" ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <div class="wrapper">
+        <section class="login-content">
+            <div class="container h-100">
+                <div class="row align-items-center justify-content-center h-100">
+                    <div class="col-md-8">
+                        <div class="card p-3">
+                            <div class="card-body">
+                                <div class="auth-logo">
+                                    <img src="~/images/iat.png" class="img-fluid rounded-normal darkmode-logo" alt="logo">
+                                    <img src="~/images/iat.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                                </div>
+                                <h3 class="mb-3 font-weight-bold text-center">Test de candidature</h3>
+                                <p class="text-center text-secondary mb-4">Bienvenue ! Nous vous souhaitons la meilleure des chances pour votre test.</p>
+                                <hr>
+                                <p><i class="fas fa-stopwatch" style="color: red;"></i> Le test est soumis à un chronométrage strict une fois commencé. Assurez-vous donc de répondre avec soin à chaque question.</p>
+                                <p><i class="fas fa-desktop" style="color: #007bff;"></i> Vous ne pouvez pas naviguer entre les fenêtres pendant le test. Assurez-vous d'avoir une connexion Internet stable et d'être tranquille.</p>
+                                <p><i class="fas fa-check-circle" style="color: #28a745;"></i> Après avoir répondu à toutes les questions, cliquez sur le bouton "Soumettre le test" pour envoyer vos réponses.</p>
+                                <p><i class="fas fa-thumbs-up" style="color: #ffc107;"></i> Bonne chance !</p>
+                                <!-- Insérez ici le contenu de votre test, par exemple un formulaire de questions -->
+                                <div class="text-center">
+                                    <button id="submit-test-btn" class="btn btn-primary custom-btn">Commencer le test</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal de confirmation centré -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                    <button type="button" class="btn-close custom-btn-hide" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Êtes-vous sûr de vouloir commencer le test ? Une fois commencé, le chronométrage sera activé.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary custom-btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary custom-btn"  id="confirm-start-test">Commencer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Conteneur pour le message de test soumis -->
+    <!-- Conteneur pour le message de test soumis -->
+    <div id="test-submitted-message" style="display:none;">
+        <div class="container h-100">
+            <div class="row align-items-center justify-content-center h-100">
+                <div class="col-md-6">
+                    <div class="card p-4 d-flex flex-column justify-content-between text-center">
+                        <div class="card-body">
+                            <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                            <h1>Test déjà soumis</h1>
+                            <p>Vous avez déjà soumis le test. Merci!</p>
+                        </div>
+                        <div class="card-footer text-end">
+                            <button id="return-home-btn" class="btn btn-primary">
+                                <i class="fas fa-home"></i> Retour à la page d'accueil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="fraud-container" style="display:none;">
+        <div class="container h-100">
+            <div class="row align-items-center justify-content-center h-100">
+                <div class="col-md-6">
+                    <div class="card p-4 d-flex flex-column justify-content-between text-center">
+                        <div class="card-body">
+                            <i class="fas fa-times-circle fa-3x text-danger mb-3"></i>
+                            <h1>Fraude détectée</h1>
+                            <p>Une activité suspecte a été détectée. Vous ne pouvez pas poursuivre le test.</p>
+                        </div>
+                        <div class="card-footer text-end">
+                            <button id="return-home-btn-fraud" class="btn btn-primary">
+                                <i class="fas fa-home"></i> Retour à la page d'accueil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const subjectId = urlParams.get('subjectId');
+
+            // Vérifier si le test a été soumis
+            var testSubmitted = localStorage.getItem('testSubmitted') === 'true';
+
+            // Vérifier si une fraude a été détectée
+            var fraudDetected = localStorage.getItem('fraud') === 'true';
+
+            // Si le test a été soumis, afficher le conteneur du message de soumission
+            if (testSubmitted) {
+                $('#test-submitted-message').show(); // Affiche le conteneur de message
+                $('.login-content').hide(); // Cache le conteneur du test
+                $('#return-home-btn').click(function () {
+                    window.location.href = '/'; // Redirection vers la page d'accueil
+                });
+                return; // Arrête l'exécution du reste du script
+            }
+
+            // Si une fraude a été détectée et que le test n'a pas été soumis
+            if (fraudDetected) {
+                $('#fraud-container').show(); // Affiche le conteneur de fraude
+                $('.login-content').hide(); // Cache le conteneur du test
+                $('#return-home-btn-fraud').click(function () {
+                    window.location.href = '/'; // Redirection vers la page d'accueil
+                });
+                return; // Arrête l'exécution du reste du script
+            }
+
+            // Récupérer l'ID de l'offre depuis l'URL
+            const path = window.location.pathname;
+            // Extraire l'ID depuis le chemin de l'URL
+            const segments = path.split('/');
+            //const offerId = segments[segments.length - 1];
+
+            // Stocker offerId directement dans localStorage sous le nom 'subjectId'
+            if (subjectId) {
+                localStorage.setItem('subjectId', subjectId);
+                console.log('Subject ID stocké dans localStorage :', subjectId); // Vérification
+            } else {
+                console.log('Subject ID non trouvé dans l\'URL.');
+            }
+            // Fonction pour démarrer le chronomètre
+            function startTimer() {
+                // Code pour démarrer le chronomètre ici
+                // Vous pouvez utiliser setTimeout ou setInterval pour mettre à jour le temps restant
+            }
+
+            // Afficher le modal de confirmation lorsqu'on clique sur le bouton de soumission du test
+            $('#submit-test-btn').click(function (event) {
+                event.preventDefault(); // Empêche la redirection immédiate
+                $('#confirmationModal').modal('show'); // Affiche le modal centré
+            });
+
+            // Fonction pour entrer en mode plein écran
+            function enterFullScreen() {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari et Opera
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                    document.documentElement.msRequestFullscreen();
+                }
+            }
+
+            // Fonction pour quitter le mode plein écran
+            function exitFullScreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { // Chrome, Safari et Opera
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
+            }
+
+            // Rediriger l'utilisateur lorsqu'il confirme qu'il veut commencer le test
+            // Rediriger l'utilisateur lorsqu'il confirme qu'il veut commencer le test
+            $('#confirm-start-test').click(function () {
+                // Récupérer subjectId depuis localStorage
+                const subjectId = localStorage.getItem('subjectId');
+
+                console.log('Subject ID récupéré depuis localStorage :', subjectId); // Vérification
+
+                if (subjectId) {
+                    // Démarrer le chronomètre
+                    startTimer();
+
+                    // Redirection vers la page de test avec subjectId
+                    window.location.href = '/Home/test?id=' + subjectId;
+                } else {
+                    alert('L\'ID du sujet est manquant.');
+                }
+            });
+            // Empêcher la sortie du mode plein écran avec Échap
+            $(document).keydown(function (event) {
+                if (event.key === 'Escape') {
+                    event.preventDefault(); // Empêche l'action par défaut de la touche Échap
+                }
+            });
+
+            // Masquer le modal lorsqu'on clique sur le bouton "Annuler"
+            $('.btn-secondary').click(function () {
+                $('#confirmationModal').modal('hide'); // Masque le modal
+            });
+
+            // Masquer le modal lorsqu'on clique sur le bouton "Hide"
+            $('.custom-btn-hide').click(function () {
+                $('#confirmationModal').modal('hide'); // Masque le modal
+            });
+        });
+    </script>
+
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="~/assets/js/backend-bundle.min.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/customizer.js"></script>
+
+    <script src="~/assets/js/sidebar.js"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="~/assets/js/flex-tree.min.js"></script>
+    <script src="~/assets/js/tree.js"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="~/assets/js/table-treeview.js"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="~/assets/js/sweetalert.js"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="~/assets/js/vector-map-custom.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/chart-custom.js"></script>
+    <script src="~/assets/js/charts/01.js"></script>
+    <script src="~/assets/js/charts/02.js"></script>
+
+    <!-- slider JavaScript -->
+    <script src="~/assets/js/slider.js"></script>
+
+    <!-- Emoji picker -->
+    <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+</html>

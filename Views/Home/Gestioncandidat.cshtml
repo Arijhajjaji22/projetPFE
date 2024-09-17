@@ -1,0 +1,1232 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+@model App_plateforme_de_recurtement.Models.StageOffer
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Innov-Alliance-Tech </title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Ajoutez la référence à la bibliothèque DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
+</head>
+<style>
+    /* Styles pour le graphique circulaire */
+    .rating-chart-container {
+        width: 60px; /* Ajustez selon vos besoins */
+        height: 60px; /* Ajustez selon vos besoins */
+        position: relative;
+    }
+
+    .rating-chart {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Style pour le message lorsqu'il n'y a pas de candidats */
+    .no-candidats-message {
+        text-align: center;
+        font-size: 1.2em;
+        color: #ff0000; /* Couleur pour le message d'erreur */
+        margin: 20px 0;
+    }
+
+    /* Masquer les boutons de recherche et de navigation lorsque le message est affiché */
+    #searchBox, #navigationButtons {
+        display: none;
+    }
+
+    /* Afficher les boutons de recherche et de navigation lorsque des candidats sont présents */
+    .has-candidats #searchBox, .has-candidats #navigationButtons {
+        display: flex;
+    }
+
+
+    .accept-btn,
+    .reject-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        color: #28a745; /* Couleur verte pour "Accepter" */
+        margin-right: 10px; /* Espacement entre les boutons */
+    }
+
+    .star-rating {
+        display: flex;
+        direction: rtl;
+        font-size: 2rem;
+    }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .star-rating input[type="radio"]:checked ~ label {
+            color: #f5b301;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #f5b301;
+        }
+    .reject-btn {
+        color: #dc3545; /* Couleur rouge pour "Refuser" */
+    }
+
+    .rating-stars .fa-star.filled {
+        color: #007bff; /* Couleur bleue pour les étoiles remplies */
+    }
+
+    .green-button {
+        color: green; /* Optionnel: pour changer la couleur du texte à blanc */
+    }
+
+    .texttext {
+        font-size: 18px;
+        color: #333;
+        vertical-align: middle;
+    }
+
+    .custom-icon img {
+        width: 30px; /* ajustez la taille selon vos besoins */
+        height: auto; /* permet de conserver les proportions de l'image */
+        display: inline-block; /* assure que l'image est alignée avec le texte */
+        margin-right: 10px; /* ajustez la marge pour séparer l'image du texte */
+    }
+
+    .custom-icone img {
+        width: 50px; /* ajustez la taille selon vos besoins */
+        height: auto; /* permet de conserver les proportions de l'image */
+        display: inline-block; /* assure que l'image est alignée avec le texte */
+        margin-right: 10px; /* ajustez la marge pour séparer l'image du texte */
+    }
+
+    .role-admin {
+        color: red; /* Couleur rouge pour le rôle d'administrateur */
+    }
+
+    .role-manager {
+        color: blue; /* Couleur bleue pour le rôle de manager */
+    }
+
+    .role-rh {
+        color: green; /* Couleur verte pour le rôle de R&H */
+    }
+
+
+    .error-input {
+        border-color: red !important; /* Couleur de la bordure en rouge */
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+        .styled-table th, .styled-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            padding: 12px; /* Ajustement du rembourrage */
+            text-align: left;
+            max-width: 300px;
+        }
+
+    .table tbody th,
+    .table tbody td {
+        font-size: 14px !important; /* Taille de la police */
+        color: #333 !important; /* Couleur du texte */
+    }
+
+    /* Style pour les cellules de l'en-tête */
+    .table thead th {
+        font-weight: bold !important; /* Gras */
+    }
+
+    .table-color-heading {
+        background-color: #021438 !important;
+        color: white !important; /* Couleur du texte */
+    }
+
+    .styled-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+    }
+
+    .styled-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .styled-table tr:hover {
+        background-color: #f2f2f2;
+    }
+    /* Style pour la couleur de fond de l'en-tête */
+    .table-color-heading {
+        background-color: white !important;
+        color: white !important; /* Couleur du texte */
+    }
+
+
+    /* Style pour les cellules du corps de tableau */
+    .table tbody th,
+    .table tbody td {
+        font-size: 14px !important; /* Taille de la police */
+        color: #333 !important; /* Couleur du texte */
+    }
+
+    /* Style pour les cellules de l'en-tête */
+    .table thead th {
+        font-weight: bold !important; /* Gras */
+    }
+
+
+    /* Style pour les actions */
+    .actions-header {
+        text-align: center !important; /* Alignement centré */
+    }
+
+    .modal-dialog {
+        max-width: 500px;
+        margin: 30px auto;
+    }
+
+    .card-title {
+        color: #021438; /* Couleur du texte */
+        font-size: 29px; /* Taille de la police */
+        font-weight: bold; /* Gras */
+        margin-bottom: 20px; /* Espacement en bas */
+        text-transform: uppercase; /* Convertit le texte en majuscules */
+        /* Ombre du texte */
+        letter-spacing: 1px; /* Espacement des lettres */
+        /* Bordure inférieure */
+        padding-bottom: 10px; /* Espacement en bas */
+    }
+
+    .icon-color {
+        color: #1a69bf !important; /* Couleur spécifiée */
+    }
+
+    .card-title {
+        margin-right: 10px; /* Espacement entre l'icône et le texte */
+        color: #021438; /* Couleur de l'icône */
+    }
+
+    .modal-header i {
+        color: #007bff; /* Couleur de l'icône */
+        margin-right: 5px; /* Espacement entre l'icône et le texte */
+    }
+
+    .modal-title {
+        color: #007bff;
+    }
+
+
+
+
+
+
+    .modal-content {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        color: #ffffff;
+        border-radius: 10px 10px 0 0;
+    }
+
+        .modal-header h5 {
+            margin: 0;
+        }
+
+    .modal-body {
+        padding: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            font-weight: bold;
+            color: #021438;
+        }
+
+    .form-control {
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+        .form-control:focus {
+            border-color: #021438;
+            box-shadow: none;
+        }
+
+    .modal-footer {
+        border-top: none;
+        padding: 20px 30px;
+        justify-content: flex-end;
+    }
+
+    .btn-primary {
+        background-color: #021438;
+        border-color: #021438;
+        padding: 10px 20px;
+    }
+
+        .btn-primary:hover {
+            background-color: #023b6e;
+            border-color: #023b6e;
+        }
+
+    .btn-secondary {
+        background-color: #ffffff;
+        color: #021438;
+        border-color: #021438;
+        padding: 10px 20px;
+    }
+
+        .btn-secondary:hover {
+            background-color: #f0f0f0;
+        }
+
+    .close {
+        color: #ffffff;
+        opacity: 0.7;
+    }
+
+        .close:hover {
+            opacity: 1;
+        }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .search-box {
+        width: fit-content;
+        height: fit-content;
+        position: relative;
+    }
+
+    .input-search {
+        height: 50px;
+        width: 50px;
+        border-style: none;
+        padding: 10px;
+        font-size: 18px;
+        letter-spacing: 2px;
+        outline: none;
+        border-radius: 25px;
+        transition: all .5s ease-in-out;
+        background-color: #22a6b3;
+        padding-right: 40px;
+        color: #ffffff;
+    }
+
+        .input-search::placeholder {
+            color: rgba(255,255,255,.5);
+            font-size: 18px;
+            letter-spacing: 2px;
+            font-weight: 100;
+        }
+
+    .btn-search {
+        width: 50px;
+        height: 50px;
+        border-style: none;
+        font-size: 20px;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+        border-radius: 50%;
+        position: absolute;
+        right: 0px;
+        color: #ffffff;
+        background-color: transparent;
+        pointer-events: painted;
+    }
+
+        .btn-search:focus ~ .input-search {
+            width: 300px;
+            border-radius: 0px;
+            background-color: #021438;
+            border-bottom: 1px solid rgba(255,255,255,.5);
+            transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+        }
+
+    .input-search:focus {
+        width: 300px;
+        border-radius: 0px;
+        background-color: #021438;
+        border-bottom: 1px solid rgba(255,255,255,.5);
+        transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+    }
+
+    .edit-btn,
+    .delete-btn {
+        background-color: #021438; /* Dark blue background */
+        color: #fff; /* White text color */
+        border: none; /* No border */
+        padding: 8px 15px; /* Padding */
+        border-radius: 25px; /* Rounded corners */
+        cursor: pointer; /* Cursor style */
+        font-family: 'Arial', sans-serif; /* Font family */
+        font-weight: bold; /* Bold text */
+        text-transform: uppercase; /* Uppercase text */
+        transition: all 0.3s ease; /* Smooth transition */
+    }
+
+        .edit-btn:hover,
+        .delete-btn:hover {
+            background-color: #22a6b3; /* Orange background on hover */
+            transform: scale(1.05); /* Scale up on hover */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+        }
+
+        .edit-btn .fas,
+        .delete-btn .fas {
+            margin-right: 5px; /* Spacing between icon and text */
+        }
+
+</style>
+<style>
+
+    #searchBox {
+        width: 100%;
+        padding: 20px;
+    }
+
+    #searchForm {
+        margin-left: auto;
+    }
+
+    .progress-container {
+        position: relative;
+        height: 30px;
+        width: 100%;
+        background-color: #f3f3f3;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .progress-bar {
+        height: 100%;
+        border-radius: 5px;
+        text-align: center;
+        line-height: 30px; /* Centrer le texte verticalement */
+        color: white;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: width 0.3s ease; /* Transition pour un effet fluide */
+    }
+
+    .progress-value {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-weight: bold;
+    }
+
+    /* Couleurs pour les différents états */
+    .state-passable {
+        background-color: #ff9800; /* Orange pour Passable */
+    }
+
+    .state-bien {
+        background-color: #4caf50; /* Vert pour Bien */
+    }
+
+    .state-excellent {
+        background-color: #2196f3; /* Bleu pour Excellent */
+    }
+
+
+</style>
+
+
+<body class="  ">
+
+
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <!-- Wrapper Start -->
+    <div class="wrapper">
+        <div class="iq-sidebar  sidebar-default with-background ">
+            <div class="iq-sidebar-logo d-flex align-items-end justify-content-between">
+                <a href="@Url.Action("ManagerDashboard", "Home")" class="header-logo">
+                    <img src="~/images/iat.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                    <img src="~/images/iat.png" class="img-fluid rounded-normal d-none sidebar-light-img" alt="logo">
+                    <span></span>
+                </a>
+                <div class="side-menu-bt-sidebar-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-light wrapper-menu" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="data-scrollbar" data-scroll="1">
+                <nav class="iq-sidebar-menu">
+                    <ul id="iq-sidebar-toggle" class="side-menu">
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("ManagerDashboard", "Home")">
+                                <img src="~/images/menu.gif" alt="Dashboard Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="px-3 pt-3 pb-2">
+                            <span class="text-uppercase small font-weight-bold" style="color: #6c757d;"></span>
+                        </li>
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("GestionSujets", "Home")">
+                                <img src="~/images/task.gif" alt="Gestion Sujets Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">Gestion des Sujets</span>
+                            </a>
+                        </li>
+                        <li class="px-3 pt-3 pb-2">
+                            <span class="text-uppercase small font-weight-bold" style="color: #6c757d;"></span>
+                        </li>
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("Tests", "Home")">
+                                <img src="~/images/test.gif" alt="Dashboard Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">gestion des tests</span>
+                            </a>
+                        </li>
+                        <li class="px-3 pt-3 pb-2">
+                            <span class="text-uppercase small font-weight-bold" style="color: #6c757d;"></span>
+                        </li>
+                        <li class="sidebar-layout">
+                            <a href="@Url.Action("tablesujets", "Home")">
+                                <img src="~/images/test.gif" alt="Dashboard Image" style="width: 30px; height: 30px;">
+                                <span class="ml-2" style="color: #6c757d; font-weight: bold;">SUJETS APPROUVÉS</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="pt-5 pb-5"></div>
+            </div>
+
+
+        </div>
+        <div class="iq-top-navbar">
+            <div class="iq-navbar-custom">
+                <nav class="navbar navbar-expand-lg navbar-light p-0">
+                    <div class="side-menu-bt-sidebar">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary wrapper-menu" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                            </svg>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto navbar-list align-items-center">
+                                <li class="nav-item nav-icon dropdown">
+                                    <a href="#" class="search-toggle dropdown-toggle" id="notification-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="custom-icon" width: 30px;>
+                                            <img src="/images/notification.png" alt="Image icône">
+                                        </span>
+                                        <span class="bg-primary"></span>
+                                    </a>
+                                    <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="notification-dropdown">
+                                        <div class="card shadow-none m-0 border-0">
+                                            <div class="p-3 card-header-border">
+                                                <h6 class="text-center">
+                                                    Notifications
+                                                </h6>
+                                            </div>
+                                            <div class="card-body overflow-auto card-header-border p-0 card-body-list" style="max-height: 500px;">
+                                                <ul class="dropdown-menu-1 overflow-auto list-style-1 mb-0" id="notificationList">
+                                                </ul>
+                                            </div>
+                                            <div class="card-footer text-muted p-3">
+                                                <p class="mb-0 text-primary text-center font-weight-bold">Show all notifications</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="nav-item nav-icon search-content">
+                                    <a href="#" class="search-toggle rounded" id="dropdownSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <svg class="svg-icon text-secondary" id="h-suns" height="25" width="25" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                        </svg>
+                                    </a>
+                                    <div class="iq-search-bar iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownSearch">
+                                        <form action="#" class="searchbox p-2">
+                                            <div class="form-group mb-0 position-relative">
+                                                <input type="text" class="text search-input font-size-12" placeholder="type here to search...">
+                                                <a href="#" class="search-link">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </li>
+                                <li class="nav-item nav-icon dropdown">
+                                    <a href="#" class="nav-item nav-icon dropdown-toggle pr-0 search-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="~/images/user (4).png" class="img-fluid avatar-rounded" alt="user" height="10">
+                                        <span class="mb-0 ml-2 user-name">Arij Hajjaji</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-01-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <a href="@Url.Action("GestionSujets", "Home")">My Profile</a>
+
+                                        </li>
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-02-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                            <a href="../app/user-profile-edit.html">Edit Profile</a>
+                                        </li>
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-03-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            <a href="../app/user-account-setting.html">Account Settings</a>
+                                        </li>
+                                        <li class="dropdown-item d-flex svg-icon">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-04-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                            </svg>
+                                            <a href="../app/user-privacy-setting.html">Privacy Settings</a>
+                                        </li>
+                                        <li class="dropdown-item  d-flex svg-icon border-top">
+                                            <svg class="svg-icon mr-0 text-secondary" id="h-05-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                            </svg>
+                                            <a href="@Url.Action("Logout", "Auth", new { returnUrl = "/Home/SeConnecter" })">Logout</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="content-page">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">
+                                        <span class="icon-color">
+                                            <span class="custom-icone">
+                                                <img src="/images/task.gif" alt="Image icône">
+                                            </span> Liste des candidats
+                                    </h4>
+                                </div>
+                             
+                            </div>
+                            <div class="filter-box mt-3">
+                            </div>
+                            <div class="search-box d-flex justify-content-end" id="searchBox">
+                                <form id="searchForm">
+                                </form>
+                            </div>
+                            <div class="search-box d-flex justify-content-end" id="searchBox">
+                                <form id="filterForm" class="form-inline">
+                                    <!-- Filtre par date choisie -->
+                        
+                                    <!-- Filtre par nombre de lignes -->
+                                    <div class="form-group mx-2">
+                                        <label for="rowsPerPage" class="mr-2">Lignes par page:</label>
+                                        <select id="rowsPerPage" class="form-control">
+                                            <option value="1">1</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
+                                </form>
+                                <form id="searchForm" class="form-inline">
+                                    <div class="input-group">
+                                        <input type="text" id="searchInput" class="form-control" placeholder="Rechercher...">
+                                        <div class="input-group-append">
+                                            <button type="button" id="searchButton" class="btn btn-primary">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-fluid" id="formsTable">
+                                        <thead>
+                                            <tr>
+                                                <th><i class="fas fa-user icon-color"></i> Prénom</th>
+                                                <th><i class="fas fa-user icon-color"></i> Nom</th>
+                                             
+                                                <th><i class="fas fa-university icon-color"></i> Faculté</th>
+                                                <th><i class="fas fa-graduation-cap icon-color"></i> Niveau d'études</th>
+                                                <th><i class="fas fa-file-pdf icon-color"></i> CV (PDF)</th>
+                                                <th><i class="fas fa-file-pdf icon-color"></i> Lettre de motivation (PDF)</th>
+                                                <th><i class="fas fa-file-pdf icon-color"></i> Rapport de Test (PDF)</th>
+                                                <th><i class="fas fa-star icon-color"></i> Note </th>
+                                             
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Les lignes de données de la table iraient ici -->
+                                        </tbody>
+                                    </table>
+                                    <div class="d-flex justify-content-end" id="navigationButtons">
+                                        <button id="nextBtn" class="btn btn-sm">
+                                            <span class="custom-icon">
+                                                <!-- Ajouter une icône personnalisée ici -->
+                                            </span>
+                                        </button>
+                                        <button id="prevBtn" class="btn btn-sm" style="display: none;">
+                                            <span class="custom-icon">
+                                                <!-- Ajouter une icône personnalisée ici -->
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div id="noCandidatsMessage" class="no-candidats-message" style="display: none;">
+                                <i class="fas fa-exclamation-circle"></i> Aucun candidat n'a postulé à cette offre !
+                            </div>
+
+                            <div id="testFormContainer" style="display:none;">
+                                <form id="testForm">
+                                    <h2>Modifier le Test</h2>
+                                    <input type="hidden" id="testId" name="testId">
+                                    <label for="testName">Nom du Test:</label>
+                                    <input type="text" id="testName" name="testName"><br><br>
+                                    <label for="testQuestion">Question:</label>
+                                    <textarea id="testQuestion" name="testQuestion" rows="4" cols="50"></textarea><br><br>
+                                    <button type="button" onclick="saveChanges()">Enregistrer</button>
+                                    <button type="button" onclick="downloadPDF()">Télécharger en PDF</button>
+                                    <button type="button" onclick="hideForm()">Annuler</button>
+                                </form>
+                            </div>
+                            <div class="card-body">
+                                <div class="collapse" id="form-element-1">
+                                    <div class="card">
+                                        <kbd class="bg-dark">
+                                        </kbd>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modals -->
+                    <!-- Détails de l'offre -->
+                    <div class="modal fade" id="offerDetailsDialog" tabindex="-1" aria-labelledby="offerDetailsDialogLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="offerDetailsDialogLabel">Détails de l'Offre</h5>
+                                    <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </button>
+                                </div>
+                                <div class="modal-body" id="offerDetailsBody">
+                                    <!-- Les détails de l'offre seront affichés ici -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modifier l'offre -->
+                    <div class="modal fade" id="editOfferDialog" tabindex="-1" aria-labelledby="editOfferDialogLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editOfferDialogLabel"><i class="fas fa-pencil-alt icon-color"></i> Modifier l'offre</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="closeEditOfferBtn">
+                                        <i class="fas fa-times"></i> <!-- Changer l'icône du bouton close -->
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" id="editOfferId" name="editOfferId">
+                                    <div class="mb-3">
+                                        <label for="editOfferTitle" class="form-label"><i class="fas fa-heading icon-color"></i> Titre</label>
+                                        <input type="text" class="form-control" id="editOfferTitle" placeholder="Titre de l'offre">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOfferDescription" class="form-label"><i class="fas fa-align-left icon-color"></i> Description</label>
+                                        <textarea class="form-control" id="editOfferDescription" rows="3" placeholder="Description de l'offre"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOfferDomaine" class="form-label"><i class="fas fa-industry icon-color"></i> Domaine d'Activité</label>
+                                        <input type="text" class="form-control" id="editOfferDomaine" placeholder="Domaine d'activité">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOfferCompetences" class="form-label"><i class="fas fa-tasks icon-color"></i> Compétences Requises</label>
+                                        <input type="text" class="form-control" id="editOfferCompetences" placeholder="Compétences requises">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="editOfferDateDebut" class="form-label"><i class="fas fa-calendar-day icon-color"></i> Date de Début</label>
+                                            <input type="date" class="form-control" id="editOfferDateDebut">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="editOfferDateFin" class="form-label"><i class="fas fa-calendar-day icon-color"></i> Date de Fin</label>
+                                            <input type="date" class="form-control" id="editOfferDateFin">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOfferSite" class="form-label"><i class="fas fa-map-marker-alt icon-color"></i> Site</label>
+                                        <input type="text" class="form-control" id="editOfferSite" placeholder="Site de l'offre">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOfferStatus" class="form-label"><i class="fas fa-flag icon-color"></i> Statut de l'offre</label>
+                                        <select class="form-control" id="editOfferStatus">
+                                            <option value="1">Publiée</option>
+                                            <option value="0">En attente</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    <button type="button" class="btn btn-primary" id="saveOfferBtn">Enregistrer les modifications</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Validation -->
+                    <div class="modal fade" id="validationDialog" tabindex="-1" aria-labelledby="validationDialogLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="validationDialogLabel">Confirmer la suppression</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </button>
+                                </div>
+                                <div class="modal-body">
+                                    Êtes-vous sûr de vouloir supprimer cet élément ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    <button type="button" class="btn btn-primary" id="confirmDeleteBtn">Supprimer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmationModalLabel">Confirmer la note</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Êtes-vous sûr de vouloir donner <span id="starRatingText"></span> étoile(s) à ce candidat ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-primary" id="confirmButton">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- Modal -->
+            <div class="modal fade" id="editOfferDialog" tabindex="-1" aria-labelledby="editOfferDialogLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editOfferDialogLabel"><i class="fas fa-pencil-alt icon-color"></i> Modifier l'offre</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="closeEditOfferBtn">
+                                <i class="fas fa-times"></i> <!-- Changer l'icône du bouton close -->
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Ajout de l'élément input caché pour stocker l'identifiant de l'offre -->
+                            <input type="hidden" id="editOfferId" name="editOfferId">
+                            <div class="mb-3">
+                                <label for="editOfferTitle" class="form-label"><i class="fas fa-heading icon-color"></i> Titre</label>
+                                <input type="text" class="form-control" id="editOfferTitle" placeholder="Titre de l'offre">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editOfferDescription" class="form-label"><i class="fas fa-align-left icon-color"></i> Description</label>
+                                <textarea class="form-control" id="editOfferDescription" rows="3" placeholder="Description de l'offre"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editOfferDomaine" class="form-label"><i class="fas fa-industry icon-color"></i> Domaine d'Activité</label>
+                                <input type="text" class="form-control" id="editOfferDomaine" placeholder="Domaine d'activité">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editOfferCompetences" class="form-label"><i class="fas fa-tasks icon-color"></i> Compétences Requises</label>
+                                <input type="text" class="form-control" id="editOfferCompetences" placeholder="Compétences requises">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="editOfferDateDebut" class="form-label"><i class="fas fa-calendar-day icon-color"></i> Date de Début</label>
+                                    <input type="date" class="form-control" id="editOfferDateDebut">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="editOfferDateFin" class="form-label"><i class="fas fa-calendar-day icon-color"></i> Date de Fin</label>
+                                    <input type="date" class="form-control" id="editOfferDateFin">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editOfferSite" class="form-label"><i class="fas fa-map-marker-alt icon-color"></i> Site</label>
+                                <input type="text" class="form-control" id="editOfferSite" placeholder="Site de l'offre">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editOfferStatus" class="form-label"><i class="fas fa-flag icon-color"></i> Statut de l'offre</label>
+                                <select class="form-control" id="editOfferStatus">
+                                    <option value="1">Publiée</option>
+                                    <option value="0">En attente</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            <button type="button" class="btn btn-primary" id="saveEditOfferBtn">Enregistrer les modifications</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Modal -->
+
+
+    <!-- Wrapper End-->
+    <footer class="iq-footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="../backend/privacy-policy.html">Privacy Policy</a></li>
+                        <li class="list-inline-item"><a href="../backend/terms-of-service.html">Terms of Use</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <span class="mr-1">
+                        Copyright
+                        <script>document.write(new Date().getFullYear())</script>© <a href="#" class="">Innov-Alliance-Tech</a>
+                        All Rights Reserved.
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- Ajoutez la référence à la bibliothèque DataTables -->
+
+    </footer>    <!-- Backend Bundle JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var currentPage = 1;
+                var rowsPerPage = 5; // Nombre de lignes par page
+
+                function getUrlParameter(name) {
+                    var regex = new RegExp('[?&]' + name + '=([^&]*)');
+                    var results = regex.exec(window.location.search);
+                    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+                }
+
+                function searchTable() {
+                    var input = $("#searchInput").val().toLowerCase();
+                    $("#formsTable tbody tr").filter(function () {
+                        var rowText = $(this).text().toLowerCase();
+                        $(this).toggle(rowText.indexOf(input) > -1);
+                    });
+                }
+
+                function updateStarRating(formId, starRating) {
+                    $.ajax({
+                        url: '/api/Form/' + formId + '/rating',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(starRating),
+                        success: function () {
+                            console.log('Note mise à jour avec succès.');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Erreur lors de la mise à jour de la note: ' + error);
+                        }
+                    });
+                }
+
+                function showConfirmationDialog(formId, starRating) {
+                    $('#starRatingText').text(starRating);
+
+                    // Afficher le modal
+                    $('#confirmationModal').modal('show');
+
+                    // Configurer l'action pour le bouton Confirmer
+                    $('#confirmButton').off('click').on('click', function () {
+                        updateStarRating(formId, starRating);
+                        $('#confirmationModal').modal('hide');
+                    });
+                }
+
+                // Gérer les clics sur les étoiles pour afficher le dialog de confirmation
+                $('#formsTable').on('change', '.star-rating input[type="radio"]', function () {
+                    var formId = $(this).closest('tr').data('id');
+                    var starRating = $(this).val();
+                    showConfirmationDialog(formId, starRating);
+                });
+
+                $("#rowsPerPage").on("change", function () {
+                    applyPagination();
+                });
+
+                function applyPagination() {
+                    var tableBody = $('#formsTable tbody');
+                    var rows = tableBody.find('tr');
+                    var totalRows = rows.length;
+                    rowsPerPage = parseInt($("#rowsPerPage").val()) || rowsPerPage;
+
+                    rows.hide();
+
+                    var start = (currentPage - 1) * rowsPerPage;
+                    var end = start + rowsPerPage;
+
+                    rows.slice(start, end).show();
+                }
+
+                $("#searchButton").on("click", function () {
+                    searchTable();
+                });
+
+                function filterTable() {
+                    var dateFilter = $("#dateFilter").val();
+                    var actionFilter = $("#actionFilter").val();
+
+                    $("#formsTable tbody tr").each(function () {
+                        var $row = $(this);
+                        var dateChoisie = $row.find('td.date-choisie').text().toLowerCase().trim();
+                        var action = $row.find('td').last().text().toLowerCase().trim();
+
+                        var dateMatch = dateFilter === "" || dateChoisie.includes(dateFilter);
+                        var actionMatch = actionFilter === "" || action.includes(actionFilter);
+
+                        $row.toggle(dateMatch && actionMatch);
+                    });
+                }
+
+                $("#searchInput").on("keyup", function () {
+                    searchTable();
+                });
+
+                function updateUIBasedOnCandidats(candidats) {
+                    const noCandidatsMessage = document.getElementById('noCandidatsMessage');
+                    const navigationButtons = document.getElementById('navigationButtons');
+                    const searchBox = document.getElementById('searchBox');
+
+                    if (candidats.length === 0) {
+                        noCandidatsMessage.style.display = 'block';
+                        navigationButtons.style.display = 'none';
+                        searchBox.style.display = 'none';
+                    } else {
+                        noCandidatsMessage.style.display = 'none';
+                        navigationButtons.style.display = 'flex';
+                        searchBox.style.display = 'block';
+                    }
+                }
+
+                const candidats = [];
+                updateUIBasedOnCandidats(candidats);
+
+                function loadForms(stageOfferId) {
+                    $.ajax({
+                        url: '/api/Form/stageoffer/' + stageOfferId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            var tableBody = $('#formsTable tbody');
+                            tableBody.empty();
+
+                            if (data.length === 0) {
+                                $('#formsTable').hide();
+                                $('#noCandidatsMessage').show();
+                                $('#navigationButtons').hide();
+                                $('#searchBox').hide();
+                            } else {
+                                $('#formsTable').show();
+                                $('#noCandidatsMessage').hide();
+                                $('#navigationButtons').show();
+                                $('#searchBox').show();
+
+                                data.forEach(function (form) {
+                                    var row = '<tr data-id="' + form.id + '">' +
+                                        '<td>' + form.prenom + '</td>' +
+                                        '<td>' + form.nom + '</td>' +
+                                        '<td>' + form.faculte + '</td>' +
+                                        '<td>' + form.niveauEtudes + '</td>' +
+                                        '<td>' + (form.cvData ? '<a href="data:application/pdf;base64,' + form.cvData + '" download="cv.pdf">Télécharger CV</a>' : 'Non fourni') + '</td>' +
+                                        '<td>' + (form.lettreMotivationData ? '<a href="data:application/pdf;base64,' + form.lettreMotivationData + '" download="lettre_motivation.pdf">Télécharger LM</a>' : 'Non fourni') + '</td>' +
+                                        '<td class="rapport-test">' +
+                                        (form.testReportUrl ? '<a href="' + form.testReportUrl + '" download="rapport_test.pdf">Télécharger Rapport de Test</a>' : 'Non fourni') +
+                                        '</td>' +
+                                        '<td class="evaluation">' +
+                                        '<div class="star-rating">' +
+                                        '<input type="radio" name="rating-' + form.id + '" id="rating-5-' + form.id + '" value="5"><label for="rating-5-' + form.id + '">★</label>' +
+                                        '<input type="radio" name="rating-' + form.id + '" id="rating-4-' + form.id + '" value="4"><label for="rating-4-' + form.id + '">★</label>' +
+                                        '<input type="radio" name="rating-' + form.id + '" id="rating-3-' + form.id + '" value="3"><label for="rating-3-' + form.id + '">★</label>' +
+                                        '<input type="radio" name="rating-' + form.id + '" id="rating-2-' + form.id + '" value="2"><label for="rating-2-' + form.id + '">★</label>' +
+                                        '<input type="radio" name="rating-' + form.id + '" id="rating-1-' + form.id + '" value="1"><label for="rating-1-' + form.id + '">★</label>' +
+                                        '</div>' +
+                                        '</td>' +
+                                        '</tr>';
+                                    tableBody.append(row);
+
+                                    // Charger et appliquer la note stockée
+                                    loadRating(form.id);
+                                });
+                                loadRapportsDeTest(data);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Erreur lors de la récupération des données: ' + error);
+                        }
+                    });
+                }
+
+                function loadRating(formId) {
+                    $.ajax({
+                        url: '/api/Form/' + formId + '/rating',
+                        type: 'GET',
+                        success: function (rating) {
+                            var row = $('tr[data-id="' + formId + '"]');
+                            if (rating) {
+                                row.find('input[type="radio"][value="' + rating + '"]').prop('checked', true);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Erreur lors de la récupération de la note: ' + error);
+                        }
+                    });
+                }
+
+                function loadRapportsDeTest(data) {
+                    data.forEach(function (form) {
+                        if (form.id) {
+                            var testReportUrl = '/api/Form/report/' + form.id;
+                            var rapportTestElement = $('tr[data-id="' + form.id + '"] .rapport-test');
+
+                            $.ajax({
+                                url: testReportUrl,
+                                type: 'GET',
+                                success: function () {
+                                    rapportTestElement.html('<a href="' + testReportUrl + '" download="rapport_test.pdf">Télécharger Rapport de Test</a>');
+                                },
+                                error: function () {
+                                    rapportTestElement.html('Non fourni');
+                                }
+                            });
+                        }
+                    });
+                }
+
+                function arrayBufferToBase64(buffer) {
+                    var binary = '';
+                    var bytes = new Uint8Array(buffer);
+                    var len = bytes.byteLength;
+                    for (var i = 0; i < len; i++) {
+                        binary += String.fromCharCode(bytes[i]);
+                    }
+                    return window.btoa(binary);
+                }
+
+                var stageOfferId = getUrlParameter('id');
+                if (stageOfferId) {
+                    loadForms(stageOfferId);
+                } else {
+                    console.error('ID de l\'offre non trouvé dans l\'URL.');
+                }
+            });
+        </script>
+
+
+    <script src="~/assets/js/backend-bundle.min.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/customizer.js"></script>
+
+    <script src="~/assets/js/sidebar.js"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="~/assets/js/flex-tree.min.js"></script>
+    <script src="~/assets/js/tree.js"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="~/assets/js/table-treeview.js"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="~/assets/js/sweetalert.js"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="~/assets/js/vector-map-custom.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/chart-custom.js"></script>
+    <script src="~/assets/js/charts/01.js"></script>
+    <script src="~/assets/js/charts/02.js"></script>
+
+    <!-- slider JavaScript -->
+    <script src="~/assets/js/slider.js"></script>
+
+    <!-- Emoji picker -->
+    <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+</html>

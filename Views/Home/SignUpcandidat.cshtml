@@ -1,0 +1,300 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Innov-Alliance-Tech</title>
+    
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+
+</head>
+
+<body class=" ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <div class="wrapper">
+        <section class="login-content">
+            <div class="container h-100">
+                <div class="row align-items-center justify-content-center h-100">
+                    <div class="col-md-6">
+                        <div class="card p-3">
+                            <div class="card-body">
+                                <div class="auth-logo">
+                                    <img src="~/images/iat.png" class="img-fluid rounded-normal darkmode-logo" alt="logo">
+                                    <img src="~/images/iat.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                                </div>
+                                <h3 class="mb-3 font-weight-bold text-center">Commencer</h3>
+                                <p class="text-center text-secondary mb-4">Choisissez votre méthode d'inscription</p>
+                                <div class="social-btn d-flex justify-content-around align-items-center mb-4">
+                                    <a   href="/Account/GoogleAuth" class="btn btn-block" style="display: flex; justify-content: center; align-items: center; background-color: white; border: 1px solid #ddd; color: #555;">
+                                        <img src="~/images/google.png" alt="Google Logo" style="height: 20px; margin-right: 8px;">
+                                        Se connecter avec Google
+                                    </a>
+                                </div>
+
+                             
+                             
+
+                                <p class="mb-0 text-center mt-3"><span class="text-secondary" style="font-size: 0.9rem;">Ou bien créer un compte</span></p>
+                                <hr>
+
+                                <form id="signup-form">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Prénom</label>
+                                                <input id="first-name" class="form-control" type="text" placeholder="Entrez votre prénom">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Nom de famille</label>
+                                                <input id="last-name" class="form-control" type="text" placeholder="Entrez votre nom de famille">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Date de naissance</label>
+                                                <input id="date-of-birth" class="form-control" type="date">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Email</label>
+                                                <input id="email" class="form-control" type="email" placeholder="Entrez votre email">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Mot de passe</label>
+                                                <input id="password" class="form-control" type="password" placeholder="Entrez votre mot de passe">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-group">
+                                                <label class="text-secondary">Confirmer le mot de passe</label>
+                                                <input id="confirm-password" class="form-control" type="password" placeholder="Confirmez votre mot de passe">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="form-check form-check-inline">
+                                                <div class="custom-control custom-checkbox custom-control-inline mb-3">
+                                                    <input type="checkbox" class="custom-control-input m-0" id="inlineCheckbox1">
+                                                    <label class="custom-control-label pl-2" for="inlineCheckbox1">Je suis d'accord avec les <a href="terms-of-service.html">Conditions d'utilisation </a> et la <a href="privacy-policy.html">Politique de confidentialité</a></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block mt-2">Créer un compte</button>
+                                    <div class="col-lg-12 mt-3">
+                                        <p class="mb-0 text-center">Vous avez déjà un compte? <a id="loginLink" href="@Url.Action("SeConnectercandidat", "Home")">Se connecter</a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+    <div id="signup-success-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="signup-success-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signup-success-modal-label"><i class="fas fa-check-circle text-success mr-2"></i>Succès !</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Votre compte a été créé avec succès !</p>
+                    <p>Un email de confirmation a été envoyé à votre adresse email.  </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const signupForm = document.getElementById('signup-form');
+            const urlParams = new URLSearchParams(window.location.search);
+            const offerId = urlParams.get('id');
+
+            // Stockage de l'offerId dans un cookie de session
+            document.cookie = `offerId=${offerId}; path=/`;
+
+            // Sélection du lien de connexion Google
+            const googleSignIn = document.getElementById('google-signin');
+            if (googleSignIn && offerId) {
+                // Construction de l'URL de connexion Google avec l'ID de l'offre comme state
+                const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?client_id=268037910749-b6obfnv1v0lnlpn57o39g6rnqufjcrru.apps.googleusercontent.com&scope=openid%20profile%20email&response_type=code&redirect_uri=https%3A%2F%2Flocalhost%3A7031%2Fsignin-google&code_challenge=GWCktZA9ogk2gqU3T5tI2TahC5_wRZK5sAK78PLZsjE&code_challenge_method=S256&state=${offerId}&service=lso&o2v=2&ddm=0&flowName=GeneralOAuthFlow`;
+
+                // Assigner l'URL construit au lien de connexion Google
+                googleSignIn.href = googleAuthUrl;
+            }
+
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const firstName = document.getElementById('first-name').value;
+                const lastName = document.getElementById('last-name').value;
+                const dateOfBirth = document.getElementById('date-of-birth').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+
+                // Vérification si les deux champs de mot de passe correspondent
+                if (password !== confirmPassword) {
+                    alert('Les mots de passe ne correspondent pas.');
+                    return; // Arrête l'exécution du script si les mots de passe ne correspondent pas
+                }
+
+                const formData = {
+                    offerId: offerId,
+                    firstName: firstName,
+                    lastName: lastName,
+                    dateOfBirth: dateOfBirth,
+                    email: email,
+                    password: password,
+                    confirmPassword: confirmPassword
+                };
+
+                try {
+                    const response = await fetch('/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const responseData = await response.json();
+
+                    if (response.ok) {
+                        // Succès de l'inscription ou de la connexion
+                        // Afficher le message de succès
+                        $('#signup-success-modal').modal('show');
+                    } else {
+                        // Afficher le message d'erreur du backend
+                        alert(responseData.message);
+                    }
+                } catch (error) {
+                    console.error('Une erreur s\'est produite : ', error);
+                    // Afficher un message d'erreur générique
+                    alert('Une erreur s\'est produite lors de la création du compte.');
+                }
+
+            });
+
+            // Modifier le lien "Se connecter" pour inclure offerId dans l'URL
+            const loginLink = document.querySelector('#loginLink');
+            if (loginLink && offerId) {
+                loginLink.href = '@Url.Action("SeConnectercandidat", "Home")' + '?id=' + offerId;
+            }
+
+            // Modifier le bouton "Créer un compte" pour inclure offerId dans l'URL lors du clic
+            const createAccountBtn = document.querySelector('#signup-form button[type="submit"]');
+            createAccountBtn.addEventListener('click', function () {
+                if (offerId) {
+                    this.form.action = '@Url.Action("SignUpcandidat", "Home")' + '?id=' + offerId;
+                }
+            });
+
+            // Vérifier si l'email de validation est valide et rediriger vers formcandidat
+            const validated = urlParams.get('validated');
+            if (validated === 'true') {
+                // Redirection vers la page 'formcandidat'
+                console.log('Redirecting to formcandidat...');
+                window.location.href = '@Url.Action("formcandidat", "Home")?id=' + offerId;
+            }
+            // Fonction appelée lors de la connexion avec Google
+            function onSignIn(googleUser) {
+                var profile = googleUser.getBasicProfile();
+                var idToken = googleUser.getAuthResponse().id_token;
+
+                // Récupérer l'offerId de l'URL actuelle
+                const urlParams = new URLSearchParams(window.location.search);
+                const offerId = urlParams.get('id');
+
+                // Rediriger vers l'URL de connexion Google avec offerId dans l'état
+                const state = btoa(JSON.stringify({ offerId: offerId }));
+                const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=268037910749-b6obfnv1v0lnlpn57o39g6rnqufjcrru.apps.googleusercontent.com&response_type=code&scope=openid%20profile%20email&redirect_uri=https://localhost:7031/signin-google&state=${state}&code_challenge=JaR8ObjZUzMFQi0m91mDB1eq-b6J7kaX4LeCZJTxHl8&code_challenge_method=S256&flowName=GeneralOAuthFlow`;
+
+                window.location.href = googleAuthUrl;
+            }
+
+            // Configuration du bouton de connexion Google
+            gapi.signin2.render('google-signin-button', {
+                'scope': 'email profile',
+                'width': 260,
+                'height': 50,
+                'longtitle': true,
+                'theme': 'dark',
+                'onsuccess': onSignIn,
+                'onfailure': function (error) { console.error(error); }
+            });
+        });
+    </script>
+
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="~/assets/js/backend-bundle.min.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/customizer.js"></script>
+
+    <script src="~/assets/js/sidebar.js"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="~/assets/js/flex-tree.min.js"></script>
+    <script src="~/assets/js/tree.js"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="~/assets/js/table-treeview.js"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="~/assets/js/sweetalert.js"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="~/assets/js/vector-map-custom.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/chart-custom.js"></script>
+    <script src="~/assets/js/charts/01.js"></script>
+    <script src="~/assets/js/charts/02.js"></script>
+
+    <!-- slider JavaScript -->
+    <script src="~/assets/js/slider.js"></script>
+
+    <!-- Emoji picker -->
+    <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+</html>

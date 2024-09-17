@@ -1,0 +1,341 @@
+﻿
+@{
+    ViewData["Title"] = "Innov-Alliance-Tech";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .modal-content {
+        max-width: 800px; /* Ajustez la largeur maximale selon vos besoins */
+        max-height: 600px; /* Ajustez la hauteur maximale selon vos besoins */
+        overflow-y: auto; /* Ajoutez un défilement vertical si nécessaire */
+    }
+
+    .modal-body p {
+        margin-bottom: 10px; /* Espacement entre les paragraphes */
+    }
+
+    .modal-body strong {
+        margin-bottom: 5px; /* Espacement après les titres */
+    }
+
+    .modal-body .details {
+        margin-bottom: 20px; /* Espacement entre les différents détails */
+    }
+
+
+
+
+    .modal-header {
+        background-color: #f8f9fa; /* Couleur de fond de l'en-tête */
+        border-bottom: 1px solid #dee2e6; /* Bordure inférieure de l'en-tête */
+    }
+
+    .modal-title {
+        color: #343a40; /* Couleur du titre */
+    }
+
+    .modal-footer {
+        background-color: #f8f9fa; /* Couleur de fond du pied de page */
+    }
+
+
+    .btn-close {
+        background: none;
+        border: none;
+    }
+
+        .btn-close:before {
+            content: "\00d7";
+            font-size: 1.5rem;
+            color: #000;
+        }
+
+    .main-btn {
+        background-color: #5c67f2;
+        color: #fff;
+        border-radius: 50px;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+    }
+
+    .main-btn-2 {
+        background-color: #ff7f50;
+    }
+
+    .modal-dialog-centered {
+        display: flex;
+        align-items: center;
+        min-height: calc(100% - 1rem);
+    }
+</style>
+<!--====== HEADER PART ENDS ======-->
+<!--====== COUNTER PART START ======-->
+<title>JobMate | Home</title>
+
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--====== Favicon Icon ======-->
+<link rel="shortcut icon" href="~/images/iat.png" />
+
+<!--====== Flaticon CSS ======-->
+<link rel="stylesheet" href="~/css/flaticon.css">
+
+<!--====== Font Awesome CSS ======-->
+<link rel="stylesheet" href="~/css/font-awesome.min.css">
+
+<!--====== Nice Select CSS ======-->
+<link rel="stylesheet" href="~/css/nice-select.css">
+
+<!--====== Bootstrap CSS ======-->
+<link rel="stylesheet" href="~/css/bootstrap.min.css">
+
+<!--====== Default CSS ======-->
+<link rel="stylesheet" href="~/css/default.css">
+
+<!--====== Style CSS ======-->
+<link rel="stylesheet" href="~/css/style.css">
+
+
+
+
+<!--====== COUNTER PART ENDS ======-->
+<!--====== CATEGORY PART START 
+
+<!--====== CATEGORY PART ENDS ======-->
+<!--====== ABOUT PART START ======-->
+
+<section class="about_area pt-80 pb-80">
+    <div class="about_shape">
+        <img src="~/images/shape-3.png" alt="shape">
+    </div>
+    <div class="about_image d-lg-flex align-items-center align-items-start justify-content-end">
+        <div class="image">
+            <img src="~/images/about_image-2.png" alt="about">
+        </div>
+    </div> <!-- about image -->
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-lg-6">
+                <div class="about_content">
+                    <div class="section_title">
+                        <h5 class="sub_title">Rejoignez une Aventure Innovante</h5>
+                        <h3 class="main_title">Bienvenue sur la Plateforme de Recrutement Innov Alliance Tech</h3>
+                    </div> <!-- section title -->
+                    <p>Innov Alliance Tech vous offre une opportunité unique de rejoindre une entreprise innovante. Postulez sur nos sujets de recrutement et découvrez des stages passionnants.</p>
+
+                
+
+                    <ul class="about_btn">
+                        <li><a class="main-btn" href="#offres-section" rel="nofollow">Découvrez Nos Offres</a></li>
+                    </ul>
+
+                </div> <!-- about content -->
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+
+
+
+
+
+
+</section>
+
+
+<!--====== ABOUT PART ENDS ======-->
+<!--====== TRENDING JOB PART START ======-->
+<section id="offres-section" class="trending_jobs pt-75 pb-80 gray-bg">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <div class="section_title pb-25">
+                    <h5 class="sub_title">
+                        Découvrir</h5>
+                    <h3 class="main_title">Explorez les opportunités de stage les plus en vogue et récentes ici.</h3>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="jobs_tabs_menu d-flex justify-content-md-end">
+                    <ul class="nav" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="active" id="trending-tab" data-toggle="tab" href="#trending" role="tab" aria-controls="trending" aria-selected="true">Tendance</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="recent-tab" data-toggle="tab" href="#recent" role="tab" aria-controls="recent" aria-selected="false">Emplois récents</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="validated-jobs-container">
+            <!-- Ici seront affichés les sujets validés -->
+        </div>
+    </div>
+</section>
+<!-- Modèle de dialogue modal -->
+
+<!--====== TRENDING JOB PART ENDS ======-->
+<!--====== TRENDING JOB PART ENDS ======-->
+<!--====== TRENDING JOB PART ENDS ======-->
+<!--====== TOP COMPANIES PART START ======-->
+
+
+
+<!--====== TOP COMPANIES PART ENDS ======-->
+<!--====== SUBSCRIBE PART START ======-->
+
+
+<!-- jQuery (Nécessaire pour Bootstrap) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+<script>
+    var validatedSubjectsData; // Variable globale pour stocker les sujets validés
+
+    function loadValidatedSubjects() {
+        $.ajax({
+            type: 'GET',
+            url: '/api/StageOffer/approved',
+            success: function (validatedSubjects) {
+                console.log('Sujets approuvés récupérés :', validatedSubjects);
+                validatedSubjectsData = validatedSubjects; // Stocker les sujets validés dans la variable globale
+                displayValidatedSubjects(validatedSubjects);
+            },
+            error: function (error) {
+                console.error('Erreur lors de la récupération des sujets approuvés :', error);
+            }
+        });
+    }
+
+    function displayValidatedSubjects(validatedSubjects) {
+        var validatedContainer = $('#validated-jobs-container');
+        validatedContainer.empty();
+
+        validatedSubjects.forEach(function (subject) {
+            var subjectHTML = '<div class="col-lg-4 col-sm-6">' +
+                '<div class="single_jobs text-center mt-30">' +
+                '<div class="jobs_image">' +
+                '<img src="' + getImageUrl(subject.domaineActivite.toLowerCase()) + '" alt="' + subject.domaineActivite + '" class="img-fluid">' +
+                '</div>' +
+                '<div class="jobs_content">' +
+                '<h4 class="jobs_title"><a href="#">' + subject.titre + '</a></h4>' +
+                '<p class="sub_title">' + subject.domaineActivite + '</p>' +
+                '</div>' +
+                '<div class="jobs_meta d-flex justify-content-between">' +
+                '<p class="location"><i class="fa fa-map-marker"></i> Tunis</p>' +
+                '<p class="time"><i class="fa fa-clock-o"></i> ' + subject.typedeStage + '</p>' +
+                '</div>' +
+                '<div class="jobs_btn">' +
+     
+                '<br><br>' + // Espaces ajoutés ici pour aligner verticalement
+                '<a href="@Url.Action("Detailssujet", "Home")?id=' + subject.id + '" class="main-btn main-btn-2">Voir les détails</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
+            validatedContainer.append(subjectHTML);
+        });
+    }
+
+    // Gérer le clic sur "Postuler" en ouvrant la page de sign up
+    $('#validated-jobs-container').on('click', '.apply-now-btn', function () {
+        // Rediriger vers la page de sign up
+        window.location.href = '@Url.Action("SignUp", "Home")'; // Remplacez '/signup' par l'URL de votre page de sign up
+    });
+    function getImageUrl(domaine) {
+        switch (domaine) {
+            case 'informatique':
+                return '/images/jobs-1.jpg';
+            case 'marketing':
+                return '/images/jobs-3.jpg';
+            case 'finance':
+                return '/images/jobs-2.jpg';
+            case 'ressources humaines':
+                return '/images/jobs-6.jpg';
+            default:
+                return '/images/jobs-5.jpg';
+        }
+    }
+
+    $(document).ready(function () {
+        loadValidatedSubjects();
+
+        // Gérer le clic sur "Voir les détails" en utilisant la délégation d'événements
+    
+    });
+
+    // Fonction pour afficher les détails de l'offre de stage
+    function displayOfferDetails(offer) {
+        var offerDetailsBody = $('#offerDetailsBody');
+        offerDetailsBody.empty();
+
+        // Vérification si competencesRequises est un tableau
+        var competencesRequises = Array.isArray(offer.competencesRequises) ? offer.competencesRequises.join(', ') : 'Non spécifié';
+
+        // Construction du contenu des détails de l'offre de stage
+        var offerDetailsHTML = '<p><strong>Titre:</strong> ' + offer.titre + '</p>' +
+            '<p><strong>Description:</strong> ' + offer.description + '</p>' +
+            '<p><strong>Domaine d\'activité:</strong> ' + offer.domaineActivite + '</p>' +
+            '<p><strong>Compétences requises:</strong> ' + competencesRequises + '</p>' +
+            '<p><strong>Date de début:</strong> ' + new Date(offer.dateDebut).toLocaleDateString() + '</p>' +
+            '<p><strong>Date de fin:</strong> ' + new Date(offer.dateFin).toLocaleDateString() + '</p>' +
+            '<p><strong>Niveau d\'études requis:</strong> ' + offer.niveauEtudesRequis + '</p>' +
+            '<p><strong>Type de stage:</strong> ' + offer.typedeStage + '</p>';
+
+        offerDetailsBody.append(offerDetailsHTML);
+    }
+</script>
+
+
+
+
+
+
+
+
+<!--====== SUBSCRIBE PART ENDS ======-->
+<!--====== FOOTER PART START ======-->
+<!--====== FOOTER PART ENDS ======-->
+<!--====== BACK TOP TOP PART START ======-->
+
+<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+<!--====== BACK TOP TOP PART ENDS ======-->
+<!--====== PART START ======-->
+<!--
+    <section class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-">
+
+                </div>
+            </div>
+        </div>
+    </section>
+-->
+<!--====== PART ENDS ======-->
+<!-- row -->
+<!--====== Jquery js ======-->
+<script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="~/js/vendor/modernizr-3.7.1.min.js"></script>
+
+<!--====== Bootstrap js ======-->
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+
+
+<!--====== Nice Select js ======-->
+<script src="~/js/jquery.nice-select.min.js"></script>
+
+<!--====== Counter Up js ======-->
+<script src="~/js/waypoints.min.js"></script>
+<script src="~/js/jquery.counterup.js"></script>
+
+
+<!--====== Main js ======-->
+<script src="~/js/main.js"></script>
+
+

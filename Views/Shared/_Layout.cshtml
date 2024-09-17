@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] </title>
+    <link rel="shortcut icon" href="~/images/iat.png" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min-min.css" rel="stylesheet" />
+    <link href="~/css/default.css" rel="stylesheet" />
+    <link href="~/css/default-min.css" rel="stylesheet" />
+
+    <link href="~/css/flaticon.css" rel="stylesheet" />
+    <link href="~/css/flaticon-min.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="~/css/font-awesome.min-min.css" rel="stylesheet" />
+    <link href="~/css/meanmenu.css" rel="stylesheet" />
+    <link href="~/css/meanmenu-min.css" rel="stylesheet" />
+    <link href="~/css/nice-select.css" rel="stylesheet" />
+    <link href="~/css/nice-select-min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+  
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/bootstrap.min-min.js"></script>
+    <script src="~/js/jquery.counterup.js"></script>
+    <script src="~/js/jquery.counterup-min.js"></script>
+    <script src="~/js/jquery.meanmenu.min.js"></script>
+    <script src="~/js/jquery.meanmenu.min-min.js"></script>
+    <script src="~/js/jquery.nice-select.min.js"></script>
+    <script src="~/js/jquery.nice-select.min-min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/main-min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/popper.min-min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/waypoints.min.js"></script>
+    <script src="~/js/waypoints.min-min.js"></script>
+
+   
+ 
+
+
+
+</head>
+<style>
+    .navbar-brand img {
+        width: 150px!important; 
+        height: auto!important;
+        margin-right: 10px!important; 
+       
+    }
+
+    .logo img {
+        width: 150px!important; 
+        height: auto!important; 
+        margin-right: 10px!important; 
+        
+    }
+
+
+</style>
+
+<body>
+    <header class="header-area header_shadow">
+        <div class="header-navbar">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img src="~/images/iat.png" alt="Logo"></a>
+
+
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="toggler-icon"></span>
+                        <span class="toggler-icon"></span>
+                        <span class="toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                          
+                            <li>
+                             
+
+                                <ul class="sub-menu">
+                                    <li>@Html.ActionLink("Home","Index","Home",new {@class="nav-link"})</li>
+                                
+                                  
+                                </ul>
+                            </li>
+                           
+                           
+                           
+                          
+                          
+                         
+                            <li>@Html.ActionLink("Se Connecter", "SeConnecter", "Home", null, new { @class = "nav-link main-btn" })</li>
+
+
+                        </ul> <!-- navbar nav -->
+                    </div>
+ <!-- language -->
+                </nav>
+            </div> <!-- container -->
+        </div> <!-- header navbar -->
+
+        <div class="header-banner d-lg-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="header-banner-content">
+                            <h5 class="sub-title">Prêt à démarrer votre carrière ?</h5>
+                            <h2 class="main-title"> Parcourez nos offres de stage !</h2>
+
+                         
+                        </div> <!-- header banner content -->
+                    </div>
+                </div> <!-- row -->
+            </div> <!-- container -->
+            <div class="header-banner-image d-flex align-items-center justify-content-end">
+                <div class="image">
+                    <img src="~/images/header_banner.png" alt="header banner">
+                </div> <!-- image -->
+            </div> <!-- header banner image -->
+        </div> <!-- header banner -->
+    </header>
+   
+    <div>
+        
+            @RenderBody()
+      
+    </div>
+    <footer class="footer_area gray-bg">
+        <div class="footer_widget pt-30 pb-80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-sm-12">
+                        <div class="footer_contact mt-45">
+                            <div class="footer_title">
+                                <h5 class="title">Contact Tunis</h5>
+                            </div>
+                            <ul class="contact">
+                                <li>
+                                    <p><span>Adresse :</span> Megrine Business Center, Route Z4, Z.I. Saint Gobain, Megrine-Ben Arous, Tunisie</p>
+                                </li>
+                                <li>
+                                    <p><span>Téléphone :</span> +216 31 399 120</p>
+                                </li>
+                                <li>
+                                    <p><span>Fax :</span> +216 79 297 585</p>
+                                </li>
+                                <li>
+                                    <p><span>Email :</span> <a href="mailto:info@ia-tech.net">info@ia-tech.net</a></p>
+                                </li>
+                            </ul>
+                            <ul class="social">
+                                <li><a href="https://ia-tech.net/presentation/" target="_blank"><i class="fa fa-globe"></i></a></li>
+                                <li><a href="https://www.linkedin.com/company/innov-alliance-tech/mycompany/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                            </ul>
+                        </div> <!-- footer contact -->
+                    </div>
+                </div> <!-- row -->
+            </div> <!-- container -->
+        </div> <!-- footer widget -->
+        <!-- footer widget -->
+
+        <div class="footer_copyright">
+            <div class="container">
+                <div class="copyright_content text-center d-sm-flex justify-content-between align-items-center">
+                    <a href="#" class="logo"><img src="~/images/iat.png" alt="Logo"></a>
+                    <p class="copyright"></p>
+                </div> <!-- copyright content -->
+            </div> <!-- container -->
+        </div> <!-- footer copyright -->
+    </footer>
+
+  
+</body>
+</html>

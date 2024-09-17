@@ -1,0 +1,1463 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Innov-Alliance-Tech</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/iat.png" />
+
+    <link rel="stylesheet" href="~/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/assets/css/backend.css?v=1.0.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.8/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Inclure jsPDF via CDN -->
+
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</head>
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<!-- Style pour les boutons de téléchargement de fichier personnalisés -->
+<style>
+    #back-to-home-btn {
+        position: absolute;
+        top: -140px;
+        right: -50px;
+        z-index: 1000; /* Assurez-vous que le bouton est au-dessus de tout autre contenu */
+        background-color: red; /* Bleu */
+        color: white;
+        padding: 5px 10px;
+    }
+
+
+    body {
+        font-family: 'Nunito Sans', 'Helvetica Neue', sans-serif;
+        background-color: #f7f8fc;
+    }
+
+
+    .wrapper {
+        padding: 20px;
+    }
+
+
+
+    .card {
+        background-color: #fff;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+    .title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .date {
+        text-align: right;
+        font-size: 12px;
+    }
+
+
+
+    #success-message {
+        display: none;
+    }
+    bodytime {
+        text-align: center;
+        padding: 40px 0;
+        background: #EBF0F5;
+    }
+
+    h1time {
+        color: #88B04B;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-weight: 900;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    ptime {
+        color: #404F5E;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-size: 20px;
+        margin: 0;
+    }
+
+    itime {
+        color: #9ABC66;
+        font-size: 100px;
+        line-height: 200px;
+        margin-left: -15px;
+    }
+
+    .cardtime {
+        background: white;
+        padding: 60px;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px #C8D0D8;
+        display: inline-block;
+        margin: 0 auto;
+    }
+    h1 {
+        color: #88B04B;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-weight: 900;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+    .congrats-icon {
+        font-size: 40px;
+        color: #FFD700;
+    }
+    i {
+        color: #9ABC66;
+        font-size: 100px;
+        line-height: 200px;
+        margin-left: -15px;
+    }
+    /* Styles pour la boîte de dialogue */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1050;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        padding-top: 60px;
+    }
+
+    h3 {
+        font-weight: bold;
+        font-size: 1.75em;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 300px;
+        text-align: center;
+        z-index: 1060;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-buttons {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .modal-buttons button {
+            flex: 0 0 45%;
+        }
+
+    .question {
+        margin-bottom: 20px;
+    }
+
+    .options {
+        margin-bottom: 15px;
+    }
+
+        .options label {
+            display: block;
+        }
+
+    .question {
+        margin-bottom: 20px;
+    }
+
+        .question h4 {
+            margin-bottom: 10px;
+        }
+
+    .options label {
+        display: block;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+        .options label:hover {
+            background-color: #f8f9fa;
+        }
+    /* Style pour les boutons de téléchargement de fichier */
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        margin-top: 10px; /* Ajout d'un espace entre le champ et le bouton */
+    }
+
+        .file-input-wrapper input[type="file"] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    .file-input-label {
+        background-color: #f0f0f0; /* Couleur gris clair */
+        color: #333; /* Couleur de texte */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+        transition: background-color 0.3s;
+    }
+
+        .file-input-label:hover {
+            background-color: #ddd; /* Couleur gris plus foncé au survol */
+        }
+
+    /* Style pour les icônes à côté des boutons */
+    .file-icon {
+        margin-right: 10px;
+    }
+
+    /* Style pour le nom du fichier */
+    .file-name {
+        display: inline-block;
+        margin-left: 10px;
+        color: #007bff; /* Couleur du lien du nom de fichier */
+        font-weight: bold;
+    }
+
+    /* Container for the timer */
+    /* Container for the timer */
+    /* Container for the timer */
+    /* Container for the timer */
+    /* Container for the timer */
+    .timer-container {
+        display: flex;
+        align-items: center; /* Aligne les éléments verticalement au centre */
+        justify-content: space-between; /* Espace entre les éléments, le logo à gauche et le chronomètre à droite */
+        padding: 0px; /* Enlève les marges et le padding par défaut */
+    }
+
+    .time-container {
+        display: flex;
+        align-items: center; /* Aligne les éléments verticalement au centre */
+    }
+
+        .time-container i {
+            color: red!important;
+            margin-right: 10px;
+        }
+    /* Styles pour le logo */
+    .logo-iat {
+        margin-right: 80px; /* Ajoute de l'espace à droite du logo */
+    }
+
+    .logo-iat-img {
+        width: 100px; /* Ajustez cette valeur selon vos besoins */
+        height: auto; /* Maintient le ratio de l'image */
+        border-radius: 8px; /* Ajoute des coins arrondis */
+    }
+
+    .fas.fa-clock {
+        font-size: 1.5em;
+        color: red; /* Couleur de l'icône */
+        margin-right: 10px; /* Espace entre l'icône et le chronomètre */
+    }
+
+    /* Styling for the timer */
+    /* Styling for the timer */
+    #time {
+        font-size: 1.5em;
+        padding: 10px 15px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+       /* margin-left: 300px;
+    }
+
+         /* Styling for the clock icon */
+       
+    .show-score-btn {
+        display: block !important; /* Force l'affichage du bouton */
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 90vh;
+    }
+
+    #success-message,
+    #test-form {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    #success-message {
+        z-index: 1000;
+    }
+
+        #success-message .wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    .icon-success {
+        color: green; /* Couleur pour l'icône de réussite */
+    }
+
+    .icon-warning {
+        color: orange; /* Couleur pour l'icône d'avertissement */
+    }
+
+    h1 {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 5%; /* Utilise un pourcentage par rapport à la taille de police parente */
+    }
+
+
+    h3 {
+        font-weight: bold;
+        font-size: 1.75em;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    #submit-test-btn {
+        padding: 10px 20px;
+        font-size: 1em;
+        border-radius: 5px;
+        background-color: #007bff;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    #submit-test-btn:hover {
+            background-color: #0056b3;
+        }
+
+    #question-list {
+        margin-top: 20px;
+    }
+
+    /* Masque le formulaire par défaut */
+    #testForm {
+        display: none;
+    }
+
+    #alertMessage {
+        color: red;
+        font-weight: bold;
+        display: none;
+    }
+
+    /* Styles pour l'overlay (fond) du pop-up */
+   
+</style>
+<style>
+    /* Styles pour l'overlay (fond) du pop-up */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%; /* S'assurer que l'overlay couvre toute la page */
+        background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+        display: flex;
+        justify-content: center;
+        align-items: center; /* Centrer le pop-up verticalement */
+        z-index: 1000; /* S'assurer que le pop-up est au-dessus des autres éléments */
+        pointer-events: none; /* Permet de cliquer à travers l'overlay si le pop-up est masqué */
+    }
+
+    /* Styles pour le contenu du pop-up */
+    .modal-content {
+        background: #fff;
+        padding: 40px; /* Augmenter la taille du padding pour un pop-up plus grand */
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        width: 60%; /* Ajuster la largeur du pop-up */
+        max-width: 600px; /* Largeur maximale du pop-up */
+        margin: 0 auto; /* Centrer horizontalement */
+        pointer-events: auto; /* Assure que le pop-up peut être interactif */
+    }
+
+    /* Styles pour le conteneur du message et de l'icône */
+    .modal-header {
+        display: flex;
+        align-items: center; /* Aligner l'icône et le texte verticalement */
+        justify-content: center; /* Centrer le contenu */
+        margin-bottom: 20px; /* Espacement entre l'icône et le texte */
+    }
+    /* Styles pour l'icône du pop-up */
+    .icon-container i {
+        font-size: 48px; /* Agrandir l'icône */
+        color: #ffcc00; /* Couleur jaune pour l'icône */
+        margin-right: 15px; /* Espacement entre l'icône et le texte */
+    }
+
+    /* Styles pour le message du pop-up */
+    .modal-message {
+        font-size: 16px; /* Taille de la police pour le message */
+        color: #333; /* Couleur du texte */
+    }
+
+    /* Styles pour le bouton du pop-up */
+    #continue-button {
+        margin-top: 20px; /* Augmenter l'espace au-dessus du bouton */
+        padding: 12px 24px; /* Augmenter la taille du bouton */
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px; /* Taille de la police pour le bouton */
+    }
+
+        #continue-button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+
+
+<body class=" ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <div id="dialog-confirm" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Êtes-vous sûr de vouloir soumettre le test?</p>
+            <button id="confirm-btn" class="btn btn-primary">Confirmer</button>
+            <br />
+            <button id="cancel-btn" class="btn btn-secondary">Annuler</button>
+        </div>
+    </div>
+
+    <!-- loader END -->
+
+    <div id="test-form">
+        <div class="wrapper">
+            <section class="login-content">
+                <div class="container h-100">
+                    <div class="row align-items-center justify-content-center h-100">
+                        <div class="col-md-12">
+                            <div class="card p-3 form-frame">
+                                <div class="card-body">
+                                    <div class="timer-container">
+                                        <div class="logo-iat">
+                                            <img src="~/images/iat.png" class="logo-iat-img" alt="logo">
+                                        </div>
+                                        <!-- Clock icon -->
+                                        <div class="time-container" style="display: flex; align-items: center; padding: 10px; border-radius: 5px; border: 1px solid #ffff;">
+                                            <i class="fas fa-clock" style="color: red; margin-right: 10px; font-size: 1.5em;"></i>
+                                            <div id="time" style="font-size: 1.5em; color: #333;"></div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mb-4 text-center" style="font-weight: bold; color: #333; font-size: 24px;">
+                                        <i class="fas fa-question-circle" style="color: #007bff; margin-right: 10px; font-size: 1.2em;"></i>
+                                        Test de Candidature
+                                    </h1>
+                                    <h3 class="mb-3 font-weight-bold text-center" id="test-title"></h3>
+                                    <div id="question-list">
+                                        <!-- Ici seront affichées les questions du test -->
+                                    </div>
+                                    <div class="text-center mt-4">
+                                        <button id="submit-test-btn" class="btn btn-primary">Soumettre le test</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+    </div>
+    <div id="success-message" >
+        <div class="wrapper">
+            <section class="login-content">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card" style="background: white; padding: 60px; border-radius: 4px; box-shadow: 0 2px 3px #C8D0D8;">
+                                <div class="card-body text-center">
+
+                                    <div class="checkmark-icon">
+                                        <i class="checkmark">✓</i>
+                                    </div>
+                                  
+                                    <p class="" style="color: black; font-size: 20px; margin: 0;"> Votre test a été soumis avec succès.</p>
+                        
+                                    <div class="test-duration">
+                                        <p class="" style="color: black; font-size: 20px; margin: 0;">Temps écoulé :</p>
+                                    </div>
+                                    <button class="btn btn-success custom-btn" id="show-score-btn" style="position: relative; z-index: 2000; background: #88B04B; color: white; border: none; border-radius: 4px; padding: 10px 20px; font-size: 18px; cursor: pointer; margin-top: 20px;">Voir le score</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div id="failure-message" style="display: none;">
+        <div class="wrapper" style="display: flex; align-items: center; justify-content: center; width: 100%; padding: 20px; transition: transform 0.3s ease;">
+            <section class="login-content" style="width: 100%; max-width: 700px;">
+                <div class="container">
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <div class="card" style="background: #fefefe; padding: 40px; border-radius: 12px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); text-align: center; position: relative;">
+                                <button onclick="document.getElementById('failure-message').style.display = 'none';" style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; font-size: 24px; color: #333; cursor: pointer;">×</button>
+                                <div class="card-body">
+                                    <div class="checkmark-icon" style="margin-bottom: 20px;">
+                                        <i class="checkmark" style="color: #e74c3c; font-size: 100px; line-height: 1;">✗</i>
+                                    </div>
+                                    <p style="color: #333; font-size: 24px; font-weight: bold; margin: 0;">Le temps est écoulé.</p>
+                                    <div class="test-duration" style="margin-top: 20px;">
+                                        <p style="color: #333; font-size: 20px; margin: 0;">Temps écoulé :</p>
+                                        <p id="elapsed-time" style="color: #333; font-size: 20px; font-weight: bold; margin: 0;"></p>
+                                    </div>
+ 
+                                 
+                                    <button class="btn custom-btn" id="retry-btn" style="background: #d9534f; color: white; border: none; border-radius: 8px; padding: 12px 24px; font-size: 18px; cursor: pointer; margin-top: 20px; transition: background 0.3s ease, transform 0.3s ease; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">Afficher le score </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div id="fraud-container" style="display: none;">
+        <div class="fraud-wrapper" style="display: flex; align-items: center; justify-content: center; width: 100%; padding: 20px; transition: transform 0.3s ease;">
+            <section class="fraud-content" style="width: 100%; max-width: 700px;">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <div class="card" style="background: #fefefe; padding: 40px; border-radius: 12px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); text-align: center; position: relative;">
+                                <button onclick="document.getElementById('fraud-container').style.display = 'none';" style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; font-size: 24px; color: #333; cursor: pointer;">×</button>
+                                <div class="card-body">
+                                    <div class="fraud-icon" style="margin-bottom: 20px;">
+                                        <i class="fraud-mark" style="color: #e74c3c; font-size: 100px; line-height: 1;">⚠️</i>
+                                    </div>
+                                    <p style="color: #333; font-size: 24px; font-weight: bold; margin: 0;">Attention, fraude détectée !</p>
+                                    <p style="color: #333; font-size: 18px; margin: 10px 0;">Nous avons détecté un comportement suspect. </p>
+              
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- Pop-Up Structure -->
+    <div id="inactive-alert-modal" style="display: none;" class="modal-overlay">
+        <div class="modal-content">
+            <div class="icon-container" style="display: flex; justify-content: center; align-items: center; ">
+                <i class="fas fa-exclamation-triangle" style="
+        font-size: 48px; /* Agrandir l'icône */
+        color: #ffcc00; /* Couleur jaune pour l'icône */
+        margin-right: 15px; /* Espacement entre l'icône et le texte */
+    "></i> <!-- Icône Font Awesome -->
+            </div>
+
+
+            <p class="modal-message">Il semble que votre souris ne bouge pas. Veuillez vous assurer que vous êtes toujours actif.</p>
+            <button id="continue-button">Continuer</button>
+        </div>
+    </div>
+
+    <!-- Ajoutez ce code HTML juste après la balise de fermeture de la balise success-message -->
+    <!-- Ajoutez ce code HTML juste après la balise de fermeture de la balise success-message -->
+    <div id="score-dialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 4px; box-shadow: 0 2px 3px #C8D0D8; z-index: 1000;">
+        <div class="text-center">
+            <h2>Votre Score</h2>
+            <p id="score-value" style="color: black; font-size: 20px; margin: 0;"></p>
+            <!-- Afficher le message en fonction du score -->
+            <p id="score-message" style="color: black; font-size: 16px; margin-top: 10px;"></p>
+            <!-- Afficher l'icône correspondante -->
+            <div id="score-icon" style="font-size: 24px; margin-top: 10px;"></div>
+            <button class="btn btn-secondary custom-btn" id="close-score-dialog" style="background: #ccc; color: black; border: none; border-radius: 4px; padding: 10px 20px; font-size: 18px; cursor: pointer; margin-top: 20px;">Fermer</button>
+        </div>
+    </div>
+
+    <div id="fraud-container" style="display:none; opacity:0;">
+        <p>Vous avez quitté la fenêtre de test. Ce comportement est interdit.</p>
+    </div>
+
+    <!-- Modal Structure -->
+ 
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <!-- Inclure jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Inclure jsPDF-AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            var formattedElapsedTime = '';
+            // Récupérer l'ID du sujet depuis l'URL
+            var startTime = new Date().getTime();
+            localStorage.setItem('testStartTime', startTime);
+            const urlParams = new URLSearchParams(window.location.search);
+            const subjectId = urlParams.get('id');
+            localStorage.setItem('subjectId', subjectId);
+
+            let lastMouseMove = Date.now();
+            let alertTriggered = false; // Variable de contrôle pour l'alerte
+
+            $(document).mousemove(function () {
+                lastMouseMove = Date.now();
+                if (alertTriggered) {
+                    // Réinitialiser l'alerte si la souris bouge
+                    alertTriggered = false; // Réinitialiser le contrôle lorsque la souris bouge
+                    $('#inactive-alert-modal').hide(); // Masquer le pop-up
+                }
+            });
+        
+            function hideFraudContainer() {
+                $('#fraud-container').hide();
+            }
+            document.addEventListener('contextmenu', function (event) {
+                event.preventDefault(); // Empêche le menu contextuel (clic droit) de s'afficher
+            });
+            setInterval(function () {
+                if (Date.now() - lastMouseMove > 10000 && !alertTriggered && !testSubmitted) { // Plus de 30 secondes sans mouvement de souris et alerte non déclenchée
+                    alertTriggered = true; // Marquer que l'alerte a été déclenchée
+
+                    // Afficher le pop-up
+                    $('#inactive-alert-modal').show();
+
+                    // Ajouter un événement de clic sur le bouton "Continuer"
+                    $('#continue-button').on('click', function () {
+                        showTestForm(); // Afficher le formulaire de test
+                        hideFraudContainer(); // Masquer le conteneur de fraude
+                        $('#inactive-alert-modal').hide(); // Masquer le pop-up
+                    });
+                }
+            }, 10000);
+
+            // Gérer le clic sur le bouton de continuer
+            $('#continue-button').click(function () {
+                $('#inactive-alert-modal').hide(); // Masquer le modal
+                showTestForm(); // Afficher le formulaire de test lorsque la souris bouge
+                hideFraudContainer();
+            });
+
+            // Function to show the failure message with a fade-in effect
+            function showFailureMessage() {
+                var message = document.getElementById('failure-message');
+                message.style.display = 'flex';
+                setTimeout(function () {
+                    message.style.opacity = 1;
+                }, 10);
+            }
+            // Fonction pour afficher un message d'alerte
+            function showAlert(message) {
+                alert(message);
+            }
+            // Fonction pour afficher le formulaire de test
+            function showTestForm() {
+                $('#test-form').show();
+            }
+            // Empêcher le clic droit
+
+            // Désactiver les captures d'écran (fonctionnement limité)
+
+
+
+            // Empêcher la sélection de texte
+            $(document).on('selectstart', function (e) {
+                e.preventDefault();
+            });
+
+            // Fonction pour vérifier la taille de la fenêtre
+            function checkWindowSize() {
+                if ($(window).width() < 0 || $(window).height() < 0) {
+                    // Si la taille de la fenêtre est trop petite, afficher l'alerte
+                    showAlert("La taille de la fenêtre est trop petite. Veuillez agrandir la fenêtre pour continuer.");
+                    // Masquer le formulaire de test
+                    $('#test-form').hide();
+                } else {
+                    // Si la taille de la fenêtre est suffisante, afficher le formulaire de test
+                    showTestForm();
+                    hideFraudContainer();
+                }
+            }
+
+            // Vérifier la taille de la fenêtre au chargement de la page
+            checkWindowSize();
+            // Surveiller la taille de la fenêtre et vérifier à chaque redimensionnement
+            $(window).resize(function () {
+                checkWindowSize();
+            });
+            // Fonction pour masquer le formulaire de test
+            function hideTestForm() {
+                $('#test-form').hide();
+            }
+
+            // Fonction pour afficher le conteneur de fraude avec un effet de fondu
+            function showFraudContainer() {
+                var container = document.getElementById('fraud-container');
+                container.style.display = 'flex';
+                setTimeout(function () {
+                    container.style.opacity = 1;
+                }, 10);
+                // Stocker "fraud" dans le localStorage
+                localStorage.setItem('fraud', 'true');
+            }
+
+            // Détecter lorsque la fenêtre perd le focus (le candidat change de fenêtre ou d'onglet)
+            $(window).on('blur', function () {
+                // Masquer le formulaire de test
+                hideTestForm();
+
+                // Afficher le conteneur de fraude
+                showFraudContainer();
+
+                // Désactiver les éléments du formulaire
+                disableFormElements();
+            });
+
+            // Détecter lorsque la fenêtre regagne le focus (le candidat revient à la fenêtre)
+            $(window).on('focus', function () {
+                console.log("La fenêtre de test est de nouveau active.");
+            });
+
+            // Fonction pour entrer en mode plein écran
+
+
+            // Global variable to store elapsed time
+
+             // Store the subjectId in local storage
+            // Vérifier si le test a été soumis en vérifiant le cache du navigateur
+            var testSubmitted = localStorage.getItem('testSubmitted') === 'true';
+            // Ajoutez cette fonction pour récupérer et afficher le score lorsque l'utilisateur clique sur le bouton "Voir le score"
+            // Fonction pour afficher le score
+            // Récupérer la durée du test (en secondes) depuis le serveur
+            $.get('/api/Test/' + 2 + '/duration', function (duration) {
+                if (duration !== undefined) {
+                    // Convertir la durée en heures et minutes
+                    var hours = Math.floor(duration / 60); // Obtenez le nombre d'heures
+                    var minutes = duration % 60; // Obtenez le nombre de minutes
+
+                    // Formater les heures et les minutes pour afficher correctement
+                    var formattedDuration = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0');
+                    $('#time').text(formattedDuration);
+                    // Démarrer le chronomètre avec la durée récupérée
+                    var timeLimitInSeconds = duration * 60; // Convertir la durée en secondes
+                    var display = $('#time'); // L'élément d'affichage du chronomètre
+                    startTimer(timeLimitInSeconds, display);
+                } else {
+                    $('#time').text('Durée inconnue');
+                }
+            }).fail(function () {
+                $('#time').text('Durée inconnue');
+            });
+
+
+            // Mettre à jour le temps restant dans le localStorage à chaque seconde
+            setInterval(function () {
+                var currentTime = parseInt(localStorage.getItem('remainingTime'));
+                if (currentTime > 0) {
+                    localStorage.setItem('remainingTime', currentTime - 1);
+                }
+            }, 1000);
+            // Mettre à jour le temps restant dans le localStorage à chaque seconde
+            setInterval(function () {
+                var currentTime = parseInt(localStorage.getItem('remainingTime'));
+                if (currentTime > 0) {
+                    localStorage.setItem('remainingTime', currentTime - 1);
+                }
+            }, 1000);
+
+            if (testSubmitted) {
+                localStorage.removeItem('remainingTime');  // Réinitialiser le temps restant si le test est soumis
+            }
+            var candidateEmail = localStorage.getItem('userEmail');  // Assurez-vous que l'email est stocké dans le localStorage
+            function showScore() {
+                var startTime = parseInt(localStorage.getItem('testStartTime'));
+                if (!startTime) {
+                    console.error('Heure de début du test non trouvée dans le stockage local.');
+                    return;
+                }
+                // Appeler l'API pour récupérer le score du candidat
+                // Appeler l'API pour récupérer le score du candidat
+                $.get('/api/Test/calculate', function (score) {
+                    // Appeler l'API pour récupérer le nombre total de questions
+                    $.get('/api/Test/count_questions', function (response) {
+                        console.log('Réponse API pour le nombre de questions:', response); // Ajouter ce log
+
+                        var totalQuestions = response.totalQuestions; // Utiliser `totalQuestions` au lieu de `TotalQuestions`
+                        console.log('TotalQuestions:', totalQuestions); // Ajouter ce log
+
+                        var endTime = new Date().getTime();
+                        var elapsedTimeInSeconds = (endTime - startTime) / 1000;
+                        var elapsedMinutes = Math.floor(elapsedTimeInSeconds / 60);
+                        var elapsedSeconds = Math.floor(elapsedTimeInSeconds % 60);
+                        var formattedElapsedTime = elapsedMinutes.toString().padStart(2, '0') + ':' + elapsedSeconds.toString().padStart(2, '0');
+
+                        const { jsPDF } = window.jspdf;
+
+                        if (jsPDF) {
+                            var doc = new jsPDF();
+
+                            // Ajouter l'image de la société
+                            var imageUrl = '/images/iat.png';
+                            doc.addImage(imageUrl, 'PNG', 10, 10, 20, 15); // Coordonnées (x, y) et dimensions (width, height)
+
+                            // Ajouter l'icône de date
+                            var dateIconUrl = '/images/calendrier.png'; // Assurez-vous que cette image est dans le dossier "images"
+                            var now = new Date();
+                            var formattedDate = now.toLocaleDateString('fr-FR');
+                            doc.addImage(dateIconUrl, 'PNG', 140, 10, 10, 10); // Coordonnées et dimensions de l'icône
+                            doc.text(formattedDate, 155, 15); // Ajouter la date à côté de l'icône
+
+                            // Ajouter l'icône de l'heure
+                            var timeIconUrl = '/images/horloge-murale.png'; // Assurez-vous que cette image est dans le dossier "images"
+                            var formattedTime = now.toLocaleTimeString('fr-FR');
+                            doc.addImage(timeIconUrl, 'PNG', 140, 20, 10, 10); // Coordonnées et dimensions de l'icône
+                            doc.text(formattedTime, 155, 25); // Ajouter l'heure à côté de l'icône
+
+                            // Ajouter le filigrane avec le nom de la société
+                            var companyName = 'Innov-Alliance-Tech';
+                            var pdfWidth = doc.internal.pageSize.getWidth();
+                            var pdfHeight = doc.internal.pageSize.getHeight();
+                            doc.setFontSize(60);
+                            doc.setTextColor(192, 192, 192); // Couleur grise pour le filigrane
+                            doc.text(companyName, pdfWidth / 2, pdfHeight / 2, { align: 'center', angle: -30 });
+                            doc.setTextColor(0, 0, 0); // Revenir à la couleur noire
+
+                            // Réduire la marge avant le tableau
+                            var margin = 10;
+
+                            // Récupérer le prénom, le nom et l'email depuis le localStorage
+                            var userFirstName = localStorage.getItem('userFirstName');
+                            var userLastName = localStorage.getItem('userLastName');
+                            var email = localStorage.getItem('userEmail');
+
+                            // Ajouter le tableau avec le prénom, le nom et l'email
+                            doc.setFontSize(12);
+
+                            var userTableColumn = ['Nom', 'Prénom', 'Adresse Email'];
+                            var userTableData = [
+                                [userLastName || 'N/A', userFirstName || 'N/A', email || 'N/A']
+                            ];
+
+                            doc.autoTable({
+                                startY: 30 + margin, // Position du début du tableau réduite
+                                head: [userTableColumn],
+                                body: userTableData,
+                                theme: 'striped',
+                                headStyles: { fillColor: [41, 128, 185] }, // Couleur de fond des en-têtes
+                                styles: { fontSize: 10 }
+                            });
+
+                            // Ajouter le tableau pour le score
+                            var scoreTableColumn = ['Score'];
+                            var scoreTableData = [
+                                [score + '/' + totalQuestions] // Utiliser le nombre total de questions au lieu de 20
+                            ];
+
+                            doc.autoTable({
+                                startY: doc.lastAutoTable.finalY + 10, // Positionner après le premier tableau
+                                head: [scoreTableColumn],
+                                body: scoreTableData,
+                                theme: 'striped',
+                                headStyles: { fillColor: [41, 128, 185] }, // Couleur de fond des en-têtes
+                                styles: { fontSize: 10 }
+                            });
+
+                            // Ajouter le tableau pour le temps écoulé
+                            var timeTableColumn = ['Temps écoulé'];
+                            var timeTableData = [
+                                [formattedElapsedTime]
+                            ];
+
+                            doc.autoTable({
+                                startY: doc.lastAutoTable.finalY + 10, // Positionner après le tableau du score
+                                head: [timeTableColumn],
+                                body: timeTableData,
+                                theme: 'striped',
+                                headStyles: { fillColor: [41, 128, 185] }, // Couleur de fond des en-têtes
+                                styles: { fontSize: 10 }
+                            });
+
+                            // Crée un Blob contenant le PDF
+                            var pdfBlob = doc.output('blob');
+
+                            // Crée une URL pour le Blob
+                            var pdfUrl = URL.createObjectURL(pdfBlob);
+
+                            // Crée un lien de téléchargement et déclenche le téléchargement
+                            var downloadLink = document.createElement('a');
+                            downloadLink.href = pdfUrl;
+                            downloadLink.download = 'test_report.pdf';  // Nom du fichier PDF
+                            document.body.appendChild(downloadLink);
+                            downloadLink.click();
+                            document.body.removeChild(downloadLink);
+
+                            var pdfBase64 = doc.output('datauristring').split(',')[1];
+
+                            var userId = parseInt(localStorage.getItem('userId'));
+                            var testId = parseInt(localStorage.getItem('subjectId'));
+
+                            var testReport = {
+                                UserId: userId,
+                                TestId: testId,
+                                Report: pdfBase64,
+                                Email: email  // Utilisez l'email récupéré ici
+                            };
+
+                            // Enregistrement du PDF
+                            $.ajax({
+                                url: '/api/Form/saveTestReport',
+                                type: 'POST',
+                                contentType: 'application/json',
+                                data: JSON.stringify(testReport),
+                                success: function (response) {
+                                    console.log('PDF enregistré avec succès.');
+
+                                    // Envoi d'email si le score est de 3 ou plus
+                                    if (score >= 3) {
+                                        $.ajax({
+                                            url: '/api/Form/sendEmailIfScoreIsHigh',
+                                            type: 'POST',
+                                            contentType: 'application/json',
+                                            data: JSON.stringify({ Email: email }),
+                                            success: function () {
+                                                console.log('Email envoyé avec succès.');
+                                            },
+                                            error: function (error) {
+                                                console.error('Erreur lors de l\'envoi de l\'email :', error);
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error('Erreur lors de l\'enregistrement du PDF :', error);
+                                }
+                            });
+                        } else {
+                            console.error('jsPDF n\'est pas défini. Vérifiez que la bibliothèque jsPDF est correctement chargée.');
+                            alert('Une erreur est survenue lors de la génération du PDF.');
+                        }
+                    }).fail(function () {
+                        alert('Impossible de récupérer le nombre total de questions.');
+                    });
+                }).fail(function () {
+                    alert('Impossible de récupérer le score.');
+                });
+
+
+
+            }
+
+
+            $('#show-score-btn').click(function () {
+                var pdfGenerated = localStorage.getItem('pdfGenerated') === 'true';
+
+                if (!pdfGenerated) {
+                    localStorage.setItem('pdfGenerated', 'true');
+                    showScore();
+                } else {
+                    alert('Le score a déjà été vu et enregistré.');
+                }
+            });
+
+
+            $('#show-score-btn').click(function () {
+                var pdfGenerated = localStorage.getItem('pdfGenerated') === 'true';
+
+                if (!pdfGenerated) {
+                    localStorage.setItem('pdfGenerated', 'true');
+                    showScore();
+                } else {
+                    alert('Le score a déjà été vu et enregistré.');
+                }
+            });
+
+
+            // Attacher la fonction showScore au clic sur le bouton "Voir le score"
+            // Attacher la fonction showScore au clic sur le bouton "Voir le score"
+
+
+            // Attachez cette fonction au clic sur le bouton "Voir le score"
+            $('#show-score-btn').click(function () {
+                showScore();
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $('#close-score-dialog').on('click', function () {
+                // Masquer le dialogue du score
+                $('#score-dialog').hide();
+            });
+
+
+            // Attachez cette fonction au clic sur le bouton "Voir le score"
+            $('#show-score-btn').click(function () {
+                showScore();
+            });
+
+
+
+            // Récupérer la durée du test (en secondes) depuis le serveur
+            $.get('/api/Test/' + subjectId + '/duration', function (duration) {
+                if (duration !== undefined) {
+                    var timeLimitInSeconds = duration * 60;
+
+                    // Vérifier si un temps restant est déjà stocké dans le localStorage
+                    var remainingTime = localStorage.getItem('remainingTime');
+                    if (remainingTime) {
+                        timeLimitInSeconds = parseInt(remainingTime);
+                    } else {
+                        // Stocker le temps total si pas de temps restant enregistré
+                        localStorage.setItem('remainingTime', timeLimitInSeconds);
+                    }
+
+                    // Afficher et démarrer le chronomètre
+                    var display = $('#time');
+                    startTimer(timeLimitInSeconds, display);
+                } else {
+                    $('#time').text('Durée inconnue');
+                }
+            });
+
+            // Mettre à jour le temps restant dans le localStorage à chaque seconde
+            setInterval(function () {
+                var currentTime = parseInt(localStorage.getItem('remainingTime'));
+                if (currentTime > 0) {
+                    localStorage.setItem('remainingTime', currentTime - 1);
+                }
+            }, 1000);
+
+            // Vérifier si le test a été soumis
+            var testSubmitted = localStorage.getItem('testSubmitted') === 'true';
+            if (testSubmitted) {
+                localStorage.removeItem('remainingTime');  // Réinitialiser le temps restant si le test est soumis
+            }
+            // Fonction pour désactiver les éléments du formulaire
+            function disableFormElements() {
+                // Désactiver les options
+                $('.selected-answer').prop('disabled', true);
+                // Désactiver le bouton de soumission
+                $('#submit-test-btn').prop('disabled', true);
+            }
+
+            // Fonction pour activer les éléments du formulaire
+            function enableFormElements() {
+                // Activer les options
+                $('.selected-answer').prop('disabled', false);
+                // Activer le bouton de soumission
+                $('#submit-test-btn').prop('disabled', false);
+            }
+
+            // Désactiver le formulaire s'il a déjà été soumis
+            if (testSubmitted) {
+                disableFormElements();
+            } else {
+                enableFormElements(); // Activer les éléments du formulaire lors du chargement de la page
+            }
+
+            // Lorsque vous revenez à la page de test après la redirection vers la page de succès,
+            // vérifiez si le test a été soumis et désactivez les éléments du formulaire en conséquence
+            window.onpageshow = function (event) {
+                if (event.persisted) {
+                    // Vérifier si le test a été soumis
+                    var testSubmitted = localStorage.getItem('testSubmitted') === 'true';
+                    if (testSubmitted) {
+                        $('#test-form').hide();
+                        $('#test-submitted-message').show(); // Afficher le message de test soumis
+                        disableFormElements(); // Désactiver le formulaire
+                    } else {
+                        // Activer le formulaire si le test n'a pas été soumis
+                        enableFormElements();
+                    }
+                }
+            };
+
+            // Effectuer une requête GET pour récupérer les détails du test associé à ce sujet
+            $.get('/api/Test/' + subjectId, function (tests) {
+                // Vérifier si des tests ont été récupérés
+                if (tests && tests.length > 0) {
+                    // Accéder au premier test dans le tableau
+                    const test = tests[0];
+                    // Afficher le titre du test
+                    $('#test-title').text(test.title);
+
+                    // Vérifier si le test a des questions
+                    if (test.questions && test.questions.length > 0) {
+                        // Boucle à travers les questions du test
+                        test.questions.slice(0, 3).forEach(function (question, index) {
+                            // Créer une carte pour chaque question
+                            var questionCard = $('<div>').addClass('question-card');
+                            var cardHeader = $('<div>').addClass('card-header').html('<h4>Question ' + (index + 1) + ': ' + question.query + '</h4>');
+                            var cardBody = $('<div>').addClass('card-body');
+
+                            // Vérifier si la question a des réponses
+                            if (question.answers && question.answers.length > 0) {
+                                var optionsDiv = $('<div>').addClass('options');
+
+                                // Boucle à travers les réponses de la question
+                                question.answers.forEach(function (answer, answerIndex) {
+                                    // Ajouter chaque réponse à la div des options
+                                    var optionLabel = $('<label>');
+                                    var optionInput = $('<input>').attr('type', 'checkbox').attr('name', 'question' + index).val(answer.id);
+
+                                    // Ajouter une classe pour identifier les réponses sélectionnées
+                                    optionInput.addClass('selected-answer');
+
+                                    // Désactiver les options correctes (isCorrect === 1)
+                                    if (answer.isCorrect === 1) {
+                                        optionInput.prop('disabled', true);
+                                    }
+
+                                    // Vérifier si l'option était cochée lors d'un chargement précédent
+                                    var isChecked = localStorage.getItem('question' + index + '_answer_' + answer.id);
+                                    if (isChecked === 'true') {
+                                        optionInput.prop('checked', true);
+                                    }
+
+                                    optionLabel.append(optionInput);
+                                    optionLabel.append(answer.response);
+                                    optionsDiv.append(optionLabel);
+                                });
+
+                                // Ajouter la div des options à la div de la question
+                                cardBody.append(optionsDiv);
+                            } else {
+                                // Afficher un message s'il n'y a pas de réponses pour cette question
+                                cardBody.append('<p>Aucune réponse disponible pour cette question.</p>');
+                            }
+
+                            // Ajouter les éléments à la carte
+                            questionCard.append(cardHeader);
+                            questionCard.append(cardBody);
+
+                            // Ajouter la carte de question à la liste des questions
+                            $('#question-list').append(questionCard);
+                        });
+                    } else {
+                        $('#question-list').append('<p>Aucune question disponible pour ce test.</p>');
+                    }
+                } else {
+                    $('#question-list').append('<p>Aucun test associé à ce sujet.</p>');
+                }
+            });
+
+            // Afficher la boîte de dialogue de confirmation
+            function showModal() {
+                $('#dialog-confirm').css('display', 'block');
+            }
+
+            // Fermer la boîte de dialogue de confirmation
+            function closeModal() {
+                $('#dialog-confirm').css('display', 'none');
+            }
+            // Fonction pour démarrer le chronomètre
+            function showTimeExpiredMessage() {
+                $('#failure-message').show();
+                $('#test-form').hide();
+                localStorage.setItem('testSubmitted', 'true');
+                disableFormElements();
+
+                // Afficher le temps écoulé
+                var endTime = new Date().getTime();
+                var elapsedTimeInSeconds = (endTime - startTime) / 1000;
+                var elapsedMinutes = Math.floor(elapsedTimeInSeconds / 60);
+                var elapsedSeconds = Math.floor(elapsedTimeInSeconds % 60);
+                var formattedElapsedTime = elapsedMinutes.toString().padStart(2, '0') + ':' + elapsedSeconds.toString().padStart(2, '0');
+
+                $('#elapsed-time').text(formattedElapsedTime);
+            }
+
+            function startTimer(duration, display) {
+                var startTime = parseInt(localStorage.getItem('startTime')); // Récupérer le temps de début stocké
+
+                if (!startTime) {
+                    // Si le temps de début n'est pas stocké, le définir maintenant
+                    startTime = new Date().getTime();
+                    localStorage.setItem('startTime', startTime);
+                }
+
+                var intervalId = setInterval(function () {
+                    var currentTime = new Date().getTime();
+                    var elapsedTimeInSeconds = (currentTime - startTime) / 1000;
+                    var remainingTime = duration - elapsedTimeInSeconds;
+
+                    if (remainingTime <= 0) {
+                        clearInterval(intervalId);
+                        display.text("00:00").css('color', 'red');
+                        showTimeExpiredMessage(); // Appel de la fonction pour afficher le message d'échec
+                    } else {
+                        var minutes = Math.floor(remainingTime / 60);
+                        var seconds = Math.floor(remainingTime % 60);
+                        display.text(minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0'));
+
+                        // Si le temps restant est inférieur ou égal à 4 secondes, mettre le texte en rouge
+                        if (remainingTime <= 4) {
+                            display.css('color', 'red');
+                        } else {
+                            display.css('color', ''); // Remettre la couleur par défaut
+                        }
+                    }
+                }, 1000);
+            }
+
+
+
+
+            // Vérifier si le test a été fermé en raison du temps écoulé lors du chargement de la page
+            $(document).ready(function () {
+                var testClosedDueToTime = localStorage.getItem('testClosedDueToTime') === 'true';
+
+                if (testClosedDueToTime) {
+                    // Cacher le formulaire de test
+                    $('#test-form').hide();
+                    // Afficher le message "Temps écoulé" avec une icône
+                    $('#test-closed-message').show();
+                }
+            });
+
+            // Gérer l'événement de soumission du test
+            $('#submit-test-btn').click(function () {
+                var hasCheckedOption = $('.selected-answer:checked').length > 0;
+
+                if (!hasCheckedOption) {
+                    alert("Vous devez cocher au moins une option avant de soumettre le test.");
+                    return;
+                }
+
+                if (!testSubmitted) {
+                    // Ouvrir la boîte de dialogue de confirmation
+                    showModal();
+                } else {
+                    alert("Le test a déjà été soumis. Vous ne pouvez pas soumettre le test à nouveau.");
+                }
+            });
+
+            // Confirmer la soumission du test
+            // Confirmer la soumission du test
+            $('#confirm-btn').click(function () {
+                if (!testSubmitted) {
+                    // Enregistrer le temps de fin du test
+                    var endTime = new Date().getTime();
+                    var startTime = parseInt(localStorage.getItem('testStartTime'));
+                    var duration = endTime - startTime;
+
+                    // Convertir la durée en heures, minutes et secondes
+                    var durationInSeconds = Math.floor(duration / 1000);
+                    var hours = Math.floor(durationInSeconds / 3600);
+                    var minutes = Math.floor((durationInSeconds % 3600) / 60);
+                    var seconds = durationInSeconds % 60;
+
+                    // Formater la durée pour l'affichage
+                    var formattedDuration =
+                        (hours > 0 ? hours + "h " : "") +
+                        (minutes > 0 ? minutes + "m " : "") +
+                        seconds + "s";
+
+                    // Afficher la durée dans le dialogue de succès
+                    $('#success-message .test-duration p').text("Temps écoulé : " + formattedDuration);
+
+                    // Masquer tous les autres éléments
+                    $('#test-form').hide();
+                    $('#fraud-container').hide();
+                    $('#failure-message').hide();
+                    $('#inactive-alert-modal').hide();
+
+                    // Afficher uniquement le message de succès
+                    $('#success-message').show();
+
+                    disableFormElements(); // Désactiver le formulaire
+
+                    // Enregistrer l'état des options dans le stockage local
+                    $('.selected-answer').each(function () {
+                        var optionName = $(this).attr('name');
+                        var optionState = $(this).prop('disabled');
+                        localStorage.setItem(optionName, optionState);
+                        if ($(this).prop('checked')) {
+                            localStorage.setItem(optionName + '_answer_' + $(this).val(), true);
+                        }
+                    });
+
+                    // Récupérer les réponses du test depuis l'interface utilisateur
+                    var submittedAnswers = [];
+
+                    // Boucle à travers les questions pour récupérer les réponses sélectionnées
+                    $('.question-card').each(function (index, element) {
+                        var selectedAnswers = $(element).find('input[type="checkbox"].selected-answer:checked');
+
+                        if (selectedAnswers.length > 0) {
+                            // Boucle à travers les réponses sélectionnées
+                            selectedAnswers.each(function () {
+                                var selectedAnswer = $(this);
+                                // Récupérer l'ID de la réponse sélectionnée
+                                var answerId = selectedAnswer.val();
+                                // Récupérer le nom de l'option sélectionnée
+                                var answerName = selectedAnswer.parent().text().trim();
+
+                                // Ajouter chaque réponse à l'objet submittedAnswers
+                                submittedAnswers.push({
+                                    response: answerName, // Nom de l'option sélectionnée
+                                    isCorrect: true, // La propriété isCorrect sera mise à jour dans l'événement de changement de la case à cocher
+                                    questionId: index + 1, // ID de la question
+                                    id: parseInt(answerId) // ID de la réponse sélectionnée
+                                });
+                            });
+                        }
+                    });
+
+                    // Envoyer les réponses du test à l'API
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/Test/submit_answers",
+                        data: JSON.stringify(submittedAnswers),
+                        contentType: "application/json",
+                        success: function (response) {
+                            // Stocker dans le cache du navigateur que le test a été soumis
+                            localStorage.setItem('testSubmitted', 'true');
+
+                            // Traitez la réponse du serveur ici si nécessaire
+                        },
+                        error: function (error) {
+                            // Gérez les erreurs ici si nécessaire
+                        }
+                    });
+
+                    closeModal();
+                } else {
+                    alert("Le test a déjà été soumis. Vous ne pouvez pas soumettre le test à nouveau.");
+                }
+            });
+
+
+            // Annuler la soumission du test
+            $('#cancel-btn, .close').click(function () {
+                closeModal();
+            });
+        });
+    </script>
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="~/assets/js/backend-bundle.min.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/customizer.js"></script>
+
+    <script src="~/assets/js/sidebar.js"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="~/assets/js/flex-tree.min.js"></script>
+    <script src="~/assets/js/tree.js"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="~/assets/js/table-treeview.js"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="~/assets/js/sweetalert.js"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="~/assets/js/vector-map-custom.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="~/assets/js/chart-custom.js"></script>
+    <script src="~/assets/js/charts/01.js"></script>
+    <script src="~/assets/js/charts/02.js"></script>
+
+    <!-- slider JavaScript -->
+    <script src="~/assets/js/slider.js"></script>
+
+    <!-- Emoji picker -->
+    <script src="~/assets/vendor/emoji-picker-element/index.js" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+</html>

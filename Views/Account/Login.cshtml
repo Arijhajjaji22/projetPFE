@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Mon Application</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+
+
+<h2>Login</h2>
+
+<!-- Ajoutez la classe form-container à votre formulaire -->
+<form asp-controller="Account" asp-action="Login" method="post" class="form-container">
+    <div class="form-group">
+        <!-- Ajoutez la classe form-group -->
+        <label for="username" class="label">Nom d'utilisateur:</label> <!-- Ajoutez la classe label -->
+        <input type="text" class="form-control" id="username" name="username">
+    </div>
+    <div class="form-group">
+        <!-- Ajoutez la classe form-group -->
+        <label for="password" class="label">Mot de passe:</label> <!-- Ajoutez la classe label -->
+        <input type="password" class="form-control" id="password" name="password">
+    </div>
+    <div class="input-group">
+        <!-- Ajoutez la classe input-group -->
+        <button type="submit" class="btn btn-primary">Se connecter</button>
+    </div>
+</form>

@@ -1,9 +1,9 @@
 pipeline {
     agent any
     environment {
-        DOTNET_CLI_HOME = '/tmp' // Directory to avoid permission issues
-        SONARQUBE_SERVER = 'http://sonarqube-server:9000' // Remplacez par l'adresse correcte
-        SONARQUBE_TOKEN = credentials('sonar-auth-token') // Token SonarQube stocké dans Jenkins credentials
+        DOTNET_CLI_HOME = '/tmp'
+        SONARQUBE_SERVER = 'http://sonarqube-server:9000'
+        SONARQUBE_TOKEN = credentials('sonar-auth-token')
     }
     stages {
         stage('Checkout') {
@@ -13,13 +13,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh '/snap/bin/dotnet build App_plateforme_de_recurtement.sln --configuration Release'
+                sh '/snap/bin/dotnet build App_plateforme_de_recrutement.sln --configuration Release'
             }
         }
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Exécuter SonarScanner via Docker avec sudo si nécessaire
                     sh '''
                     echo "Starting SonarQube analysis..."
                     sudo docker run --rm \
@@ -33,20 +32,21 @@ pipeline {
                         -Dsonar.projectKey=projetPFE \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=$SONARQUBE_SERVER \
-                        -Dsonar.login=$SONARQUBE_TOKEN || exit 1
+                        -Dsonar.login=$SONARQUBE_TOKEN \
+                        -Dsonar.cs.vstest.reportsPaths=**/TestResults/*.xml \
+                        -Dsonar.coverage.cobertura.reportPaths=**/TestResults/coverage.cobertura.xml || exit 1
                     '''
                 }
             }
         }
         stage('Test') {
             steps {
-                sh '/snap/bin/dotnet test App_plateforme_de_recurtement.sln --configuration Release'
+                sh '/snap/bin/dotnet test App_plateforme_de_recrutement.sln --configuration Release --collect:"XPlat Code Coverage"'
             }
         }
         stage('Verify Dockerfile') {
             steps {
                 script {
-                    // Vérifiez la présence du Dockerfile
                     if (fileExists('Dockerfile')) {
                         echo 'Dockerfile is present.'
                     } else {
@@ -64,9 +64,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        // Connexion à Docker Hub
                         sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-                        // Pousser l'image Docker
                         sh 'docker push arij978/plateformederecrutement:latest'
                     }
                 }
@@ -82,9 +80,8 @@ pipeline {
         }
         always {
             script {
-                // Nettoyage de l'espace de travail en utilisant le contexte de nœud
                 node {
-                    cleanWs() // Clean workspace
+                    cleanWs()
                 }
             }
             echo 'Pipeline finished.'

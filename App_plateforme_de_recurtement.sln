@@ -5,8 +5,6 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App_plateforme_de_recurtement", "App_plateforme_de_recurtement.csproj", "{09666CA2-ADB8-49BC-8F08-7559B9BCAB75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App_plateforme_de_recrutement.Tests", "..\App_plateforme_de_recrutement.Tests\App_plateforme_de_recrutement.Tests.csproj", "{D18C0F5C-0842-4EA2-9CC3-BA2900532299}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

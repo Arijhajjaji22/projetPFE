@@ -2,6 +2,8 @@ pipeline {
     agent any
     environment {
         DOTNET_CLI_HOME = '/tmp' // Directory to avoid permission issues
+        SONARQUBE_SERVER = 'http://sonarqube-server:9000' // Remplacez par l'adresse correcte
+        SONARQUBE_TOKEN = credentials('sonar-auth-token') // Token SonarQube stocké dans Jenkins credentials
     }
     stages {
         stage('Checkout') {
@@ -12,6 +14,28 @@ pipeline {
         stage('Build') {
             steps {
                 sh '/snap/bin/dotnet build App_plateforme_de_recurtement.sln --configuration Release'
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Exécuter SonarScanner via Docker avec sudo si nécessaire
+                    sh '''
+                    echo "Starting SonarQube analysis..."
+                    sudo docker run --rm \
+                        --network host \
+                        -e SONAR_HOST_URL=$SONARQUBE_SERVER \
+                        -e SONAR_LOGIN=$SONARQUBE_TOKEN \
+                        -v $(pwd):/usr/src \
+                        -w /usr/src \
+                        sonarsource/sonar-scanner-cli:latest \
+                        sonar-scanner \
+                        -Dsonar.projectKey=projetPFE \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=$SONARQUBE_SERVER \
+                        -Dsonar.login=$SONARQUBE_TOKEN || exit 1
+                    '''
+                }
             }
         }
         stage('Test') {
@@ -57,7 +81,12 @@ pipeline {
             echo 'Pipeline failed.'
         }
         always {
-            cleanWs() // Clean workspace
+            script {
+                // Nettoyage de l'espace de travail en utilisant le contexte de nœud
+                node {
+                    cleanWs() // Clean workspace
+                }
+            }
             echo 'Pipeline finished.'
         }
     }

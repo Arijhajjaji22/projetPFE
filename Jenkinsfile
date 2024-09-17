@@ -19,10 +19,11 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Exécuter SonarScanner via Docker
+                    // Exécuter SonarScanner via Docker avec sudo si nécessaire
                     sh '''
                     echo "Starting SonarQube analysis..."
-                    docker run --rm \
+                    sudo docker run --rm \
+                        --network host \
                         -e SONAR_HOST_URL=$SONARQUBE_SERVER \
                         -e SONAR_LOGIN=$SONARQUBE_TOKEN \
                         -v $(pwd):/usr/src \
@@ -80,7 +81,12 @@ pipeline {
             echo 'Pipeline failed.'
         }
         always {
-            cleanWs() // Clean workspace
+            script {
+                // Nettoyage de l'espace de travail en utilisant le contexte de nœud
+                node {
+                    cleanWs() // Clean workspace
+                }
+            }
             echo 'Pipeline finished.'
         }
     }

@@ -19,9 +19,6 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Assurez-vous que SonarQube est en cours d'exécution
-                    // sh 'docker run -d --name sonarqube -p 9000:9000 sonarqube:latest'
-
                     // Exécuter SonarScanner via Docker
                     sh '''
                     echo "Starting SonarQube analysis..."

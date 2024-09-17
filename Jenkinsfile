@@ -2,8 +2,6 @@ pipeline {
     agent any
     environment {
         DOTNET_CLI_HOME = '/tmp' // Directory to avoid permission issues
-        SONARQUBE_SERVER = 'http://localhost:9000' // URL de votre serveur SonarQube
-        SONARQUBE_TOKEN = credentials('sonar-auth-token') // Token SonarQube stocké dans Jenkins credentials
     }
     stages {
         stage('Checkout') {
@@ -16,17 +14,9 @@ pipeline {
                 sh '/snap/bin/dotnet build App_plateforme_de_recurtement.sln --configuration Release'
             }
         }
-        stage('SonarQube Analysis') {
+        stage('Test') {
             steps {
-                script {
-                    // Analyse SonarQube
-                    sh '''
-                    dotnet tool restore
-                    dotnet sonarscanner begin /k:"projetPFE" /d:sonar.host.url=$SONARQUBE_SERVER /d:sonar.login=$SONARQUBE_TOKEN
-                    dotnet build App_plateforme_de_recurtement.sln --configuration Release
-                    dotnet sonarscanner end /d:sonar.login=$SONARQUBE_TOKEN
-                    '''
-                }
+                sh '/snap/bin/dotnet test App_plateforme_de_recurtement.sln --configuration Release'
             }
         }
         stage('Verify Dockerfile') {

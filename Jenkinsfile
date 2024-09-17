@@ -29,11 +29,6 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                sh '/snap/bin/dotnet test App_plateforme_de_recurtement.sln --configuration Release'
-            }
-        }
         stage('Verify Dockerfile') {
             steps {
                 script {

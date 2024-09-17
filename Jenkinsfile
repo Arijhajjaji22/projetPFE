@@ -19,12 +19,22 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Analyse SonarQube
+                    // Assurez-vous que SonarQube est en cours d'exécution (décommenter si nécessaire)
+                    // sh 'docker run -d --name sonarqube -p 9000:9000 sonarqube:latest'
+
+                    // Exécuter SonarScanner via Docker
                     sh '''
-                    dotnet tool restore
-                    dotnet sonarscanner begin /k:"projetPFE" /d:sonar.host.url=$SONARQUBE_SERVER /d:sonar.login=$SONARQUBE_TOKEN
-                    dotnet build App_plateforme_de_recurtement.sln --configuration Release
-                    dotnet sonarscanner end /d:sonar.login=$SONARQUBE_TOKEN
+                    docker run --rm \
+                        -e SONAR_HOST_URL=$SONARQUBE_SERVER \
+                        -e SONAR_LOGIN=$SONARQUBE_TOKEN \
+                        -v $(pwd):/usr/src \
+                        -w /usr/src \
+                        sonarsource/sonar-scanner-cli:latest \
+                        sonar-scanner \
+                        -Dsonar.projectKey=projetPFE \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=$SONARQUBE_SERVER \
+                        -Dsonar.login=$SONARQUBE_TOKEN
                     '''
                 }
             }

@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOTNET_CLI_HOME = '/tmp' // Directory to avoid permission issues
-        SONARQUBE_SERVER = 'http://localhost:9000' // URL de votre serveur SonarQube
+        SONARQUBE_SERVER = 'http://sonarqube-server:9000' // Remplacez par l'adresse correcte
         SONARQUBE_TOKEN = credentials('sonar-auth-token') // Token SonarQube stocké dans Jenkins credentials
     }
     stages {
@@ -19,11 +19,12 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Assurez-vous que SonarQube est en cours d'exécution (décommenter si nécessaire)
+                    // Assurez-vous que SonarQube est en cours d'exécution
                     // sh 'docker run -d --name sonarqube -p 9000:9000 sonarqube:latest'
 
                     // Exécuter SonarScanner via Docker
                     sh '''
+                    echo "Starting SonarQube analysis..."
                     docker run --rm \
                         -e SONAR_HOST_URL=$SONARQUBE_SERVER \
                         -e SONAR_LOGIN=$SONARQUBE_TOKEN \
@@ -34,7 +35,7 @@ pipeline {
                         -Dsonar.projectKey=projetPFE \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=$SONARQUBE_SERVER \
-                        -Dsonar.login=$SONARQUBE_TOKEN
+                        -Dsonar.login=$SONARQUBE_TOKEN || exit 1
                     '''
                 }
             }
